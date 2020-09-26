@@ -1,4 +1,4 @@
-package com.sv.core;
+package com.sv.swingui;
 
 import javax.swing.*;
 import java.awt.*;

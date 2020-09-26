@@ -1,4 +1,4 @@
-package com.sv.core;
+package com.sv.swingui;
 
 public class AppExitButton extends AppButton {
 

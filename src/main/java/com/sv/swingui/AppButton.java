@@ -1,4 +1,6 @@
-package com.sv.core;
+package com.sv.swingui;
+
+import com.sv.core.Utils;
 
 import javax.swing.*;
 
