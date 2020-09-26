@@ -6,19 +6,19 @@ import javax.swing.*;
 
 public class AppButton extends JButton {
 
-    AppButton(String text, char mnemonic) {
+    public AppButton(String text, char mnemonic) {
         this(text, mnemonic, null, null);
     }
 
-    AppButton(String text, char mnemonic, String tip) {
+    public AppButton(String text, char mnemonic, String tip) {
         this(text, mnemonic, tip, null);
     }
 
-    AppButton(String text, char mnemonic, String tip, String iconPath) {
+    public AppButton(String text, char mnemonic, String tip, String iconPath) {
         this(text, mnemonic, tip, iconPath, false);
     }
 
-    AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsButton) {
+    public AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsButton) {
         if (Utils.hasValue(text)) {
             setText(text);
         }

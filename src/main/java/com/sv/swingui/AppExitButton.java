@@ -2,7 +2,7 @@ package com.sv.swingui;
 
 public class AppExitButton extends AppButton {
 
-    AppExitButton() {
+    public AppExitButton() {
         super("", 'x', "Exit application.", "./exit-icon.png");
     }
 }

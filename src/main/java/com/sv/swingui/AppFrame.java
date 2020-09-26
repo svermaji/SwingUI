@@ -5,7 +5,7 @@ import java.awt.*;
 
 public class AppFrame extends JFrame {
 
-    AppFrame() {
+    public AppFrame() {
         Font baseFont = new Font("Dialog", Font.PLAIN, 12);
         setFont(baseFont);
         setLocationRelativeTo(null);
