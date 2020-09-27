@@ -4,6 +4,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 
+/**
+ * Wrapper class for CellRenderer
+ */
 public abstract class CellRenderer extends DefaultTableCellRenderer {
 
     @Override

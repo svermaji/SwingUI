@@ -4,6 +4,9 @@ import com.sv.core.Utils;
 
 import javax.swing.*;
 
+/**
+ * Wrapper class for JLabel
+ */
 public class AppLabel extends JLabel {
 
     public AppLabel(String text, JComponent component, char mnemonic) {

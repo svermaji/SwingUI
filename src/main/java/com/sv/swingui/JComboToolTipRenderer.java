@@ -5,6 +5,9 @@ import com.sv.core.Utils;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Helper class to show tooltip in combo box for each item
+ */
 public class JComboToolTipRenderer extends DefaultListCellRenderer {
 
     @Override
