@@ -14,7 +14,7 @@ public class AppFrame extends JFrame {
         setLocationRelativeTo(null);
         setBackground(Color.WHITE);
         setForeground(Color.black);
-        setIconImage(new ImageIcon("/icons/app-icon.png").getImage());
+        setIconImage(new ImageIcon("./icons/app-icon.png").getImage());
         setLayout(new FlowLayout());
         setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
