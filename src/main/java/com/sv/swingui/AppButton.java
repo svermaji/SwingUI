@@ -16,7 +16,7 @@ public class AppButton extends JButton {
      * @param mnemonic char
      */
     public AppButton(String text, char mnemonic) {
-        this(text, mnemonic, null, null);
+        this(text, mnemonic, null, null, false);
     }
 
     /**
@@ -27,7 +27,7 @@ public class AppButton extends JButton {
      * @param tip      tooltip
      */
     public AppButton(String text, char mnemonic, String tip) {
-        this(text, mnemonic, tip, null);
+        this(text, mnemonic, tip, null, false);
     }
 
     /**
@@ -39,7 +39,7 @@ public class AppButton extends JButton {
      * @param iconPath path
      */
     public AppButton(String text, char mnemonic, String tip, String iconPath) {
-        this(text, mnemonic, tip, iconPath, false);
+        this(text, mnemonic, tip, iconPath, true);
     }
 
     /**
@@ -49,9 +49,9 @@ public class AppButton extends JButton {
      * @param mnemonic     char
      * @param tip          tooltip
      * @param iconPath     path
-     * @param drawAsButton boolean if true then remaining button area will not be drawn
+     * @param drawAsImage boolean if true then remaining button area will not be drawn
      */
-    public AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsButton) {
+    public AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsImage) {
         if (Utils.hasValue(text)) {
             setText(text);
         }
@@ -61,10 +61,10 @@ public class AppButton extends JButton {
         }
         if (Utils.hasValue(iconPath)) {
             setIcon(new ImageIcon(iconPath));
-            if (!drawAsButton) {
-                setContentAreaFilled(false);
-                setBorder(BorderFactory.createEmptyBorder());
-            }
+        }
+        if (drawAsImage) {
+            setContentAreaFilled(false);
+            setBorder(BorderFactory.createEmptyBorder());
         }
     }
 }
