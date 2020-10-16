@@ -23,7 +23,6 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
         String name = table.getValueAt(row, 2).toString();
-        System.out.println("name = " + name);
         boolean isFailedOrCancelled = name.startsWith(Utils.FAILED) ||
                 name.startsWith(Utils.CANCELLED);
         c.setForeground(isFailedOrCancelled ? Color.RED : Color.BLACK);
