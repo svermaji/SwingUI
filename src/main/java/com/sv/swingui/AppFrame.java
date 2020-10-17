@@ -26,13 +26,14 @@ public class AppFrame extends JFrame {
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("./icons/app-icon.png").getImage());
         setLayout(new FlowLayout());
-        setVisible(true);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle(title);
     }
 
     public void setToCenter() {
         pack();
         setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     public void setDialogFont() {
