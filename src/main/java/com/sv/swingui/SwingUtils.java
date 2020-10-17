@@ -2,7 +2,11 @@ package com.sv.swingui;
 
 import com.sv.core.Utils;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 /**
  * Static methods as helper methods
@@ -44,6 +48,32 @@ public class SwingUtils {
 
     public static Font getDefaultFont(int style, int size) {
         return new Font(DEFAULT_FONT, style, size);
+    }
+
+    public static void addEscKeyAction(JFrame frame) {
+        frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
+
+        frame.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+            }
+        });
+    }
+
+    public static DefaultTableModel getTableModel (String[] cols) {
+        return new DefaultTableModel() {
+
+            @Override
+            public int getColumnCount() {
+                return cols.length;
+            }
+
+            @Override
+            public String getColumnName(int index) {
+                return cols[index];
+            }
+        };
     }
 
 }
