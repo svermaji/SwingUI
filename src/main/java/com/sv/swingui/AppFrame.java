@@ -1,5 +1,7 @@
 package com.sv.swingui;
 
+import com.sv.core.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -17,8 +19,10 @@ public class AppFrame extends JFrame {
 
     protected Component[] componentToEnable;
     protected Component[] componentContrastToEnable;
+    private final String TITLE;
 
-    public AppFrame() {
+    public AppFrame(String title) {
+        TITLE = title;
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("./icons/app-icon.png").getImage());
         setLayout(new FlowLayout());
@@ -68,5 +72,9 @@ public class AppFrame extends JFrame {
 
     public void enableControls() {
         updateControls(true);
+    }
+
+    public void updateTitle(String info) {
+        setTitle((Utils.hasValue(info) ? TITLE + Utils.SP_DASH_SP + info : TITLE));
     }
 }
