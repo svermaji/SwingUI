@@ -4,13 +4,11 @@ import com.sv.core.Utils;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Wrapper class for JFrame
- * <p>
+ *
  * Two list used for enabling/disabling
  * Action of enabling/disabling to controls componentToEnable will be applied
  * and negate of that action applied to componentContrastToEnable
