@@ -5,6 +5,7 @@ import com.sv.core.Utils;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,6 +23,7 @@ public class SwingUtils {
     public static final String DEFAULT_FONT = "Dialog.plain";
 
     public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
+    public static final Border BLUE_BORDER = new LineBorder(Color.BLUE, 1);
 
     /**
      * Returns plain font
@@ -80,6 +82,11 @@ public class SwingUtils {
                 return cols[index];
             }
         };
+    }
+
+    public static void removeAndCreateEmptyRows (int colLen, int rows, DefaultTableModel model) {
+        IntStream.range(0, model.getRowCount()).forEach(i -> model.removeRow(0));
+        createEmptyRows(colLen, rows, model);
     }
 
     public static void createEmptyRows (int colLen, int rows, DefaultTableModel model) {
