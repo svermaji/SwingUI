@@ -3,10 +3,14 @@ package com.sv.swingui;
 import com.sv.core.Utils;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.Arrays;
+import java.util.stream.IntStream;
 
 /**
  * Static methods as helper methods
@@ -14,8 +18,10 @@ import java.awt.event.KeyEvent;
  */
 public class SwingUtils {
 
-    private static final String PREFERRED_FONT = "Calibri";
-    private static final String DEFAULT_FONT = "Dialog.plain";
+    public static final String PREFERRED_FONT = "Calibri";
+    public static final String DEFAULT_FONT = "Dialog.plain";
+
+    public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
 
     /**
      * Returns plain font
@@ -76,4 +82,9 @@ public class SwingUtils {
         };
     }
 
+    public static void createEmptyRows (int colLen, int rows, DefaultTableModel model) {
+        String[] emptyRow = new String[colLen];
+        Arrays.fill(emptyRow, Utils.EMPTY);
+        IntStream.range(0, rows).forEach(i -> model.addRow(emptyRow));
+    }
 }

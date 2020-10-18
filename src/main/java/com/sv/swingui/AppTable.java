@@ -10,10 +10,11 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.PatternSyntaxException;
+import java.util.stream.IntStream;
 
 /**
  * Wrapper class for JTable
- *
+ * <p>
  * String array will be passed to make column names
  * By default non-editable
  */
@@ -41,9 +42,9 @@ public class AppTable extends JTable {
      * This method not working if called and wrapped 5 calls in one.
      * But if in same sequence methods being called by caller then it works.
      *
-     * @param model Table model
+     * @param model  Table model
      * @param caller Class calling this method
-     * @param tf text field used for filtering
+     * @param tf     text field used for filtering
      * @param action Action taken on event
      * @param params params to be passed with event
      */
@@ -55,7 +56,7 @@ public class AppTable extends JTable {
         applyChangeListener(tf);
     }
 
-    public TableRowSorter<DefaultTableModel> getAppTableSorter () {
+    public TableRowSorter<DefaultTableModel> getAppTableSorter() {
         return sorter;
     }
 
@@ -92,9 +93,11 @@ public class AppTable extends JTable {
                     public void changedUpdate(DocumentEvent e) {
                         addFilter(tf);
                     }
+
                     public void insertUpdate(DocumentEvent e) {
                         addFilter(tf);
                     }
+
                     public void removeUpdate(DocumentEvent e) {
                         addFilter(tf);
                     }
