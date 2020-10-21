@@ -1,5 +1,6 @@
 package com.sv.swingui;
 
+import com.sv.core.Constants;
 import com.sv.core.Utils;
 
 import javax.swing.*;
@@ -74,6 +75,6 @@ public class AppFrame extends JFrame {
     }
 
     public void updateTitle(String info) {
-        setTitle((Utils.hasValue(info) ? TITLE + Utils.SP_DASH_SP + info : TITLE));
+        setTitle((Utils.hasValue(info) ? TITLE + Constants.SP_DASH_SP + info : TITLE));
     }
 }

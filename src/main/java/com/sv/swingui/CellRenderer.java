@@ -1,6 +1,6 @@
 package com.sv.swingui;
 
-import com.sv.core.Utils;
+import com.sv.core.Constants;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -24,8 +24,8 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         String name = table.getValueAt(row, column < 2 ? 0 : 2).toString();
-        boolean isFailedOrCancelled = name.startsWith(Utils.FAILED) ||
-                name.startsWith(Utils.CANCELLED);
+        boolean isFailedOrCancelled = name.startsWith(Constants.FAILED) ||
+                name.startsWith(Constants.CANCELLED);
         c.setForeground(isFailedOrCancelled ? Color.RED : Color.BLACK);
 
         setToolTipText(table.getValueAt(row, 0).toString());
