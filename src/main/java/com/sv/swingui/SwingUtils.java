@@ -85,7 +85,7 @@ public class SwingUtils {
     }
 
     public static void removeAndCreateEmptyRows (int colLen, int rows, DefaultTableModel model) {
-        IntStream.range(0, model.getRowCount()).forEach(i -> model.removeRow(0));
+        model.setRowCount(0);
         createEmptyRows(colLen, rows, model);
     }
 
