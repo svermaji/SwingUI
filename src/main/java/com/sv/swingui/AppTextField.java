@@ -3,6 +3,8 @@ package com.sv.swingui;
 import com.sv.core.Utils;
 
 import javax.swing.*;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -49,6 +51,22 @@ public class AppTextField extends JTextField {
             autoCompleteArr = arr;
             setupAutoComplete();
         }
+        selectOnFocus ();
+    }
+
+    /**
+     * Focus listener by default will be applied on text field
+     * If another focus listener need to be added this method
+     * can be called separately.
+     */
+    public void selectOnFocus() {
+        addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                selectAll();
+            }
+        });
     }
 
     public void setAutoCompleteArr(String[] autoCompleteArr) {
