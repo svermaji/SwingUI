@@ -1,4 +1,6 @@
-package com.sv.swingui;
+package com.sv.swingui.component.table;
+
+import com.sv.core.exception.AppException;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -10,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.regex.PatternSyntaxException;
-import java.util.stream.IntStream;
 
 /**
  * Wrapper class for JTable
@@ -69,11 +70,13 @@ public class AppTable extends JTable {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent mouseEvent) {
                 JTable table = (JTable) mouseEvent.getSource();
+                String methodName = "handleDblClickOnRow";
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                     try {
-                        caller.getClass().getDeclaredMethod("handleDblClickOnRow", table.getClass(), Object[].class).invoke(caller, table, params);
+                        caller.getClass().getDeclaredMethod(methodName, table.getClass(), Object[].class).invoke(caller, table, params);
                     } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                        e.printStackTrace();
+                        throw new AppException("Unable to call method " + methodName
+                                + " on " + caller.getClass().getName());
                     }
                 }
             }
@@ -109,7 +112,7 @@ public class AppTable extends JTable {
         try {
             rf = RowFilter.regexFilter("(?i)" + txtFilter.getText(), 0);
         } catch (PatternSyntaxException e) {
-            return;
+            throw new AppException("Unable to add filter.");
         }
         sorter.setRowFilter(rf);
     }

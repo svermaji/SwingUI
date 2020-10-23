@@ -1,4 +1,4 @@
-package com.sv.swingui;
+package com.sv.swingui.component;
 
 /**
  * Created by Shailendra Verma

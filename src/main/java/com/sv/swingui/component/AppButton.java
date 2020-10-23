@@ -1,4 +1,4 @@
-package com.sv.swingui;
+package com.sv.swingui.component;
 
 import com.sv.core.Utils;
 

@@ -1,4 +1,4 @@
-package com.sv.swingui;
+package com.sv.swingui.component.table;
 
 import javax.swing.*;
 

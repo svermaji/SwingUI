@@ -1,4 +1,4 @@
-package com.sv.swingui;
+package com.sv.swingui.component;
 
 import javax.swing.*;
 import javax.swing.event.PopupMenuEvent;
