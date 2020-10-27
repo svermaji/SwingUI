@@ -67,10 +67,13 @@ public class AppTable extends JTable {
     }
 
     public void addDblClickOnRow(Object caller, Object[] params) {
+        addDblClickOnRow(caller, params, "handleDblClickOnRow");
+    }
+
+    public void addDblClickOnRow(Object caller, Object[] params, String methodName) {
         addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent mouseEvent) {
                 JTable table = (JTable) mouseEvent.getSource();
-                String methodName = "handleDblClickOnRow";
                 if (mouseEvent.getClickCount() == 2 && table.getSelectedRow() != -1) {
                     try {
                         caller.getClass().getDeclaredMethod(methodName, table.getClass(), Object[].class).invoke(caller, table, params);
