@@ -18,6 +18,16 @@ public final class UIConstants {
 
     public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
     public static final Border BLUE_BORDER = new LineBorder(Color.BLUE, 1);
+    public static final String Y_BG_FONT_PREFIX = "<font style=\"background-color:yellow\">";
+    public static final String R_FONT_PREFIX = "<font style=\"color:red\">";
+    public static final String FONT_SUFFIX = "</font>";
+    public static final String HTML_STR = "<html>";
+    public static final String HTML_END = "</html>";
+    public static final String SPAN_STR = "<span>";
+    public static final String SPAN_END = "</span>";
+    public static final String BODY_STR = "<body>";
+    public static final String BODY_END = "</body>";
+    public static final String BR = "<br>";
 
     public enum ColorsNFonts {
         CYAN_BLACK(Color.CYAN, Color.BLACK, "Calibri"),
