@@ -18,8 +18,10 @@ public final class UIConstants {
 
     public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
     public static final Border BLUE_BORDER = new LineBorder(Color.BLUE, 1);
-    public static final String Y_BG_FONT_PREFIX = "<font style=\"background-color:yellow\">";
-    public static final String R_FONT_PREFIX = "<font style=\"color:red\">";
+    public static final String FONT_PREFIX = "<font style=\"background-color:\">";
+    public static final String FONT_PREFIX_END = "\">";
+    public static final String Y_BG_FONT_PREFIX = FONT_PREFIX+"yellow"+FONT_PREFIX_END;
+    public static final String R_FONT_PREFIX = FONT_PREFIX+"red"+FONT_PREFIX_END;
     public static final String FONT_SUFFIX = "</font>";
     public static final String HTML_STR = "<html>";
     public static final String HTML_END = "</html>";

@@ -10,8 +10,7 @@ import java.awt.event.KeyEvent;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
-import static com.sv.swingui.UIConstants.DEFAULT_FONT;
-import static com.sv.swingui.UIConstants.PREFERRED_FONT;
+import static com.sv.swingui.UIConstants.*;
 
 /**
  * Static methods as helper methods
@@ -63,7 +62,7 @@ public class SwingUtils {
         });
     }
 
-    public static DefaultTableModel getTableModel (String[] cols) {
+    public static DefaultTableModel getTableModel(String[] cols) {
         return new DefaultTableModel() {
 
             @Override
@@ -78,12 +77,16 @@ public class SwingUtils {
         };
     }
 
-    public static void removeAndCreateEmptyRows (int colLen, int rows, DefaultTableModel model) {
+    public static void removeAndCreateEmptyRows(int colLen, int rows, DefaultTableModel model) {
         model.setRowCount(0);
         createEmptyRows(colLen, rows, model);
     }
 
-    public static void createEmptyRows (int colLen, int rows, DefaultTableModel model) {
+    public static String htmlBGColor(String color) {
+        return FONT_PREFIX + color + FONT_PREFIX_END;
+    }
+
+    public static void createEmptyRows(int colLen, int rows, DefaultTableModel model) {
         String[] emptyRow = new String[colLen];
         Arrays.fill(emptyRow, Constants.EMPTY);
         IntStream.range(0, rows).forEach(i -> model.addRow(emptyRow));
