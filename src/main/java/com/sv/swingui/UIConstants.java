@@ -17,8 +17,8 @@ public final class UIConstants {
     public static final String DEFAULT_FONT = "Dialog.plain";
 
     public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
-    public static final Border BLUE_BORDER = new LineBorder(Color.BLUE, 1);
-    public static final String FONT_PREFIX = "<font style=\"background-color:\">";
+    public static final Border BLUE_BORDER = new LineBorder(Color.blue, 1);
+    public static final String FONT_PREFIX = "<font style=\"background-color:";
     public static final String FONT_PREFIX_END = "\">";
     public static final String Y_BG_FONT_PREFIX = FONT_PREFIX+"yellow"+FONT_PREFIX_END;
     public static final String R_FONT_PREFIX = FONT_PREFIX+"red"+FONT_PREFIX_END;
@@ -32,18 +32,18 @@ public final class UIConstants {
     public static final String BR = "<br>";
 
     public enum ColorsNFonts {
-        CYAN_BLACK(Color.CYAN, Color.BLACK, "Calibri"),
-        BLACK_GREEN(Color.BLACK, Color.GREEN, "Algerian"),
-        GRAY_WHITE(Color.GRAY, Color.WHITE, "Elephant"),
-        GREEN_WHITE(new Color(57, 172, 170), Color.WHITE, "Lucida Bright"),
-        WHITE_BLUE(Color.WHITE, Color.BLUE, "Lucida Calligraphy Italic"),
-        BLACK_RED(Color.BLACK, Color.RED, "Segoe UI"),
-        MAGENTA_YELLOW(Color.MAGENTA, Color.YELLOW, "Tahoma"),
-        BLUE_WHITE(new Color(32, 145, 255), Color.WHITE, "Times New Roman"),
-        BLACK_PURPLE(Color.BLACK, new Color(143, 85, 173), "Vardana"),
-        TEALGREEN_WHITE(new Color(0, 128, 128), Color.WHITE, "Arial Black"),
-        ORANGE_WHITE(Color.ORANGE, Color.WHITE, "Comic Sans MS"),
-        DEFAULT(Color.LIGHT_GRAY, Color.BLACK, "Consolas");
+        CYAN_BLACK(Color.cyan, Color.black, "Calibri"),
+        BLACK_GREEN(Color.black, Color.green, "Algerian"),
+        GRAY_WHITE(Color.gray, Color.white, "Elephant"),
+        GREEN_WHITE(new Color(57, 172, 170), Color.white, "Lucida Bright"),
+        WHITE_BLUE(Color.white, Color.blue, "Lucida Calligraphy Italic"),
+        BLACK_RED(Color.black, Color.red, "Segoe UI"),
+        MAGENTA_YELLOW(Color.magenta, Color.yellow, "Tahoma"),
+        BLUE_WHITE(new Color(32, 145, 255), Color.white, "Times New Roman"),
+        BLACK_PURPLE(Color.black, new Color(143, 85, 173), "Vardana"),
+        TEALGREEN_WHITE(new Color(0, 128, 128), Color.white, "Arial Black"),
+        ORANGE_WHITE(Color.orange, Color.white, "Comic Sans MS"),
+        DEFAULT(Color.lightGray, Color.black, "Consolas");
 
         private Color bk, fg;
         private String font;
