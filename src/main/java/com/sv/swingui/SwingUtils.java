@@ -112,6 +112,14 @@ public class SwingUtils {
         return htmlBGColor(color) + text + FONT_SUFFIX;
     }
 
+    public static String htmlBGColor(Color bgcolor, Color color, String text) {
+        return htmlBGColor(htmlBGColor(bgcolor), htmlBGColor(color), text);
+    }
+
+    public static String htmlBGColor(String bgcolor, String color, String text) {
+        return FONT_PREFIX + bgcolor + FONT_FG_PREFIX + color + FONT_PREFIX_END + text + FONT_SUFFIX;
+    }
+
     public static void createEmptyRows(int colLen, int rows, DefaultTableModel model) {
         String[] emptyRow = new String[colLen];
         Arrays.fill(emptyRow, Constants.EMPTY);
