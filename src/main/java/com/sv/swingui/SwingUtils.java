@@ -82,8 +82,34 @@ public class SwingUtils {
         createEmptyRows(colLen, rows, model);
     }
 
+    public static String htmlBGColor(Color color) {
+        int r = color.getRed();
+        int g = color.getGreen();
+        int b = color.getBlue();
+        return htmlBGColor(String.format("rgb(%s, %s, %s)", r, g, b));
+    }
+
+    public static String htmlBGColor(Color color, String text) {
+        return htmlBGColor(htmlBGColor(color), text);
+    }
+
+    /**
+     * Return <font ..... > and font tag does not ends
+     * @param color background color
+     * @return string
+     */
     public static String htmlBGColor(String color) {
         return FONT_PREFIX + color + FONT_PREFIX_END;
+    }
+
+    /**
+     * Return <font style="background-color: param-color">text</font> format
+     * @param color background color
+     * @param text text
+     * @return string
+     */
+    public static String htmlBGColor(String color, String text) {
+        return htmlBGColor(color) + text + FONT_SUFFIX;
     }
 
     public static void createEmptyRows(int colLen, int rows, DefaultTableModel model) {
