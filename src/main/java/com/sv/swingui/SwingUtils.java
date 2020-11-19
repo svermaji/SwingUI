@@ -82,15 +82,19 @@ public class SwingUtils {
         createEmptyRows(colLen, rows, model);
     }
 
-    public static String htmlBGColor(Color color) {
+    public static String htmlBGColorStr(Color color) {
         int r = color.getRed();
         int g = color.getGreen();
         int b = color.getBlue();
-        return htmlBGColor(String.format("rgb(%s, %s, %s)", r, g, b));
+        return String.format("rgb(%s, %s, %s)", r, g, b);
+    }
+
+    public static String htmlBGColor(Color color) {
+        return htmlBGColor(htmlBGColorStr(color));
     }
 
     public static String htmlBGColor(Color color, String text) {
-        return htmlBGColor(htmlBGColor(color), text);
+        return htmlBGColor(htmlBGColorStr(color), text);
     }
 
     /**
@@ -113,7 +117,7 @@ public class SwingUtils {
     }
 
     public static String htmlBGColor(Color bgcolor, Color color, String text) {
-        return htmlBGColor(htmlBGColor(bgcolor), htmlBGColor(color), text);
+        return htmlBGColor(htmlBGColorStr(bgcolor), htmlBGColorStr(color), text);
     }
 
     public static String htmlBGColor(String bgcolor, String color, String text) {
