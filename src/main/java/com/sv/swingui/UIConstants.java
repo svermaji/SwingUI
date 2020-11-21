@@ -41,7 +41,7 @@ public final class UIConstants {
         BLACK_RED(Color.black, Color.red, "Segoe UI"),
         MAGENTA_YELLOW(Color.magenta, Color.yellow, "Tahoma"),
         BLUE_WHITE(new Color(32, 145, 255), Color.white, "Times New Roman"),
-        BLACK_PURPLE(Color.black, new Color(143, 85, 173), "Vardana"),
+        BLACK_PURPLE(Color.black, new Color(143, 85, 173), "Verdana"),
         TEALGREEN_WHITE(new Color(0, 128, 128), Color.white, "Arial Black"),
         ORANGE_WHITE(Color.orange, Color.white, "Comic Sans MS"),
         DEFAULT(Color.lightGray, Color.black, "Consolas");
