@@ -31,6 +31,7 @@ public final class UIConstants {
     public static final String BODY_STR = "<body>";
     public static final String BODY_END = "</body>";
     public static final String BR = "<br>";
+    public static final String SHORTCUT = " Shortcut: Alt+";
 
     public enum ColorsNFonts {
         CYAN_BLACK(Color.cyan, Color.black, "Calibri"),
