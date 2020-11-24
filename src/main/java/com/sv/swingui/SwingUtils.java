@@ -250,7 +250,8 @@ public class SwingUtils {
             mi.setLayout(new GridLayout(1, cols));
             mi.add(new JLabel(""));
             mi.setToolTipText(prepareToolTip(
-                    new Color[]{c.getBk(), c.getFg(), c.getSelbk(), c.getSelfg()}, showHighlightFG));
+                    new Color[]{c.getBk(), c.getFg(), c.getSelbk(), c.getSelfg()},
+                    showHighlight, showHighlightFG, showSelected, showFonts, c.getFont()));
 
             if (showHighlight) {
                 JLabel h = new JLabel("Highlight Text");
@@ -273,7 +274,7 @@ public class SwingUtils {
             }
 
             if (showFonts) {
-                JLabel fo = new JLabel("Sample font");
+                JLabel fo = new JLabel(c.getFont());
                 Font f = mi.getFont();
                 Font nf = getNewFont(f, c.getFont());
                 fo.setFont(nf);
@@ -286,14 +287,26 @@ public class SwingUtils {
         return menuColors;
     }
 
-    private static String prepareToolTip(Color[] c, boolean showHighlightFG) {
-        return HTML_STR +
-                "Sample: " +
-                (showHighlightFG ? SwingUtils.htmlBGColor(c[0], c[1], "Highlight text")
-                        : SwingUtils.htmlBGColor(c[0], "Highlight text")) +
-                BR +
-                "and " + SwingUtils.htmlBGColor(c[2], c[3], "Selected text") +
-                HTML_END;
+    private static String prepareToolTip(Color[] c, boolean showHighlight,
+                                         boolean showHighlightFG,
+                                         boolean showSelected,
+                                         boolean showFonts, String font) {
+
+        StringBuilder sb = new StringBuilder();
+        if (showHighlight) {
+            sb.append("Sample highlight text: ");
+            sb.append(showHighlightFG ? SwingUtils.htmlBGColor(c[0], c[1], "Highlight text")
+                    : SwingUtils.htmlBGColor(c[0], "Highlight text"));
+        }
+        if (showSelected) {
+            sb.append(showHighlight ? BR : "");
+            sb.append("Sample selected text: ").append(SwingUtils.htmlBGColor(c[2], c[3], "Selected text"));
+        }
+        if (showFonts) {
+            sb.append(showHighlight || showSelected ? BR : "");
+            sb.append("Font name: ").append(font);
+        }
+        return HTML_STR + sb.toString() + HTML_END;
     }
 
     private static Font getNewFont(Font font, String name) {
