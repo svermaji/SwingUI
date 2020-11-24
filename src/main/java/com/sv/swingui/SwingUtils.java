@@ -162,7 +162,7 @@ public class SwingUtils {
                 mi.setMnemonic(i++);
             }
             Font f = mi.getFont();
-            Font nf = new Font(cnf.getFont(), f.getStyle(), f.getSize());
+            Font nf = getNewFont(f, cnf.getFont());
             mi.setFont(nf);
             int finalX = x;
             mi.addActionListener(e -> {
@@ -176,13 +176,12 @@ public class SwingUtils {
         return menuFonts;
     }
 
-    public static JMenu getColorsMenu(String name, char mnemonic, String tip,
-                                      boolean showHighlight,
+    public static JMenu getColorsMenu(boolean showHighlight,
                                       boolean showHighlightFG,
                                       boolean showSelected,
                                       Object obj, MyLogger logger) {
-        return getColorsMenu(name, mnemonic, tip, showHighlight, showHighlightFG, showSelected,
-                true, obj, logger);
+        return getColorsMenu("Colors", 'o', "Colors", showHighlight, showHighlightFG, showSelected,
+                false, true, obj, logger);
     }
 
     /**
@@ -192,9 +191,9 @@ public class SwingUtils {
      * @param name            menu name
      * @param mnemonic        menu shortcut key
      * @param tip             menu tooltip
-     * @param showHighlight whether to show highlight
+     * @param showHighlight   whether to show highlight
      * @param showHighlightFG whether to show highlight foreground
-     * @param showSelected whether to show selected sample
+     * @param showSelected    whether to show selected sample
      * @param obj             class on which method 'fontChange' will be called with first param as font and
      *                        2nd as index of menuitem
      * @param logger          MyLogger
@@ -203,6 +202,7 @@ public class SwingUtils {
                                       boolean showHighlight,
                                       boolean showHighlightFG,
                                       boolean showSelected,
+                                      boolean showFonts,
                                       boolean ignoreBlackAndWhite,
                                       Object obj, MyLogger logger) {
         JMenu menuColors = new JMenu(name);
@@ -217,11 +217,22 @@ public class SwingUtils {
                 continue;
             }
 
+            int cols = 1;
+            if (showHighlight) {
+                cols++;
+            }
+            if (showSelected) {
+                cols++;
+            }
+            if (showFonts) {
+                cols++;
+            }
+            int finalCols = cols;
             JMenuItem mi = new JMenuItem((char) i + SP_DASH_SP + "Select this") {
                 @Override
                 public Dimension getPreferredSize() {
                     Dimension d = super.getPreferredSize();
-                    d.width = Math.max(d.width, 300); // set minimums
+                    d.width = Math.max(d.width, finalCols * 100); // set minimums
                     d.height = Math.max(d.height, 30);
                     return d;
                 }
@@ -233,31 +244,38 @@ public class SwingUtils {
             mi.addActionListener(e -> {
                 Utils.callMethod(obj, "colorChange", new Object[]{finalX}, logger);
             });
-            int cols = 1;
-            if (showHighlight) {
-                cols++;
-            }
-            if (showSelected) {
-                cols++;
-            }
             mi.setLayout(new GridLayout(1, cols));
             mi.add(new JLabel(""));
             mi.setToolTipText(prepareToolTip(
                     new Color[]{c.getBk(), c.getFg(), c.getSelbk(), c.getSelfg()}, showHighlightFG));
-            JLabel h = new JLabel("Highlight Text");
-            h.setOpaque(true);
-            h.setBackground(c.getBk());
-            if (showHighlightFG) {
-                h.setForeground(c.getFg());
+
+            if (showHighlight) {
+                JLabel h = new JLabel("Highlight Text");
+                h.setOpaque(true);
+                h.setBackground(c.getBk());
+                if (showHighlightFG) {
+                    h.setForeground(c.getFg());
+                }
+                h.setHorizontalAlignment(JLabel.CENTER);
+                mi.add(h);
             }
-            h.setHorizontalAlignment(JLabel.CENTER);
-            mi.add(h);
-            JLabel s = new JLabel("Selected Text");
-            s.setOpaque(true);
-            s.setBackground(c.getSelbk());
-            s.setForeground(c.getSelfg());
-            s.setHorizontalAlignment(JLabel.CENTER);
-            mi.add(s);
+
+            if (showSelected) {
+                JLabel s = new JLabel("Selected Text");
+                s.setOpaque(true);
+                s.setBackground(c.getSelbk());
+                s.setForeground(c.getSelfg());
+                s.setHorizontalAlignment(JLabel.CENTER);
+                mi.add(s);
+            }
+
+            if (showFonts) {
+                JLabel fo = new JLabel("Sample font");
+                Font f = mi.getFont();
+                Font nf = getNewFont(f, c.getFont());
+                fo.setFont(nf);
+                mi.add(fo);
+            }
 
             menuColors.add(mi);
         }
@@ -268,9 +286,13 @@ public class SwingUtils {
         return HTML_STR +
                 "Sample: " +
                 (showHighlightFG ? SwingUtils.htmlBGColor(c[0], c[1], "Highlight text")
-                : SwingUtils.htmlBGColor(c[0], "Highlight text")) +
+                        : SwingUtils.htmlBGColor(c[0], "Highlight text")) +
                 BR +
                 "and " + SwingUtils.htmlBGColor(c[2], c[3], "Selected text") +
                 HTML_END;
+    }
+
+    private static Font getNewFont(Font font, String name) {
+        return new Font(name, font.getStyle(), font.getSize());
     }
 }
