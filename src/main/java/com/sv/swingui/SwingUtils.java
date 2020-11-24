@@ -179,9 +179,12 @@ public class SwingUtils {
     public static JMenu getColorsMenu(boolean showHighlight,
                                       boolean showHighlightFG,
                                       boolean showSelected,
+                                      boolean showFonts,
+                                      boolean ignoreBlackAndWhite,
                                       Object obj, MyLogger logger) {
-        return getColorsMenu("Colors", 'o', "Colors", showHighlight, showHighlightFG, showSelected,
-                false, true, obj, logger);
+        return getColorsMenu("Colors", 'o', "Colors",
+                showHighlight, showHighlightFG, showSelected,
+                showFonts, ignoreBlackAndWhite, obj, logger);
     }
 
     /**
