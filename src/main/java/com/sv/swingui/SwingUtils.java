@@ -210,7 +210,7 @@ public class SwingUtils {
                                       Object obj, MyLogger logger) {
         JMenu menuColors = new JMenu(name);
         menuColors.setMnemonic(mnemonic);
-        menuColors.setToolTipText(tip + SHORTCUT + mnemonic);
+        menuColors.setToolTipText(tip + SHORTCUT + menuColors.getMnemonic());
         int i = 'a';
         int x = -1;
         for (ColorsNFonts c : ColorsNFonts.values()) {
