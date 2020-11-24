@@ -21,8 +21,8 @@ public final class UIConstants {
     public static final String FONT_PREFIX = "<font style=\"background-color:";
     public static final String FONT_FG_PREFIX = ";color:";
     public static final String FONT_PREFIX_END = "\">";
-    public static final String Y_BG_FONT_PREFIX = FONT_PREFIX+"yellow"+FONT_PREFIX_END;
-    public static final String R_FONT_PREFIX = FONT_PREFIX+"red"+FONT_PREFIX_END;
+    public static final String Y_BG_FONT_PREFIX = FONT_PREFIX + "yellow" + FONT_PREFIX_END;
+    public static final String R_FONT_PREFIX = FONT_PREFIX + "red" + FONT_PREFIX_END;
     public static final String FONT_SUFFIX = "</font>";
     public static final String HTML_STR = "<html>";
     public static final String HTML_END = "</html>";
@@ -34,25 +34,28 @@ public final class UIConstants {
     public static final String SHORTCUT = " Shortcut: Alt+";
 
     public enum ColorsNFonts {
-        CYAN_BLACK(Color.cyan, Color.black, "Calibri"),
-        BLACK_GREEN(Color.black, Color.green, "Algerian"),
-        GRAY_WHITE(Color.gray, Color.white, "Elephant"),
-        GREEN_WHITE(new Color(57, 172, 170), Color.white, "Lucida Bright"),
-        WHITE_BLUE(Color.white, Color.blue, "Lucida Calligraphy Italic"),
-        BLACK_RED(Color.black, Color.red, "Segoe UI"),
-        MAGENTA_YELLOW(Color.magenta, Color.yellow, "Tahoma"),
-        BLUE_WHITE(new Color(32, 145, 255), Color.white, "Times New Roman"),
-        BLACK_PURPLE(Color.black, new Color(143, 85, 173), "Verdana"),
-        TEALGREEN_WHITE(new Color(0, 128, 128), Color.white, "Arial Black"),
-        ORANGE_WHITE(Color.orange, Color.white, "Comic Sans MS"),
-        DEFAULT(Color.lightGray, Color.black, "Consolas");
+        // BG, FG, selection BG, selection FG
+        A(new Color(173, 209, 255), Color.darkGray, Color.lightGray, Color.black, "Calibri"),
+        B(Color.black, Color.green, new Color(57, 172, 170), Color.white, "Algerian"),
+        C(Color.pink, Color.black, Color.red, Color.white, "Elephant"),
+        D(Color.orange, Color.white, Color.blue, Color.white, "Lucida Calligraphy Italic"),
+        E(new Color(57, 172, 170), Color.white, new Color(255, 212, 192), Color.red, "Lucida Bright"),
+        F(Color.yellow, Color.black, new Color(51, 143, 255), Color.white, "Segoe UI"),
+        G(Color.white, Color.magenta, Color.orange, Color.white, "Tahoma"),
+        H(new Color(166, 241, 195), Color.black, Color.MAGENTA, Color.white, "Verdana"),
+        I(new Color(243, 160, 248), Color.black, new Color(44, 121, 217), Color.white, "Times New Roman"),
+        J(Color.green, Color.white, new Color(0, 128, 128), Color.white, "Arial Black"),
+        K(Color.ORANGE, Color.white, new Color(143, 85, 173), Color.white, "Comic Sans MS"),
+        L(Color.cyan, Color.black, Color.darkGray, Color.white, "Consolas");
 
-        private Color bk, fg;
+        private Color bk, fg, selbk, selfg;
         private String font;
 
-        ColorsNFonts(Color bk, Color fg, String font) {
+        ColorsNFonts(Color bk, Color fg, Color selbk, Color selfg, String font) {
             this.bk = bk;
             this.fg = fg;
+            this.selbk = selbk;
+            this.selfg = selfg;
             this.font = font;
         }
 
@@ -62,6 +65,14 @@ public final class UIConstants {
 
         public Color getFg() {
             return fg;
+        }
+
+        public Color getSelbk() {
+            return selbk;
+        }
+
+        public Color getSelfg() {
+            return selfg;
         }
 
         public String getFont() {
