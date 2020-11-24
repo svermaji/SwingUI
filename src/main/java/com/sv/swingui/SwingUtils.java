@@ -277,6 +277,7 @@ public class SwingUtils {
                 Font f = mi.getFont();
                 Font nf = getNewFont(f, c.getFont());
                 fo.setFont(nf);
+                fo.setHorizontalAlignment(JLabel.CENTER);
                 mi.add(fo);
             }
 
