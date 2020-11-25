@@ -35,17 +35,17 @@ public final class UIConstants {
 
     public enum ColorsNFonts {
         // BG, FG, selection BG, selection FG
-        A(new Color(173, 209, 255), Color.darkGray, Color.lightGray, Color.black, "Calibri"),
+        A(new Color(173, 209, 255), Color.BLUE, Color.lightGray, Color.black, "Calibri"),
         B(Color.black, Color.green, new Color(57, 172, 170), Color.white, "Algerian"),
-        C(Color.pink, Color.black, Color.red, Color.white, "Elephant"),
-        D(Color.orange, Color.white, Color.blue, Color.white, "Lucida Calligraphy Italic"),
+        C(Color.pink, new Color(215, 16, 16), Color.red, Color.white, "Elephant"),
+        D(Color.orange, Color.BLUE, Color.blue, Color.white, "Lucida Calligraphy Italic"),
         E(new Color(57, 172, 170), Color.white, new Color(255, 212, 192), Color.red, "Lucida Bright"),
         F(Color.yellow, Color.black, new Color(51, 143, 255), Color.white, "Segoe UI"),
         G(Color.white, Color.magenta, Color.orange, Color.white, "Tahoma"),
         H(new Color(166, 241, 195), Color.black, Color.MAGENTA, Color.white, "Verdana"),
-        I(new Color(243, 160, 248), Color.black, new Color(44, 121, 217), Color.white, "Times New Roman"),
-        J(Color.green, Color.white, new Color(0, 128, 128), Color.white, "Arial Black"),
-        K(Color.ORANGE, Color.white, new Color(143, 85, 173), Color.white, "Comic Sans MS"),
+        I(new Color(195, 110, 198), Color.yellow, new Color(44, 121, 217), Color.white, "Times New Roman"),
+        J(Color.green, Color.darkGray, new Color(0, 128, 128), Color.white, "Arial Black"),
+        K(Color.magenta, Color.white, new Color(143, 85, 173), Color.white, "Comic Sans MS"),
         L(Color.cyan, Color.black, Color.darkGray, Color.white, "Consolas");
 
         private Color bk, fg, selbk, selfg;
