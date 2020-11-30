@@ -147,7 +147,7 @@ public class SwingUtils {
      * @param obj          class on which method 'fontChange' will be called with first param as font and
      *                     2nd as index of menuitem
      * @param logger       MyLogger
-     * @return
+     * @return menu object
      */
     public static JMenu getFontsMenu(String name, char mnemonic, String tip, String selectedFont,
                                      Object obj, MyLogger logger) {
@@ -166,9 +166,7 @@ public class SwingUtils {
             Font nf = getNewFont(f, cnf.getFont());
             mi.setFont(nf);
             int finalX = x;
-            mi.addActionListener(e -> {
-                Utils.callMethod(obj, "fontChange", new Object[]{nf, finalX}, logger);
-            });
+            mi.addActionListener(e -> Utils.callMethod(obj, "fontChange", new Object[]{nf, finalX}, logger));
 
             menuFonts.add(mi);
             x++;
@@ -217,10 +215,6 @@ public class SwingUtils {
 
         for (ColorsNFonts c : getFilteredCnF(ignoreBlackAndWhite)) {
             x++;
-            if (ignoreBlackAndWhite && (c.getBk() == Color.white || c.getBk() == Color.black)) {
-                // ignoring black and white
-                continue;
-            }
 
             int cols = 1;
             if (showHighlight) {
@@ -246,9 +240,7 @@ public class SwingUtils {
                 mi.setMnemonic(i++);
             }
             int finalX = x;
-            mi.addActionListener(e -> {
-                Utils.callMethod(obj, "colorChange", new Object[]{finalX}, logger);
-            });
+            mi.addActionListener(e -> Utils.callMethod(obj, "colorChange", new Object[]{finalX}, logger));
             mi.setLayout(new GridLayout(1, cols));
             mi.add(new JLabel(""));
             mi.setToolTipText(prepareToolTip(
