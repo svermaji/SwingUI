@@ -9,7 +9,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static com.sv.core.Constants.SP_DASH_SP;
@@ -213,10 +215,11 @@ public class SwingUtils {
         menuColors.setToolTipText(tip + SHORTCUT + mnemonic);
         int i = 'a';
         int x = -1;
-        for (ColorsNFonts c : ColorsNFonts.values()) {
+
+        for (ColorsNFonts c : getFilteredCnF(ignoreBlackAndWhite)) {
             x++;
             if (ignoreBlackAndWhite && (c.getBk() == Color.white || c.getBk() == Color.black)) {
-                // ignoring white
+                // ignoring black and white
                 continue;
             }
 
@@ -285,6 +288,22 @@ public class SwingUtils {
             menuColors.add(mi);
         }
         return menuColors;
+    }
+
+    public static ColorsNFonts[] getFilteredCnF(boolean ignoreBlackAndWhite) {
+        ColorsNFonts[] allCnF = ColorsNFonts.values();
+
+        if (!ignoreBlackAndWhite) {
+            return allCnF;
+        }
+
+        java.util.List<ColorsNFonts> filteredCnF = new ArrayList<>();
+        for (ColorsNFonts c : allCnF) {
+            if (c.getBk() != Color.white && c.getBk() != Color.black) {
+                filteredCnF.add(c);
+            }
+        }
+        return filteredCnF.toArray(new ColorsNFonts[0]);
     }
 
     private static String prepareToolTip(Color[] c, boolean showHighlight,
