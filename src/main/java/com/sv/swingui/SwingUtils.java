@@ -181,7 +181,7 @@ public class SwingUtils {
                                       boolean showFonts,
                                       boolean ignoreBlackAndWhite,
                                       Object obj, MyLogger logger) {
-        return getColorsMenu("Colors", 'o', "Colors",
+        return getColorsMenu(showFonts ? "Colors" : "Colors and Fonts", 'o', "Colors",
                 showHighlight, showHighlightFG, showSelected,
                 showFonts, ignoreBlackAndWhite, obj, logger);
     }
