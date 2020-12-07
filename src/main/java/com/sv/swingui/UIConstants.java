@@ -45,7 +45,7 @@ public final class UIConstants {
         H(new Color(166, 241, 195), Color.black, Color.MAGENTA, Color.white, "Verdana"),
         I(new Color(195, 110, 198), Color.yellow, new Color(44, 121, 217), Color.white, "Times New Roman"),
         J(Color.green, Color.darkGray, new Color(0, 128, 128), Color.white, "Arial Black"),
-        K(Color.magenta, Color.white, new Color(143, 85, 173), Color.white, "Comic Sans MS"),
+        K(new Color(255, 122, 255), Color.white, new Color(112, 0, 180), Color.white, "Comic Sans MS"),
         L(Color.cyan, Color.black, Color.darkGray, Color.white, "Consolas");
 
         private Color bk, fg, selbk, selfg;
