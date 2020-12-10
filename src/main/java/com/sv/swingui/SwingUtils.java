@@ -3,6 +3,7 @@ package com.sv.swingui;
 import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
+import com.sv.swingui.helper.ApplyTheme;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -175,6 +176,48 @@ public class SwingUtils {
         return menuFonts;
     }
 
+    public static JMenu getThemesMenu(Component obj, MyLogger logger) {
+        return getThemesMenu("Themes", 'm', "Select theme. ", obj, logger);
+    }
+
+    /**
+     * Returns themes (Available LookNFeel for Swing) menu.
+     * All will be shortcut with keys alphabetically max till 'z'
+     *
+     * @param name     menu name
+     * @param mnemonic menu shortcut key
+     * @param tip      menu tooltip
+     * @param obj      class on which method 'themeChange' will be called with first param as index and
+     *                 2nd as LookAndFeelInfo
+     * @param logger   MyLogger
+     */
+    public static JMenu getThemesMenu(String name, char mnemonic, String tip,
+                                      Component obj, MyLogger logger) {
+
+        JMenu menu = new JMenu(name);
+        menu.setMnemonic(mnemonic);
+        menu.setToolTipText(tip + SHORTCUT + mnemonic);
+
+        int i = 'a';
+        int x = 0;
+        for (UIManager.LookAndFeelInfo l : getAvailableLAFs()) {
+            JMenuItem mi = new JMenuItem((char) i + SP_DASH_SP + l.getName());
+            if (i <= 'z') {
+                mi.setMnemonic(i);
+            }
+            int finalX = x;
+            mi.addActionListener(e -> applyTheme(finalX, l, obj, logger));
+            menu.add(mi);
+            i++;
+            x++;
+        }
+        return menu;
+    }
+
+    public static void applyTheme(int idx, UIManager.LookAndFeelInfo lnf, Component obj, MyLogger logger){
+        SwingUtilities.invokeLater(new ApplyTheme(idx, lnf, obj, logger));
+    }
+
     public static JMenu getColorsMenu(boolean showHighlight,
                                       boolean showHighlightFG,
                                       boolean showSelected,
@@ -279,6 +322,10 @@ public class SwingUtils {
             menuColors.add(mi);
         }
         return menuColors;
+    }
+
+    public static UIManager.LookAndFeelInfo[] getAvailableLAFs() {
+        return UIManager.getInstalledLookAndFeels();
     }
 
     public static ColorsNFonts[] getFilteredCnF(boolean ignoreBlackAndWhite) {
