@@ -23,14 +23,23 @@ public class ApplyTheme extends SwingWorker<Integer, String> {
 
     @Override
     protected Integer doInBackground() {
-        logger.debug("Applying theme now...");
-        try {
-            UIManager.setLookAndFeel(lnf.getClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            logger.warn("Unable to apply look and feel " + Utils.addBraces(lnf.getClassName()));
+        String pt = UIManager.getLookAndFeel().getName();
+        logger.log("Present theme " + Utils.addBraces(pt)
+                + ", new theme to apply is " + Utils.addBraces(lnf.getName()));
+        boolean applied = true;
+        if (!pt.equals(lnf.getName())) {
+            try {
+                UIManager.setLookAndFeel(lnf.getClassName());
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                applied = false;
+                logger.warn("Unable to apply look and feel " + Utils.addBraces(lnf.getClassName()));
+            }
+            SwingUtils.updateForTheme(obj);
+        } else {
+            applied = false;
+            logger.warn(pt + " theme already applied.");
         }
-        SwingUtils.updateForTheme(obj);
-        Utils.callMethod(obj, "themeApplied", new Object[]{idx, lnf}, logger);
+        Utils.callMethod(obj, "themeApplied", new Object[]{idx, lnf, applied}, logger);
         return 1;
     }
 }
