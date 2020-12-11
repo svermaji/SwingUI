@@ -2,6 +2,7 @@ package com.sv.swingui.helper;
 
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
+import com.sv.swingui.SwingUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -28,7 +29,7 @@ public class ApplyTheme extends SwingWorker<Integer, String> {
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
             logger.warn("Unable to apply look and feel " + Utils.addBraces(lnf.getClassName()));
         }
-        SwingUtilities.updateComponentTreeUI(obj);
+        SwingUtils.updateForTheme(obj);
         Utils.callMethod(obj, "themeApplied", new Object[]{idx, lnf}, logger);
         return 1;
     }

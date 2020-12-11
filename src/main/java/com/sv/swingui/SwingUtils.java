@@ -214,8 +214,12 @@ public class SwingUtils {
         return menu;
     }
 
-    public static void applyTheme(int idx, UIManager.LookAndFeelInfo lnf, Component obj, MyLogger logger){
+    public static void applyTheme(int idx, UIManager.LookAndFeelInfo lnf, Component obj, MyLogger logger) {
         SwingUtilities.invokeLater(new ApplyTheme(idx, lnf, obj, logger));
+    }
+
+    public static void updateForTheme(Component obj) {
+        SwingUtilities.updateComponentTreeUI(obj);
     }
 
     public static JMenu getColorsMenu(boolean showHighlight,
