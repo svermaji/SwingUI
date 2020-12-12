@@ -1,12 +1,17 @@
 package com.sv.swingui.component.table;
 
+import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sv.core.exception.AppException;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.plaf.metal.MetalBorders;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableRowSorter;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -120,4 +125,21 @@ public class AppTable extends JTable {
         sorter.setRowFilter(rf);
     }
 
+    private boolean needBorderRepaint() {
+        String lnf = UIManager.getLookAndFeel().getName();
+        return !lnf.equals(((LookAndFeel) new NimbusLookAndFeel()).getName())
+                &&
+                !lnf.equals(((LookAndFeel) new MotifLookAndFeel()).getName());
+    }
+
+    // Workaround for bug where after Nimbus LnF line went off
+    @Override
+    public Component prepareRenderer(TableCellRenderer renderer, int row, int column) {
+        JComponent component = (JComponent) super.prepareRenderer(renderer, row, column);
+        // to check if required to apply for other LnFs also
+        if (needBorderRepaint()) {
+            component.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TableHeader.cellBorder"));
+        }
+        return component;
+    }
 }
