@@ -26,6 +26,8 @@ public final class UIConstants {
     public static final String FONT_SUFFIX = "</font>";
     public static final String HTML_STR = "<html>";
     public static final String HTML_END = "</html>";
+    public static final String CENTER_STR = "<center>";
+    public static final String CENTER_END = "</center>";
     public static final String SPAN_STR = "<span>";
     public static final String SPAN_END = "</span>";
     public static final String BODY_STR = "<body>";
