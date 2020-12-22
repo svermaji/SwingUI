@@ -3,7 +3,6 @@ package com.sv.swingui;
 import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
-import com.sv.swingui.helper.ApplyTheme;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -215,7 +214,25 @@ public class SwingUtils {
     }
 
     public static void applyTheme(int idx, UIManager.LookAndFeelInfo lnf, Component obj, MyLogger logger) {
-        SwingUtilities.invokeLater(new ApplyTheme(idx, lnf, obj, logger));
+        SwingUtilities.invokeLater(() -> {
+            String pt = UIManager.getLookAndFeel().getName();
+            logger.log("Present theme " + Utils.addBraces(pt)
+                    + ", new theme to apply is " + Utils.addBraces(lnf.getName()));
+            boolean applied = true;
+            if (!pt.equals(lnf.getName())) {
+                try {
+                    UIManager.setLookAndFeel(lnf.getClassName());
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                    applied = false;
+                    logger.warn("Unable to apply look and feel " + Utils.addBraces(lnf.getClassName()));
+                }
+                SwingUtils.updateForTheme(obj);
+            } else {
+                applied = false;
+                logger.warn(pt + " theme already applied.");
+            }
+            Utils.callMethod(obj, "themeApplied", new Object[]{idx, lnf, applied}, logger);
+        });
     }
 
     public static void updateForTheme(Component obj) {
