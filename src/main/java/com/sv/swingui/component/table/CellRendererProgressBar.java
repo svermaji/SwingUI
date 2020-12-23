@@ -18,14 +18,14 @@ public class CellRendererProgressBar extends JProgressBar
 
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value,
-            boolean isSelected, boolean hasFocus,
-            int row, int column) {
+                                                   boolean isSelected, boolean hasFocus,
+                                                   int row, int column) {
 
         setToolTipText(table.getValueAt(row, 0).toString());
-        if (Utils.hasValue(value.toString())) {
-            setValue(Integer.parseInt(value.toString()));
-            setString(value.toString()+"%");
-        }
+        value = Utils.hasValue(value.toString()) ? value : 0;
+        setValue(Integer.parseInt(value.toString()));
+        setString(value.toString() + "%");
+
         return this;
     }
 }
