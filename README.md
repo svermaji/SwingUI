@@ -7,11 +7,11 @@ Utility in Java has common code for Swing UI
 * **Blogs:** https://sv-technical.blogspot.com/
 
 ## Dependency<br>
-This module is dependent on `https://github.com/svermaji/Core` <br>
+This module is dependent on `https://github.com/svermaji/Core-Parent` <br>
 Maven dependency is:
 >        <dependency>
 >            <groupId>com.sv</groupId>
->            <artifactId>core</artifactId>
+>            <artifactId>core-parent</artifactId>
 >            <version>1.0</version>
 >        </dependency>
 
