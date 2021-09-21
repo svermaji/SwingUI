@@ -216,7 +216,7 @@ public class SwingUtils {
     public static void applyTheme(int idx, UIManager.LookAndFeelInfo lnf, Component obj, MyLogger logger) {
         SwingUtilities.invokeLater(() -> {
             String pt = UIManager.getLookAndFeel().getName();
-            logger.log("Present theme " + Utils.addBraces(pt)
+            logger.info("Present theme " + Utils.addBraces(pt)
                     + ", new theme to apply is " + Utils.addBraces(lnf.getName()));
             boolean applied = true;
             if (!pt.equals(lnf.getName())) {
