@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.stream.IntStream;
@@ -173,6 +174,32 @@ public class SwingUtils {
         }
 
         return menuFonts;
+    }
+
+    public static void setComponentColor(JComponent[] cs, Color fg, Color bg, Color hfg, Color hbg) {
+        Arrays.stream(cs).forEach(c -> setComponentColor(c , fg, bg, hfg, hbg));
+    }
+
+    /**
+     * This method sets foreground/background color and its hover
+     * @param c   JComponent
+     * @param fg  foreground color
+     * @param bg  foreground color
+     * @param hfg hover foreground color
+     * @param hbg hover foreground color
+     */
+    public static void setComponentColor(JComponent c, Color fg, Color bg, Color hfg, Color hbg) {
+        c.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                c.setBackground(bg);
+                c.setForeground(fg);
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                c.setBackground(hbg);
+                c.setForeground(hfg);
+            }
+        });
     }
 
     public static JMenu getThemesMenu(Component obj, MyLogger logger) {
