@@ -5,6 +5,9 @@ import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
 
 import javax.swing.*;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -176,31 +179,64 @@ public class SwingUtils {
         return menuFonts;
     }
 
-    public static void setComponentColor(JComponent[] cs, Color fg, Color bg, Color hfg, Color hbg) {
-        Arrays.stream(cs).forEach(c -> setComponentColor(c , fg, bg, hfg, hbg));
+    public static void setComponentColor(JComponent[] cs, Color bg, Color fg, Color hbg, Color hfg) {
+        Arrays.stream(cs).forEach(c -> setComponentColor(c, bg, fg, hbg, hfg));
+    }
+
+    public static void setComponentColor(JComponent[] cs, Color bg, Color fg) {
+        setComponentColor(cs, bg, fg, null, null);
     }
 
     /**
-     * This method sets foreground/background color and its hover
-     * @param c   JComponent
-     * @param fg  foreground color
-     * @param bg  foreground color
-     * @param hfg hover foreground color
-     * @param hbg hover foreground color
+     * This method sets foreground/background color
+     *
+     * @param c  JComponent
+     * @param bg foreground color (optional)
+     * @param fg foreground color (optional)
      */
-    public static void setComponentColor(JComponent c, Color fg, Color bg, Color hfg, Color hbg) {
+    public static void setComponentColor(JComponent c, Color bg, Color fg) {
+        setComponentColor(c, bg, fg, null, null);
+    }
+
+    public static Border createTitledBorder(String heading, Color c) {
+        return new TitledBorder(createLineBorder(c, 1), heading);
+    }
+
+    public static Border createLineBorder(Color c) {
+        return createLineBorder(c, 1);
+    }
+
+    public static Border createLineBorder(Color c, int thickness) {
+        return new LineBorder(c, thickness);
+    }
+
+    /**
+     * This method sets foreground/background color and its hover colos
+     *
+     * @param c   JComponent
+     * @param bg  foreground color (optional)
+     * @param fg  foreground color (optional)
+     * @param hbg hover foreground color (optional)
+     * @param hfg hover foreground color (optional)
+     */
+    public static void setComponentColor(JComponent c, Color bg, Color fg, Color hbg, Color hfg) {
+        c.setOpaque(true);
         c.setBackground(bg);
         c.setForeground(fg);
 
         c.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                c.setBackground(hbg);
-                c.setForeground(hfg);
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                c.setBackground(bg != null ? bg : c.getBackground());
+                c.setForeground(fg != null ? fg : c.getForeground());
             }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                c.setBackground(bg);
-                c.setForeground(fg);
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                if (hbg != null) {
+                    c.setBackground(hbg);
+                }
+                if (hfg != null) {
+                    c.setForeground(hfg);
+                }
             }
         });
     }
