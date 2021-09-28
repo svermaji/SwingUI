@@ -34,6 +34,7 @@ public final class UIConstants {
     public static final String BODY_END = "</body>";
     public static final String BR = "<br>";
     public static final String SHORTCUT = " Shortcut: Alt+";
+    public static final Color ORIG_COLOR = new Color(238, 238, 238);
 
     public enum ColorsNFonts {
         // BG, FG, selection BG, selection FG
