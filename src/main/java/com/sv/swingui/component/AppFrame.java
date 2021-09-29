@@ -5,17 +5,20 @@ import com.sv.core.Utils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 
 /**
  * Wrapper class for JFrame
- *
+ * <p>
  * Two list used for enabling/disabling
  * Action of enabling/disabling to controls componentToEnable will be applied
  * and negate of that action applied to componentContrastToEnable
  */
 public class AppFrame extends JFrame {
 
+    protected boolean windowActive;
     protected Component[] componentToEnable;
     protected Component[] componentContrastToEnable;
     private final String TITLE;
@@ -27,6 +30,20 @@ public class AppFrame extends JFrame {
         setLayout(new FlowLayout());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle(title);
+
+        applyWindowActiveCheck();
+    }
+
+    private void applyWindowActiveCheck() {
+        addWindowFocusListener(new WindowAdapter() {
+            public void windowGainedFocus(WindowEvent e) {
+                windowActive = true;
+            }
+
+            public void windowLostFocus(WindowEvent e) {
+                windowActive = false;
+            }
+        });
     }
 
     public void setToCenter() {
