@@ -214,15 +214,19 @@ public class SwingUtils {
      * This method sets foreground/background color and its hover colos
      *
      * @param c   JComponent
-     * @param bg  foreground color (optional)
+     * @param bg  background color (optional)
      * @param fg  foreground color (optional)
-     * @param hbg hover foreground color (optional)
+     * @param hbg hover background color (optional)
      * @param hfg hover foreground color (optional)
      */
     public static void setComponentColor(JComponent c, Color bg, Color fg, Color hbg, Color hfg) {
         c.setOpaque(true);
-        c.setBackground(bg);
-        c.setForeground(fg);
+        if (bg != null) {
+            c.setBackground(bg);
+        }
+        if (fg != null) {
+            c.setForeground(fg);
+        }
 
         c.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
