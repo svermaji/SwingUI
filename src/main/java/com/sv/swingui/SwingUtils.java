@@ -59,6 +59,11 @@ public class SwingUtils {
         return new Font(DEFAULT_FONT, style, size);
     }
 
+    public static void getInFocus(JComponent c) {
+        c.requestFocusInWindow();
+        c.requestFocus();
+    }
+
     public static void addEscKeyAction(JFrame frame) {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
