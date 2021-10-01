@@ -221,6 +221,7 @@ public class AppFrame extends JFrame {
     }
 
     public void showChangePwdScreen(Color c) {
+        changePwdErrMsg.setVisible(false);
         JComponent[] cs = {lblOldPwd, lblNewPwd, lblConfirmPwd, changePwdPanel, pwdPanel};
         Arrays.stream(cs).forEach(ca -> ca.setBackground(c));
         cs = new JComponent[]{oldPwd, newPwd, confirmPwd};
