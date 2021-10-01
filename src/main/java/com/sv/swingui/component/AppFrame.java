@@ -45,7 +45,6 @@ public class AppFrame extends JFrame {
     protected AppLabel wrongPwdMsg, lblOldPwd, lblNewPwd, lblConfirmPwd;
     protected JLabel changePwdErrMsg;
     protected JPanel changePwdPanel, pwdPanel;
-    protected boolean pwdChangedFlag;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD
@@ -150,7 +149,7 @@ public class AppFrame extends JFrame {
     }
 
     private void changePassword() {
-        pwdChangedFlag = false;
+        boolean pwdChanged = false;
         boolean result = !checkIfSecretFileExists() || authenticate(oldPwd.getPassword());
 
         if (result) {
@@ -163,8 +162,13 @@ public class AppFrame extends JFrame {
 
         if (result && savePassword(newPwd.getPassword())) {
             changePwdScreen.setVisible(false);
-            pwdChangedFlag = true;
+            pwdChanged = true;
         }
+        pwdChangedStatus (pwdChanged);
+    }
+
+    public void pwdChangedStatus(boolean pwdChanged) {
+        // to override
     }
 
     private boolean authenticate(char[] secret) {
