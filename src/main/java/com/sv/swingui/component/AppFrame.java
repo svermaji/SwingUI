@@ -85,6 +85,7 @@ public class AppFrame extends JFrame {
         });
         wrongPwdMsg = new AppLabel("", lockScreenPwd, 'P');
         wrongPwdMsg.setForeground(Color.red);
+        wrongPwdMsg.setOpaque(true);
 
         Container container = lockScreen.getContentPane();
         container.setLayout(new GridBagLayout());
