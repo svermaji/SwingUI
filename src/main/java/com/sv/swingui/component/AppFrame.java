@@ -45,6 +45,7 @@ public class AppFrame extends JFrame {
     protected AppLabel wrongPwdMsg, lblOldPwd, lblNewPwd, lblConfirmPwd;
     protected JLabel changePwdErrMsg;
     protected JPanel changePwdPanel, pwdPanel;
+    protected boolean pwdChangedFlag;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD
@@ -123,8 +124,8 @@ public class AppFrame extends JFrame {
         });
         changePwdErrMsg = new JLabel("Invalid old password. Password must be 4+ char long.");
         changePwdErrMsg.setForeground(Color.red);
-        lblOldPwd = new AppLabel("Old password", oldPwd, 'o');
-        lblNewPwd = new AppLabel("New password", newPwd, 'n', "Leave blank for first time");
+        lblOldPwd = new AppLabel("Old password", oldPwd, 'o', "Leave blank for first time");
+        lblNewPwd = new AppLabel("New password", newPwd, 'n');
         lblConfirmPwd = new AppLabel("Confirm password", confirmPwd, 'c', "Hit enter after changing pwd");
         changePwdPanel = new JPanel(new BorderLayout());
         pwdPanel = new JPanel(new GridLayout(3, 2));
@@ -149,8 +150,9 @@ public class AppFrame extends JFrame {
     }
 
     private void changePassword() {
-        // how to show error
-        boolean result = authenticate(oldPwd.getPassword());
+        pwdChangedFlag = false;
+        boolean result = !checkIfSecretFileExists() || authenticate(oldPwd.getPassword());
+
         if (result) {
             result = newPwd.getPassword().length >= 4 && Arrays.equals(newPwd.getPassword(), confirmPwd.getPassword());
         }
@@ -161,6 +163,7 @@ public class AppFrame extends JFrame {
 
         if (result && savePassword(newPwd.getPassword())) {
             changePwdScreen.setVisible(false);
+            pwdChangedFlag = true;
         }
     }
 
@@ -256,7 +259,7 @@ public class AppFrame extends JFrame {
 
     private boolean checkIfSecretFileExists() {
         boolean result = Files.exists(Utils.createPath(Utils.getCurrentDir() + PWD_FILE));
-        if (logger!=null) {
+        if (logger != null) {
             logger.info("Secret file exists " + Utils.addBraces(result));
         }
         return result;
