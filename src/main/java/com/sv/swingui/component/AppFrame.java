@@ -45,7 +45,7 @@ public class AppFrame extends JFrame {
     protected JPasswordField lockScreenPwd, oldPwd, newPwd, confirmPwd;
     protected AppLabel wrongPwdMsg, lblOldPwd, lblNewPwd, lblConfirmPwd;
     protected JLabel changePwdErrMsg;
-    protected JPanel changePwdPanel, pwdPanel;
+    protected JPanel changePwdPanel, pwdPanel, lockScreenPanel;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD
@@ -91,12 +91,12 @@ public class AppFrame extends JFrame {
         Container container = lockScreen.getContentPane();
         container.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.add(wrongPwdMsg, gbc);
-        panel.add(lockScreenPwd, gbc);
-        panel.setSize(this.getSize());
-        panel.setBorder(UIConstants.EMPTY_BORDER);
-        container.add(panel);
+        lockScreenPanel = new JPanel(new GridBagLayout());
+        lockScreenPanel.add(wrongPwdMsg, gbc);
+        lockScreenPanel.add(lockScreenPwd, gbc);
+        lockScreenPanel.setSize(this.getSize());
+        lockScreenPanel.setBorder(UIConstants.EMPTY_BORDER);
+        container.add(lockScreenPanel);
         lockScreen.pack();
         lockScreen.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
         lockScreen.setPreferredSize(this.getSize());
@@ -256,6 +256,7 @@ public class AppFrame extends JFrame {
 
     private void setLockScreenColor(Color c) {
         lockScreen.getContentPane().setBackground(c);
+        lockScreenPanel.setBackground(c);
         lockScreenPwd.setForeground(c);
         wrongPwdMsg.setBackground(c);
     }
