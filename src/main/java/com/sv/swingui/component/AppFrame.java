@@ -21,6 +21,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 import static com.sv.core.Constants.ELLIPSIS;
+import static com.sv.core.Constants.EMPTY;
 
 /**
  * Wrapper class for JFrame
@@ -94,6 +95,7 @@ public class AppFrame extends JFrame {
         panel.add(wrongPwdMsg, gbc);
         panel.add(lockScreenPwd, gbc);
         panel.setSize(this.getSize());
+        panel.setBorder(UIConstants.EMPTY_BORDER);
         container.add(panel);
         lockScreen.pack();
         lockScreen.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
