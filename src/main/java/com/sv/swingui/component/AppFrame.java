@@ -315,6 +315,10 @@ public class AppFrame extends JFrame {
         });
     }
 
+    public boolean isWindowActive() {
+        return windowActive;
+    }
+
     public void startClipboardAction() {
         // override as per need
     }
