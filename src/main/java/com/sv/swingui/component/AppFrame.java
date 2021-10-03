@@ -48,6 +48,7 @@ public class AppFrame extends JFrame {
     protected JLabel changePwdErrMsg;
     protected JPanel changePwdPanel, pwdPanel, lockScreenPanel;
     protected java.util.Timer autoLockTimer;
+    protected Color lockScreenColor;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD, AUTO_LOCK
@@ -176,14 +177,22 @@ public class AppFrame extends JFrame {
         // to override
     }
 
-    public void stopAutoLockTimer() {
+    public void setLockScreenColor(Color c) {
+        lockScreenColor = c;
+    }
+
+    public Color getLockScreenColor() {
+        return lockScreenColor;
+    }
+
+    protected void stopAutoLockTimer() {
         logger.info("Stopping auto lock timer if running");
         if (autoLockTimer != null) {
             autoLockTimer.cancel();
         }
     }
 
-    public void startAutoLockTimer() {
+    protected void startAutoLockTimer() {
         logger.info("Starting auto lock timer...");
         if (autoLockTimer != null) {
             autoLockTimer.cancel();
@@ -272,7 +281,7 @@ public class AppFrame extends JFrame {
         }
     }
 
-    private void setLockScreenColor(Color c) {
+    private void applyColorOnLockScreen(Color c) {
         lockScreen.getContentPane().setBackground(c);
         lockScreenPanel.setBackground(c);
         lockScreenPwd.setForeground(c);
@@ -293,7 +302,7 @@ public class AppFrame extends JFrame {
 
     public void showLockScreen(Color c) {
         if (checkIfSecretFileExists()) {
-            setLockScreenColor(c);
+            applyColorOnLockScreen(c);
             lockScreenPwd.setText("");
             this.setVisible(false);
             lockScreen.setVisible(true);
