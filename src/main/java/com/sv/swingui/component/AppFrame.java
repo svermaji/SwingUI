@@ -6,6 +6,7 @@ import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
 import com.sv.swingui.SwingUtils;
 import com.sv.swingui.UIConstants;
+import com.sv.swingui.component.autolock.AutoLockTimerTask;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 
 import static com.sv.core.Constants.ELLIPSIS;
-import static com.sv.core.Constants.EMPTY;
+import static com.sv.core.Constants.MIN_10;
 
 /**
  * Wrapper class for JFrame
@@ -46,9 +47,10 @@ public class AppFrame extends JFrame {
     protected AppLabel wrongPwdMsg, lblOldPwd, lblNewPwd, lblConfirmPwd;
     protected JLabel changePwdErrMsg;
     protected JPanel changePwdPanel, pwdPanel, lockScreenPanel;
+    protected java.util.Timer autoLockTimer;
 
     protected enum WindowChecks {
-        WINDOW_ACTIVE, CLIPBOARD
+        WINDOW_ACTIVE, CLIPBOARD, AUTO_LOCK
     }
 
     public AppFrame(String title) {
@@ -167,11 +169,27 @@ public class AppFrame extends JFrame {
             changePwdScreen.setVisible(false);
             pwdChanged = true;
         }
-        pwdChangedStatus (pwdChanged);
+        pwdChangedStatus(pwdChanged);
     }
 
     public void pwdChangedStatus(boolean pwdChanged) {
         // to override
+    }
+
+    public void stopAutoLockTimer() {
+        logger.info("Stopping auto lock timer if running");
+        if (autoLockTimer != null) {
+            autoLockTimer.cancel();
+        }
+    }
+
+    public void startAutoLockTimer() {
+        logger.info("Starting auto lock timer...");
+        if (autoLockTimer != null) {
+            autoLockTimer.cancel();
+        }
+        autoLockTimer = new java.util.Timer("AutoLockTimer");
+        autoLockTimer.schedule(new AutoLockTimerTask(this), MIN_10);
     }
 
     private boolean authenticate(char[] secret) {
@@ -296,6 +314,7 @@ public class AppFrame extends JFrame {
     public void applyWindowActiveCheck(WindowChecks[] checks) {
         boolean activeCheck = Arrays.asList(checks).contains(WindowChecks.WINDOW_ACTIVE);
         boolean clipCheck = Arrays.asList(checks).contains(WindowChecks.CLIPBOARD);
+        boolean autoLock = Arrays.asList(checks).contains(WindowChecks.AUTO_LOCK);
 
         addWindowFocusListener(new WindowAdapter() {
             public void windowGainedFocus(WindowEvent e) {
@@ -305,11 +324,17 @@ public class AppFrame extends JFrame {
                 if (clipCheck) {
                     startClipboardAction();
                 }
+                if (autoLock) {
+                    stopAutoLockTimer();
+                }
             }
 
             public void windowLostFocus(WindowEvent e) {
                 if (activeCheck) {
                     windowActive = false;
+                }
+                if (autoLock) {
+                    startAutoLockTimer();
                 }
             }
         });
