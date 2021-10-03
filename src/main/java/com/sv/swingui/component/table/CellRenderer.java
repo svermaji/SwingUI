@@ -31,6 +31,7 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
                 val.startsWith(Constants.CANCELLED);
         c.setForeground(isFailedOrCancelled ? Color.RED : Color.BLACK);
 
+        // tooltip on row will be applied with first col value
         setToolTipText(table.getValueAt(row, 0).toString());
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
