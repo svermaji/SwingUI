@@ -208,7 +208,7 @@ public class AppFrame extends JFrame {
             try {
                 return EncryptUtils.getEncryptedPassword(new String(secret), arr[0]).equals(arr[1]);
             } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-                logger.error("Error in authenticating password. Details: ", e);
+                logger.error("Error in authenticating. Details: ", e);
                 result = false;
             }
         }
@@ -225,7 +225,7 @@ public class AppFrame extends JFrame {
             if (firstLine.contains(PWD_SEP)) {
                 arr = firstLine.split(PWD_SEP);
                 if (arr.length == 2) {
-                    logger.info("Secret read successfully.");
+                    logger.info("Password read successfully.");
                 } else {
                     logger.error("Cannot get password.  Array length is " + Utils.addBraces(arr.length));
                 }
@@ -295,7 +295,7 @@ public class AppFrame extends JFrame {
     private boolean checkIfSecretFileExists() {
         boolean result = Files.exists(Utils.createPath(Utils.getCurrentDir() + PWD_FILE));
         if (logger != null) {
-            logger.info("Secret file exists " + Utils.addBraces(result));
+            logger.info("Password exists " + Utils.addBraces(result));
         }
         return result;
     }
