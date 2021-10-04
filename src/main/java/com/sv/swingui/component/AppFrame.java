@@ -321,9 +321,15 @@ public class AppFrame extends JFrame {
     }
 
     public void applyWindowActiveCheck(WindowChecks[] checks) {
-        boolean activeCheck = Arrays.asList(checks).contains(WindowChecks.WINDOW_ACTIVE);
-        boolean clipCheck = Arrays.asList(checks).contains(WindowChecks.CLIPBOARD);
-        boolean autoLock = Arrays.asList(checks).contains(WindowChecks.AUTO_LOCK);
+        java.util.List<WindowChecks> list = Arrays.asList(checks);
+        boolean activeCheck = list.contains(WindowChecks.WINDOW_ACTIVE);
+        boolean clipCheck = list.contains(WindowChecks.CLIPBOARD);
+        boolean autoLock = list.contains(WindowChecks.AUTO_LOCK);
+
+        logger.info("Applying window checks: active check " + Utils.addBraces(activeCheck) +
+                ", clipboard check " + Utils.addBraces(clipCheck) +
+                ", auto lock check " + Utils.addBraces(autoLock)
+        );
 
         addWindowFocusListener(new WindowAdapter() {
             public void windowGainedFocus(WindowEvent e) {
@@ -382,12 +388,6 @@ public class AppFrame extends JFrame {
             Utils.callMethod(this, "copyClipboardFailed", null, logger);
             logger.error("Unable to complete clipboard check action.  Error: " + e.getMessage());
         }
-    }
-
-    public void addLockScreen() {
-        pack();
-        setLocationRelativeTo(null);
-        setVisible(true);
     }
 
     public void setToCenter() {
