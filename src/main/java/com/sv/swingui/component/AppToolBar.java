@@ -1,6 +1,7 @@
 package com.sv.swingui.component;
 
 import com.sv.swingui.SwingUtils;
+import com.sv.swingui.UIConstants;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -24,8 +25,7 @@ public class AppToolBar extends JToolBar {
         setFloatable(false);
         setRollover(false);
         // no border
-        //setBorder(SwingUtils.createLineBorder(Color.black, 0));
-        setBorder(new EmptyBorder(0, 0, 0, 0));
+        setBorder(UIConstants.ZERO_BORDER);
     }
 
     public Component add(Component c) {

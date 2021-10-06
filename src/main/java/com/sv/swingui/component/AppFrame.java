@@ -363,6 +363,18 @@ public class AppFrame extends JFrame {
         // override as per need
     }
 
+    public void copyClipboardYes(String data) {
+        // override as per need
+    }
+
+    public void copyClipboardNo(String data) {
+        // override as per need
+    }
+
+    public void copyClipboardFailed() {
+        // override as per need
+    }
+
     public void copyClipboard(MyLogger logger) {
         final int showDataLimit = 100;
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -380,7 +392,9 @@ public class AppFrame extends JFrame {
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE);
                 if (result == JOptionPane.YES_OPTION) {
-                    Utils.callMethod(this, "copyClipboardSuccess", new String[]{data}, logger);
+                    Utils.callMethod(this, "copyClipboardYes", new String[]{data}, logger);
+                } else if (result == JOptionPane.NO_OPTION) {
+                    Utils.callMethod(this, "copyClipboardNo", new String[]{data}, logger);
                 }
                 lastClipboardText = data;
             }
