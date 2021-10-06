@@ -376,31 +376,37 @@ public class AppFrame extends JFrame {
     }
 
     public void copyClipboard(MyLogger logger) {
-        final int showDataLimit = 100;
         Clipboard c = Toolkit.getDefaultToolkit().getSystemClipboard();
 
         // Get data stored in the clipboard that is in the form of a string (text)
         try {
             String data = c.getData(DataFlavor.stringFlavor).toString().trim();
             if (Utils.hasValue(data) && !data.equals(lastClipboardText)) {
-                int result = JOptionPane.showConfirmDialog(this,
-                        "Use data " +
-                                Utils.addBraces(
-                                        (data.length() < showDataLimit ? data :
-                                                data.substring(0, showDataLimit) + ELLIPSIS)),
+                createYesNoDialog(
                         "Copy data from clipboard ?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE);
-                if (result == JOptionPane.YES_OPTION) {
-                    Utils.callMethod(this, "copyClipboardYes", new String[]{data}, logger);
-                } else if (result == JOptionPane.NO_OPTION) {
-                    Utils.callMethod(this, "copyClipboardNo", new String[]{data}, logger);
-                }
+                        "Use data " + Utils.addBraces(data),
+                        "copyClipboard"
+                );
                 lastClipboardText = data;
             }
         } catch (Exception e) {
             Utils.callMethod(this, "copyClipboardFailed", null, logger);
             logger.error("Unable to complete clipboard check action.  Error: " + e.getMessage());
+        }
+    }
+
+    public void createYesNoDialog(String title, String data, String methodName) {
+        final int showDataLimit = 100;
+        int result = JOptionPane.showConfirmDialog(this,
+                data.length() < showDataLimit ? data :
+                        data.substring(0, showDataLimit) + ELLIPSIS,
+                title,
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+        if (result == JOptionPane.YES_OPTION) {
+            Utils.callMethod(this, methodName + "Yes", new String[]{data}, logger);
+        } else if (result == JOptionPane.NO_OPTION) {
+            Utils.callMethod(this, methodName + "No", new String[]{data}, logger);
         }
     }
 
