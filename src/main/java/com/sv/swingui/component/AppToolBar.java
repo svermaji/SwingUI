@@ -17,5 +17,7 @@ public class AppToolBar extends JToolBar {
     public AppToolBar() {
         super();
         setLayout(new FlowLayout(FlowLayout.LEFT, gap, gap));
+        setFloatable(false);
+        setRollover(false);
     }
 }
