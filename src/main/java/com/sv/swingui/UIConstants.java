@@ -38,6 +38,7 @@ public final class UIConstants {
     public static final Color ORIG_COLOR = new Color(238, 238, 238);
     public static final Color COLOR_GREEN_DARK = new Color(57, 172, 170);
     public static final Color COLOR_BROWN = new Color(165, 42, 42);
+    public static final Color COLOR_BLUE_SHADE = new Color(51, 143, 255);
 
     public enum ColorsNFonts {
         // BG, FG, selection BG, selection FG
@@ -46,13 +47,13 @@ public final class UIConstants {
         C(Color.pink, COLOR_BROWN, Color.red, Color.white, "Elephant"),
         D(Color.orange, Color.blue, Color.blue, Color.orange, "Lucida Calligraphy Italic"),
         E(new Color(150, 212, 210), COLOR_BROWN, COLOR_GREEN_DARK, Color.yellow, "Lucida Bright"),
-        F(Color.yellow, Color.black, new Color(51, 143, 255), Color.white, "Segoe UI"),
+        F(Color.yellow, Color.black, COLOR_BLUE_SHADE, Color.white, "Segoe UI"),
         G(Color.white, Color.magenta, Color.orange, Color.white, "Tahoma"),
         H(new Color(166, 241, 195), Color.black, Color.MAGENTA, Color.white, "Verdana"),
         I(new Color(242, 195, 245), Color.darkGray, new Color(44, 121, 217), Color.white, "Times New Roman"),
-        J(new Color(178, 241, 178), Color.darkGray, new Color(0, 128, 128), Color.white, "Arial Black"),
+        J(COLOR_BLUE_SHADE, Color.yellow, new Color(0, 128, 128), Color.white, "Arial Black"),
         K(new Color(239, 183, 239), COLOR_BROWN, new Color(234, 10, 234), Color.white, "Comic Sans MS"),
-        L(Color.cyan, Color.black, Color.darkGray, Color.white, "Consolas");
+        L(Color.lightGray, Color.darkGray, COLOR_BLUE_SHADE, Color.cyan, "Consolas");
 
         private Color bk, fg, selbk, selfg;
         private String font;

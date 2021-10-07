@@ -395,18 +395,18 @@ public class AppFrame extends JFrame {
         }
     }
 
-    public void createYesNoDialog(String title, String data, String methodName) {
+    public void createYesNoDialog(String title, String msg, String methodName) {
         final int showDataLimit = 100;
         int result = JOptionPane.showConfirmDialog(this,
-                data.length() < showDataLimit ? data :
-                        data.substring(0, showDataLimit) + ELLIPSIS,
+                msg.length() < showDataLimit ? msg :
+                        msg.substring(0, showDataLimit) + ELLIPSIS,
                 title,
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
         if (result == JOptionPane.YES_OPTION) {
-            Utils.callMethod(this, methodName + "Yes", new String[]{data}, logger);
+            Utils.callMethod(this, methodName + "Yes", new String[]{msg}, logger);
         } else if (result == JOptionPane.NO_OPTION) {
-            Utils.callMethod(this, methodName + "No", new String[]{data}, logger);
+            Utils.callMethod(this, methodName + "No", new String[]{msg}, logger);
         }
     }
 
