@@ -26,7 +26,7 @@ import java.util.regex.PatternSyntaxException;
  */
 public class AppTable extends JTable {
 
-    TableRowSorter<DefaultTableModel> sorter;
+    protected TableRowSorter<DefaultTableModel> sorter;
 
     public AppTable(DefaultTableModel model) {
         super(model);
