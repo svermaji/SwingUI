@@ -62,6 +62,11 @@ public class SwingUtils {
         return new Font(DEFAULT_FONT, style, size);
     }
 
+    public static void addKeyBindings(JComponent[] addBindingsTo, List<KeyActionDetails> kadList) {
+        kadList.forEach(ka -> Arrays.stream(addBindingsTo).forEach(j ->
+                j.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ka.getKeyStroke(), ka.getAction())));
+    }
+
     public static void getInFocus(JComponent c) {
         c.requestFocusInWindow();
         c.requestFocus();
