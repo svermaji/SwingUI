@@ -17,6 +17,7 @@ Maven dependency is:
 
 
 ## Description<br>
+* Increased pom version for new changes.
 * This library is code to create quick UI components such as
     * Swing Frame
         * Supports WindowActive variable that works when window gains/losts focus
