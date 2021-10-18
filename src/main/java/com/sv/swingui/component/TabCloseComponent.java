@@ -44,7 +44,7 @@ import java.awt.event.*;
 public class TabCloseComponent extends JPanel {
     private Color crossTextColor, crossBkColor, rollOverTextColor, rollOverBkColor;
     private final JTabbedPane pane;
-    private final int tabNum;
+    private int tabNum;
     private JLabel label;
     private JButton tabButton;
 
@@ -62,6 +62,8 @@ public class TabCloseComponent extends JPanel {
         label = new JLabel() {
             public String getText() {
                 int i = tabNum;
+                System.out.println(tabNum);
+                System.out.println(pane.getTitleAt(i));
                 if (i != -1) {
                     return pane.getTitleAt(i);
                 }
@@ -172,6 +174,14 @@ public class TabCloseComponent extends JPanel {
         }
     }
 
+    public int getTabNum() {
+        return tabNum;
+    }
+
+    public void setTabNum(int tabNum) {
+        this.tabNum = tabNum;
+    }
+
     private final MouseListener buttonMouseListener = new MouseAdapter() {
         public void mouseEntered(MouseEvent e) {
             Component component = e.getComponent();
@@ -193,4 +203,12 @@ public class TabCloseComponent extends JPanel {
             }
         }
     };
+
+    @Override
+    public String toString() {
+        return "TabCloseComponent{" +
+                "tabNum=" + tabNum +
+                ", title=" + label.getText() +
+                '}';
+    }
 }
