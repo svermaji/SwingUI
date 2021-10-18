@@ -45,13 +45,15 @@ public class TabCloseComponent extends JPanel {
     private Color crossTextColor, crossBkColor, rollOverTextColor, rollOverBkColor;
     private final JTabbedPane pane;
     private int tabNum;
+    private String title;
     private JLabel label;
     private JButton tabButton;
 
-    public TabCloseComponent(final JTabbedPane pane, int tabNum) {
+    public TabCloseComponent(final JTabbedPane pane, int tabNum, String title) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.tabNum = tabNum;
+        this.title = title;
         if (pane == null) {
             throw new NullPointerException("TabbedPane is null");
         }
@@ -61,13 +63,7 @@ public class TabCloseComponent extends JPanel {
         //make JLabel read titles from JTabbedPane
         label = new JLabel() {
             public String getText() {
-                int i = tabNum;
-                System.out.println(tabNum);
-                System.out.println(pane.getTitleAt(i));
-                if (i != -1) {
-                    return pane.getTitleAt(i);
-                }
-                return null;
+                return title;
             }
         };
 
@@ -145,6 +141,7 @@ public class TabCloseComponent extends JPanel {
             int i = tabNum;
             if (i != -1) {
                 pane.remove(i);
+                tabRemoved();
             }
         }
 
@@ -174,12 +171,24 @@ public class TabCloseComponent extends JPanel {
         }
     }
 
+    public void tabRemoved() {
+        // use to override the event of removal
+    }
+
     public int getTabNum() {
         return tabNum;
     }
 
     public void setTabNum(int tabNum) {
         this.tabNum = tabNum;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     private final MouseListener buttonMouseListener = new MouseAdapter() {

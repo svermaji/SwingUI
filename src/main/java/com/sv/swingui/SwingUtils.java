@@ -232,10 +232,14 @@ public class SwingUtils {
         return new LineBorder(c, thickness);
     }
 
-    public static TabCloseComponent makeTabClosable(int tabNum, JTabbedPane tabbedPane) {
-        TabCloseComponent tbc = new TabCloseComponent(tabbedPane, tabNum);
-        tabbedPane.setTabComponentAt(tabNum, tbc);
-        return tbc;
+    public static TabCloseComponent makeTabClosable(int tabNum, String title, JTabbedPane tabbedPane) {
+        TabCloseComponent tbc = new TabCloseComponent(tabbedPane, tabNum, title);
+        return makeTabClosable(tabNum, tbc, tabbedPane);
+    }
+
+    public static TabCloseComponent makeTabClosable(int tabNum, TabCloseComponent tcc, JTabbedPane tabbedPane) {
+        tabbedPane.setTabComponentAt(tabNum, tcc);
+        return tcc;
     }
 
     /**
