@@ -74,6 +74,13 @@ public class TabCloseComponent extends JPanel {
         };
 
         add(label);
+        label.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                pane.setSelectedIndex(tabNum);
+            }
+        });
         //add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
         if (closable) {
