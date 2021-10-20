@@ -3,6 +3,7 @@ package com.sv.swingui;
 import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
+import com.sv.swingui.component.AppMenu;
 import com.sv.swingui.component.TabCloseComponent;
 
 import javax.swing.*;
@@ -177,10 +178,9 @@ public class SwingUtils {
      */
     public static JMenu getFontsMenu(String name, char mnemonic, String tip, String selectedFont,
                                      Object obj, MyLogger logger) {
-        JMenu menuFonts = new JMenu(name +
-                (Utils.hasValue(selectedFont) ? Utils.addBraces(selectedFont) : ""));
-        menuFonts.setMnemonic(mnemonic);
-        menuFonts.setToolTipText(tip + SHORTCUT + mnemonic);
+        JMenu menuFonts = new AppMenu(name +
+                (Utils.hasValue(selectedFont) ? Utils.addBraces(selectedFont) : ""),
+                mnemonic, tip + SHORTCUT + mnemonic);
         int i = 'a';
         int x = 0;
         for (ColorsNFonts cnf : ColorsNFonts.values()) {
@@ -295,9 +295,7 @@ public class SwingUtils {
     public static JMenu getThemesMenu(String name, char mnemonic, String tip,
                                       Component obj, MyLogger logger) {
 
-        JMenu menu = new JMenu(name);
-        menu.setMnemonic(mnemonic);
-        menu.setToolTipText(tip + SHORTCUT + mnemonic);
+        JMenu menu = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
 
         int i = 'a';
         int x = 0;
@@ -373,9 +371,7 @@ public class SwingUtils {
                                       boolean showFonts,
                                       boolean ignoreBlackAndWhite,
                                       Object obj, MyLogger logger) {
-        JMenu menuColors = new JMenu(name);
-        menuColors.setMnemonic(mnemonic);
-        menuColors.setToolTipText(tip + SHORTCUT + mnemonic);
+        JMenu menuColors = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
         int i = 'a';
         int x = -1;
 

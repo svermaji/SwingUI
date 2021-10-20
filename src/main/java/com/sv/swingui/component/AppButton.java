@@ -3,12 +3,17 @@ package com.sv.swingui.component;
 import com.sv.core.Utils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 /**
  * Wrapper class for JButton
  */
 public class AppButton extends JButton {
+
+    public AppButton() {
+        super();
+    }
 
     /**
      * Creates button with given info
@@ -34,9 +39,9 @@ public class AppButton extends JButton {
     /**
      * Creates button with given info
      *
-     * @param text     string
-     * @param keys     list of string where 1st element should be char and 2nd additional key
-     * @param tip      tooltip
+     * @param text string
+     * @param keys list of string where 1st element should be char and 2nd additional key
+     * @param tip  tooltip
      */
     public AppButton(String text, List<String> keys, String tip) {
         this(text, keys, tip, null, false);
@@ -57,10 +62,10 @@ public class AppButton extends JButton {
     /**
      * Creates button with given info
      *
-     * @param text         string
-     * @param mnemonic     char
-     * @param tip          tooltip
-     * @param iconPath     path
+     * @param text        string
+     * @param mnemonic    char
+     * @param tip         tooltip
+     * @param iconPath    path
      * @param drawAsImage boolean if true then remaining button area will not be drawn
      */
     public AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsImage) {
@@ -84,10 +89,10 @@ public class AppButton extends JButton {
     /**
      * Creates button with given info
      *
-     * @param text         string
-     * @param keys         list of string where 1st element should be char and 2nd additional key
-     * @param tip          tooltip
-     * @param iconPath     path
+     * @param text        string
+     * @param keys        list of string where 1st element should be char and 2nd additional key
+     * @param tip         tooltip
+     * @param iconPath    path
      * @param drawAsImage boolean if true then remaining button area will not be drawn
      */
     public AppButton(String text, List<String> keys, String tip, String iconPath, boolean drawAsImage) {
@@ -96,5 +101,25 @@ public class AppButton extends JButton {
         if (keys.size() > 1 && Utils.hasValue(keys.get(1))) {
             setToolTipText(getToolTipText() + " or " + keys.get(1));
         }
+    }
+
+    /* For coloring tooltip */
+    private Color fg, bg;
+
+    public void setToolTipColors(Color fg, Color bg) {
+        this.bg = bg;
+        this.fg = fg;
+    }
+
+    @Override
+    public JToolTip createToolTip() {
+        JToolTip tooltip = super.createToolTip();
+        if (bg != null) {
+            tooltip.setBackground(bg);
+        }
+        if (fg != null) {
+            tooltip.setForeground(fg);
+        }
+        return tooltip;
     }
 }

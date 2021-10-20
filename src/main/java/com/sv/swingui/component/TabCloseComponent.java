@@ -61,7 +61,7 @@ public class TabCloseComponent extends JPanel {
         setOpaque(false);
 
         //make JLabel read titles from JTabbedPane
-        label = new JLabel() {
+        label = new AppLabel() {
             public String getText() {
                 return title;
             }
@@ -116,11 +116,11 @@ public class TabCloseComponent extends JPanel {
         label.setForeground(lblColor);
     }
 
-    private class TabButton extends JButton implements ActionListener {
+    private class TabButton extends AppButton implements ActionListener {
         public TabButton() {
             int size = 17;
             setPreferredSize(new Dimension(size, size));
-            setToolTipText("close this tab");
+            setToolTipText("Close");
             //Make the button looks the same for all Laf's
             setUI(new BasicButtonUI());
             //Make it transparent -- commenting for bk color
