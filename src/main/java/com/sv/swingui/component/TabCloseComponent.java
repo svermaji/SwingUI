@@ -43,17 +43,23 @@ import java.awt.event.*;
  */
 public class TabCloseComponent extends JPanel {
     private Color crossTextColor, crossBkColor, rollOverTextColor, rollOverBkColor;
-    private final JTabbedPane pane;
+    private final AppTabbedPane pane;
     private int tabNum;
     private String title;
     private JLabel label;
+    private boolean closable;
     private JButton tabButton;
 
-    public TabCloseComponent(final JTabbedPane pane, int tabNum, String title) {
+    public TabCloseComponent(AppTabbedPane pane, int tabNum, String title) {
+        this(pane, tabNum, title, true);
+    }
+
+    public TabCloseComponent(AppTabbedPane pane, int tabNum, String title, boolean closable) {
         //unset default FlowLayout' gaps
         super(new FlowLayout(FlowLayout.LEFT, 0, 0));
         this.tabNum = tabNum;
         this.title = title;
+        this.closable = closable;
         if (pane == null) {
             throw new NullPointerException("TabbedPane is null");
         }
@@ -70,11 +76,17 @@ public class TabCloseComponent extends JPanel {
         add(label);
         //add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
-        //tab button
-        tabButton = new TabButton();
-        add(tabButton);
+        if (closable) {
+            //tab close button
+            tabButton = new TabButton();
+            add(tabButton);
+        }
         //add more space to the top of the component
         setBorder(BorderFactory.createEmptyBorder(2, 0, 0, 0));
+    }
+
+    public boolean isClosable() {
+        return closable;
     }
 
     public JLabel getTabLabel() {
@@ -96,12 +108,16 @@ public class TabCloseComponent extends JPanel {
     public void setCrossTextColor(Color c) {
         this.crossTextColor = c;
         setTabLabelColor(c);
-        tabButton.setForeground(c);
+        if (isClosable()) {
+            tabButton.setForeground(c);
+        }
     }
 
     public void setCrossBkColor(Color c) {
         this.crossBkColor = c;
-        tabButton.setBackground(c);
+        if (isClosable()) {
+            tabButton.setBackground(c);
+        }
     }
 
     public void setRollOverTextColor(Color rollOverTextColor) {

@@ -4,6 +4,7 @@ import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
 import com.sv.swingui.component.AppMenu;
+import com.sv.swingui.component.AppTabbedPane;
 import com.sv.swingui.component.TabCloseComponent;
 
 import javax.swing.*;
@@ -232,7 +233,7 @@ public class SwingUtils {
         return new LineBorder(c, thickness);
     }
 
-    public static TabCloseComponent makeTabClosable(int tabNum, String title, JTabbedPane tabbedPane) {
+    public static TabCloseComponent makeTabClosable(int tabNum, String title, AppTabbedPane tabbedPane) {
         TabCloseComponent tbc = new TabCloseComponent(tabbedPane, tabNum, title);
         return makeTabClosable(tabNum, tbc, tabbedPane);
     }
