@@ -20,7 +20,7 @@ public class AppToolBar extends JToolBar {
     public static final int gap = 0;
 
     public AppToolBar() {
-        this(false);
+        this(true);
     }
 
     public AppToolBar(boolean fixedWidth) {
