@@ -41,7 +41,7 @@ import java.awt.event.*;
  * Contains a JLabel to show the text and
  * a JButton to close the tab it belongs to
  */
-public class TabCloseComponent extends JPanel {
+public class TabCloseComponent extends AppPanel {
     private Color crossTextColor, crossBkColor, rollOverTextColor, rollOverBkColor;
     private final AppTabbedPane pane;
     private int tabNum;

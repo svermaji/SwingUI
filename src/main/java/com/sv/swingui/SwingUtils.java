@@ -3,9 +3,7 @@ package com.sv.swingui;
 import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
-import com.sv.swingui.component.AppMenu;
-import com.sv.swingui.component.AppTabbedPane;
-import com.sv.swingui.component.TabCloseComponent;
+import com.sv.swingui.component.*;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -225,12 +223,38 @@ public class SwingUtils {
         return new TitledBorder(createLineBorder(c, 1), heading);
     }
 
+    public static void applyTooltipColor(Component c, Color fg, Color bg) {
+        if (c instanceof AppPanel) {
+            ((AppPanel) c).setToolTipColors(fg, bg);
+        }
+        if (c instanceof AppTabbedPane) {
+            ((AppTabbedPane) c).setToolTipColors(fg, bg);
+        }
+        if (c instanceof AppTextField) {
+            ((AppTextField) c).setToolTipColors(fg, bg);
+        }
+        if (c instanceof JMenuBar) {
+            for (int i = 0; i < ((JMenuBar) c).getMenuCount(); i++) {
+                ((AppMenu) ((JMenuBar) c).getMenu(i)).setToolTipColors(fg, bg);
+            }
+        }
+        if (c instanceof AppButton) {
+            ((AppButton) c).setToolTipColors(fg, bg);
+        }
+        if (c instanceof AppLabel) {
+            ((AppLabel) c).setToolTipColors(fg, bg);
+        }
+        if (c instanceof AppToolBar) {
+            ((AppToolBar) c).setToolTipColors(fg, bg);
+        }
+    }
+
     public static Border createLineBorder(Color c) {
         return createLineBorder(c, 1);
     }
 
     public static Border createLineBorder(Color c, int thickness) {
-        return new LineBorder(c, thickness);
+        return BorderFactory.createLineBorder(c, thickness);
     }
 
     public static TabCloseComponent makeTabClosable(int tabNum, String title, AppTabbedPane tabbedPane) {
