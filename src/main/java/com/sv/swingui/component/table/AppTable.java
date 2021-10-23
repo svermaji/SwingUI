@@ -6,7 +6,6 @@ import com.sv.core.exception.AppException;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.plaf.metal.MetalBorders;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;

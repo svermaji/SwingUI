@@ -235,7 +235,7 @@ public class SwingUtils {
         }
         if (c instanceof JMenuBar) {
             for (int i = 0; i < ((JMenuBar) c).getMenuCount(); i++) {
-                ((AppMenu) ((JMenuBar) c).getMenu(i)).setToolTipColors(fg, bg);
+                applyMenuTooltipColor((AppMenu) ((JMenuBar) c).getMenu(i), fg, bg);
             }
         }
         if (c instanceof AppButton) {
@@ -246,6 +246,21 @@ public class SwingUtils {
         }
         if (c instanceof AppToolBar) {
             ((AppToolBar) c).setToolTipColors(fg, bg);
+        }
+    }
+
+    private static void applyMenuTooltipColor(AppMenu m, Color fg, Color bg) {
+        m.setToolTipColors(fg, bg);
+        int miCnt = m.getItemCount();
+        for (int j = 0; j < miCnt; j++) {
+            JMenuItem mi = m.getItem(j);
+            if (mi instanceof AppMenu) {
+                applyMenuTooltipColor((AppMenu) mi, fg, bg);
+            } else if (mi instanceof AppMenuItem) {
+                ((AppMenuItem) mi).setToolTipColors(fg, bg);
+            } else if (m.getItem(j) instanceof AppCheckBoxMenuItem) {
+                ((AppCheckBoxMenuItem) mi).setToolTipColors(fg, bg);
+            }
         }
     }
 
