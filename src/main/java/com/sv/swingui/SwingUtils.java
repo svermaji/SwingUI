@@ -230,6 +230,9 @@ public class SwingUtils {
         if (c instanceof AppTabbedPane) {
             ((AppTabbedPane) c).setToolTipColors(fg, bg);
         }
+        if (c instanceof AppCheckBox) {
+            ((AppCheckBox) c).setToolTipColors(fg, bg);
+        }
         if (c instanceof AppTextField) {
             ((AppTextField) c).setToolTipColors(fg, bg);
         }
