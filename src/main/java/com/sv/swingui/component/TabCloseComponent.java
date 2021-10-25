@@ -79,6 +79,7 @@ public class TabCloseComponent extends AppPanel {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 pane.setSelectedIndex(tabNum);
+                System.out.println("tcc..lbl");
             }
         });
         //add more space between the label and the button
