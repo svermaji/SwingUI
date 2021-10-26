@@ -5,13 +5,13 @@ import com.sv.core.Utils;
 import javax.swing.*;
 import java.awt.*;
 
-public class AppCheckBoxMenuItem extends JCheckBoxMenuItem {
+public class AppRadioButtonMenuItem extends JRadioButtonMenuItem {
 
-    public AppCheckBoxMenuItem(String text, boolean state, Character mnemonic, String tip) {
+    public AppRadioButtonMenuItem(String text, boolean state, Character mnemonic, String tip) {
         this(text, null, state, mnemonic, tip);
     }
 
-    public AppCheckBoxMenuItem(String text, Icon icon, boolean state, Character mnemonic, String tip) {
+    public AppRadioButtonMenuItem(String text, Icon icon, boolean state, Character mnemonic, String tip) {
         super(text, icon, state);
         if (mnemonic != null) {
             setMnemonic(mnemonic);
