@@ -45,10 +45,8 @@ public class AppTabbedPane extends JTabbedPane {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                System.out.println("is right - " + SwingUtilities.isRightMouseButton(e));
                 if (SwingUtilities.isRightMouseButton(e)) {
                     final int index = pane.getUI().tabForCoordinate(pane, e.getX(), e.getY());
-                    System.out.println("right click - " + index);
                     if (index != -1) {
                         tabRightClicked(pane, index);
                     }
@@ -73,11 +71,9 @@ public class AppTabbedPane extends JTabbedPane {
      * @param pane AppTabbedPane
      */
     public void closeAllTabs(AppTabbedPane pane) {
-        int tc = pane.getTabCount();
-        for (int i = 0; i < tc; i++) {
-            // TODO: how help will work or make them closable
-            checkAndClose(pane, 0);
-        }
+        rightClickTabIdx = 0;
+        closeTabsToRight(pane);
+        checkAndClose(pane, rightClickTabIdx);
     }
 
     /**
@@ -87,8 +83,8 @@ public class AppTabbedPane extends JTabbedPane {
      */
     public void closeTabsToLeft(AppTabbedPane pane) {
         if (rightClickTabIdx > -1) {
-            for (int i = 0; i < rightClickTabIdx; i++) {
-                checkAndClose(pane, 0);
+            for (int i = rightClickTabIdx - 1; i >= 0; i--) {
+                checkAndClose(pane, i);
             }
         }
     }
@@ -101,14 +97,13 @@ public class AppTabbedPane extends JTabbedPane {
     public void closeTabsToRight(AppTabbedPane pane) {
         // as with each remove tab count will change so not taking in var
         if (rightClickTabIdx > -1) {
-            for (int i = rightClickTabIdx + 1; i < pane.getTabCount(); i++) {
+            for (int i = pane.getTabCount(); i > rightClickTabIdx + 1; i--) {
                 checkAndClose(pane, pane.getTabCount() - 1);
             }
         }
     }
 
     protected void checkAndClose(AppTabbedPane pane, int i) {
-        System.out.println("checkAndClose - " + i + " tcc " + (pane.getTabComponentAt(i) instanceof TabCloseComponent));
         if (pane.getTabComponentAt(i) instanceof TabCloseComponent) {
             TabCloseComponent tcc = (TabCloseComponent) pane.getTabComponentAt(i);
             if (tcc.isClosable()) {
@@ -137,6 +132,13 @@ public class AppTabbedPane extends JTabbedPane {
      * @param pane   AppTabbedPane
      * @param tabIdx tab index
      */
+    public void tabRightClicked(AppTabbedPane pane, int tabIdx, MouseEvent e) {
+        rightClickTabIdx = tabIdx;
+        if (SwingUtilities.isRightMouseButton(e)) {
+            tabRightClicked(pane, tabIdx);
+        }
+    }
+
     public void tabRightClicked(AppTabbedPane pane, int tabIdx) {
         rightClickTabIdx = tabIdx;
         // used to override for behavior
