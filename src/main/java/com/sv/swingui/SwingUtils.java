@@ -263,6 +263,8 @@ public class SwingUtils {
                 ((AppMenuItem) mi).setToolTipColors(fg, bg);
             } else if (m.getItem(j) instanceof AppCheckBoxMenuItem) {
                 ((AppCheckBoxMenuItem) mi).setToolTipColors(fg, bg);
+            } else if (m.getItem(j) instanceof AppRadioButtonMenuItem) {
+                ((AppRadioButtonMenuItem) mi).setToolTipColors(fg, bg);
             }
         }
     }

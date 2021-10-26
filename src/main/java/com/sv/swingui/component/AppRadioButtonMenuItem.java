@@ -17,6 +17,9 @@ public class AppRadioButtonMenuItem extends JRadioButtonMenuItem {
             setMnemonic(mnemonic);
         }
         if (Utils.hasValue(tip)) {
+            if (mnemonic != null) {
+                tip += " Shortcut: Alt+" + mnemonic;
+            }
             setToolTipText(tip);
         }
     }
