@@ -371,16 +371,30 @@ public class SwingUtils {
         return menu;
     }
 
-    private static void applyAppFont(Component root, int fontSize, Object obj, MyLogger logger) {
-        changeFont(root, getNewFontSize(root.getFont(), fontSize));
+    public static void applyAppFont(Component root, int fontSize, Object obj, MyLogger logger) {
+        changeFont(root, fontSize);
         Utils.callMethod(obj, "appFontChanged", new Object[]{fontSize}, logger);
     }
 
-    public static void changeFont(Component c, Font font) {
-        c.setFont(font);
+    /**
+     * Same font is used only size is increased of decreased
+     * @param c root component
+     * @param fs font size
+     */
+    public static void changeFont(Component c, int fs) {
+        c.setFont(getNewFontSize(c.getFont(), fs));
         if (c instanceof Container) {
             for (Component child : ((Container) c).getComponents()) {
-                changeFont(child, font);
+                changeFont(child, fs);
+            }
+        }
+    }
+
+    public static void changeFont(Component c, Font f) {
+        c.setFont(f);
+        if (c instanceof Container) {
+            for (Component child : ((Container) c).getComponents()) {
+                changeFont(child, f);
             }
         }
     }
@@ -600,11 +614,11 @@ public class SwingUtils {
         return HTML_STR + sb.toString() + HTML_END;
     }
 
-    private static Font getNewFont(Font font, String name) {
+    public static Font getNewFont(Font font, String name) {
         return new Font(name, font.getStyle(), font.getSize());
     }
 
-    private static Font getNewFontSize(Font font, int size) {
+    public static Font getNewFontSize(Font font, int size) {
         return new Font(font.getName(), font.getStyle(), size);
     }
 }
