@@ -323,7 +323,66 @@ public class SwingUtils {
     }
 
     public static JMenu getThemesMenu(Component obj, MyLogger logger) {
-        return getThemesMenu("Themes", 'm', "Select theme. ", obj, logger);
+        return getThemesMenu(obj, 'm', logger);
+    }
+
+    public static JMenu getThemesMenu(Component obj, char mnemonic, MyLogger logger) {
+        return getThemesMenu("Themes", mnemonic, "Select theme. ", obj, logger);
+    }
+
+    public static JMenu getAppFontMenu(Component rootComp, Object obj, int toSelect, MyLogger logger) {
+        return getAppFontMenu(rootComp, 'p', obj, toSelect, logger);
+    }
+
+    public static JMenu getAppFontMenu(Component rootComp, char mnemonic, Object obj, int toSelect, MyLogger logger) {
+        return getAppFontMenu("App Font", mnemonic, "Set font to complete application", rootComp, obj, toSelect, logger);
+    }
+
+    /**
+     * Returns Font size to be applied to complete application
+     * This will be useful when application is on higher resolution
+     *
+     * @param name     menu name
+     * @param mnemonic menu shortcut key
+     * @param tip      menu tooltip
+     * @param rootComp class on which method 'appFontChange' will be called as event
+     * @param obj      caller class on which method 'appFontChange' will be called as event
+     * @param logger   MyLogger
+     */
+    public static JMenu getAppFontMenu(String name, char mnemonic, String tip,
+                                       Component rootComp, Object obj, int toSelect, MyLogger logger) {
+        // If RESET to defaults functionality is used then default param can be added
+        JMenu menu = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
+        int MIN_SIZE = 8;
+        int MAX_SIZE = 28;
+        char menuMnemonic = 'a';
+        ButtonGroup appFontBG = new ButtonGroup();
+
+        for (int i = MIN_SIZE; i <= MAX_SIZE; i += 2) {
+            // assuming these will be less than 26
+            AppRadioButtonMenuItem mi = new AppRadioButtonMenuItem(
+                    menuMnemonic + SP_DASH_SP + i, i == toSelect,
+                    menuMnemonic++, "Apply font size " + Utils.addBraces(i));
+            int finalI = i;
+            mi.addActionListener(e -> applyAppFont(rootComp, finalI, obj, logger));
+            menu.add(mi);
+            appFontBG.add(mi);
+        }
+        return menu;
+    }
+
+    private static void applyAppFont(Component root, int fontSize, Object obj, MyLogger logger) {
+        changeFont(root, getNewFontSize(root.getFont(), fontSize));
+        Utils.callMethod(obj, "appFontChanged", new Object[]{fontSize}, logger);
+    }
+
+    public static void changeFont(Component c, Font font) {
+        c.setFont(font);
+        if (c instanceof Container) {
+            for (Component child : ((Container) c).getComponents()) {
+                changeFont(child, font);
+            }
+        }
     }
 
     /**
@@ -390,7 +449,18 @@ public class SwingUtils {
                                       boolean showFonts,
                                       boolean ignoreBlackAndWhite,
                                       Object obj, MyLogger logger) {
-        return getColorsMenu(showFonts ? "Colors and Fonts" : "Colors", 'o', "Colors",
+        return getColorsMenu(showHighlight, showHighlightFG, showSelected,
+                showFonts, ignoreBlackAndWhite, 'o', obj, logger);
+    }
+
+    public static JMenu getColorsMenu(boolean showHighlight,
+                                      boolean showHighlightFG,
+                                      boolean showSelected,
+                                      boolean showFonts,
+                                      boolean ignoreBlackAndWhite,
+                                      char mnemonic,
+                                      Object obj, MyLogger logger) {
+        return getColorsMenu(showFonts ? "Colors and Fonts" : "Colors", mnemonic, "Colors",
                 showHighlight, showHighlightFG, showSelected,
                 showFonts, ignoreBlackAndWhite, obj, logger);
     }
@@ -532,5 +602,9 @@ public class SwingUtils {
 
     private static Font getNewFont(Font font, String name) {
         return new Font(name, font.getStyle(), font.getSize());
+    }
+
+    private static Font getNewFontSize(Font font, int size) {
+        return new Font(font.getName(), font.getStyle(), size);
     }
 }
