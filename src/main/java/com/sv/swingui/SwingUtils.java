@@ -269,6 +269,22 @@ public class SwingUtils {
         }
     }
 
+    private static void applyMenuFont(JMenu m, Font f) {
+        m.setFont(f);
+        int miCnt = m.getItemCount();
+        for (int j = 0; j < miCnt; j++) {
+            JMenuItem mi = m.getItem(j);
+            if (mi instanceof JMenu) {
+                applyMenuFont((JMenu) mi, f);
+            } else {
+                if (mi != null) {
+                    System.out.println(mi.getText());
+                    mi.setFont(f);
+                }
+            }
+        }
+    }
+
     public static Border createLineBorder(Color c) {
         return createLineBorder(c, 1);
     }
@@ -378,12 +394,18 @@ public class SwingUtils {
 
     /**
      * Same font is used only size is increased of decreased
-     * @param c root component
+     *
+     * @param c  root component
      * @param fs font size
      */
     public static void changeFont(Component c, int fs) {
-        c.setFont(getNewFontSize(c.getFont(), fs));
-        if (c instanceof Container) {
+        //todo: check why menu need seperate handling
+        if (c != null) {
+            c.setFont(getNewFontSize(c.getFont(), fs));
+        }
+        if (c instanceof JMenu) {
+            applyMenuFont((JMenu) c, getNewFontSize(c.getFont(), fs));
+        } else if (c instanceof Container) {
             for (Component child : ((Container) c).getComponents()) {
                 changeFont(child, fs);
             }
