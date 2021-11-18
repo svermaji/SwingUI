@@ -278,7 +278,6 @@ public class SwingUtils {
                 applyMenuFont((JMenu) mi, f);
             } else {
                 if (mi != null) {
-                    System.out.println(mi.getText());
                     mi.setFont(f);
                 }
             }
