@@ -37,10 +37,21 @@ public class AppLabel extends JLabel {
 
     /* For coloring tooltip */
     private Color fg, bg;
+    private Font tooltipFont;
 
     public void setToolTipColors(Color fg, Color bg) {
         this.bg = bg;
         this.fg = fg;
+    }
+
+    public void setToolTipColorsNFont(Color fg, Color bg, Font f) {
+        this.bg = bg;
+        this.fg = fg;
+        this.tooltipFont = f;
+    }
+
+    public void setTooltipFont(Font tooltipFont) {
+        this.tooltipFont = tooltipFont;
     }
 
     @Override
@@ -52,6 +63,10 @@ public class AppLabel extends JLabel {
         if (fg != null) {
             tooltip.setForeground(fg);
         }
+        if (tooltipFont != null) {
+            tooltip.setFont(tooltipFont);
+        }
         return tooltip;
     }
+
 }

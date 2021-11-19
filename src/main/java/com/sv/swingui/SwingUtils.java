@@ -224,47 +224,55 @@ public class SwingUtils {
     }
 
     public static void applyTooltipColor(Component c, Color fg, Color bg) {
+        applyTooltipColorNFont(c, fg, bg, null);
+    }
+
+    public static void applyTooltipColorNFont(Component c, Color fg, Color bg, Font tooltipFont) {
         if (c instanceof AppPanel) {
-            ((AppPanel) c).setToolTipColors(fg, bg);
+            ((AppPanel) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppTabbedPane) {
-            ((AppTabbedPane) c).setToolTipColors(fg, bg);
+            ((AppTabbedPane) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppCheckBox) {
-            ((AppCheckBox) c).setToolTipColors(fg, bg);
+            ((AppCheckBox) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppTextField) {
-            ((AppTextField) c).setToolTipColors(fg, bg);
+            ((AppTextField) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof JMenuBar) {
             for (int i = 0; i < ((JMenuBar) c).getMenuCount(); i++) {
-                applyMenuTooltipColor((AppMenu) ((JMenuBar) c).getMenu(i), fg, bg);
+                applyMenuTooltipColorNFont((AppMenu) ((JMenuBar) c).getMenu(i), fg, bg, tooltipFont);
             }
         }
         if (c instanceof AppButton) {
-            ((AppButton) c).setToolTipColors(fg, bg);
+            ((AppButton) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppLabel) {
-            ((AppLabel) c).setToolTipColors(fg, bg);
+            ((AppLabel) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppToolBar) {
-            ((AppToolBar) c).setToolTipColors(fg, bg);
+            ((AppToolBar) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
     }
 
     private static void applyMenuTooltipColor(AppMenu m, Color fg, Color bg) {
-        m.setToolTipColors(fg, bg);
+        applyMenuTooltipColorNFont(m, fg, bg, null);
+    }
+
+    private static void applyMenuTooltipColorNFont(AppMenu m, Color fg, Color bg, Font tooltipFont) {
+        m.setToolTipColorsNFont(fg, bg, tooltipFont);
         int miCnt = m.getItemCount();
         for (int j = 0; j < miCnt; j++) {
             JMenuItem mi = m.getItem(j);
             if (mi instanceof AppMenu) {
-                applyMenuTooltipColor((AppMenu) mi, fg, bg);
+                applyMenuTooltipColorNFont((AppMenu) mi, fg, bg, tooltipFont);
             } else if (mi instanceof AppMenuItem) {
-                ((AppMenuItem) mi).setToolTipColors(fg, bg);
+                ((AppMenuItem) mi).setToolTipColorsNFont(fg, bg, tooltipFont);
             } else if (m.getItem(j) instanceof AppCheckBoxMenuItem) {
-                ((AppCheckBoxMenuItem) mi).setToolTipColors(fg, bg);
+                ((AppCheckBoxMenuItem) mi).setToolTipColorsNFont(fg, bg, tooltipFont);
             } else if (m.getItem(j) instanceof AppRadioButtonMenuItem) {
-                ((AppRadioButtonMenuItem) mi).setToolTipColors(fg, bg);
+                ((AppRadioButtonMenuItem) mi).setToolTipColorsNFont(fg, bg, tooltipFont);
             }
         }
     }
@@ -398,7 +406,7 @@ public class SwingUtils {
      * @param fs font size
      */
     public static void changeFont(Component c, int fs) {
-        //todo: check why menu need seperate handling
+        //todo: check why menu need separate handling
         if (c != null) {
             c.setFont(getNewFontSize(c.getFont(), fs));
         }
