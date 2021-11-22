@@ -4,6 +4,8 @@ import com.sv.core.Constants;
 import com.sv.core.Utils;
 import com.sv.core.logger.MyLogger;
 import com.sv.swingui.component.*;
+import com.sv.swingui.component.table.AppTable;
+import com.sv.swingui.component.table.AppTableHeaderToolTip;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -227,6 +229,15 @@ public class SwingUtils {
         applyTooltipColorNFont(c, fg, bg, null);
     }
 
+    public static void applyTooltipColorNFontAllChild(Component c, Color fg, Color bg, Font tooltipFont) {
+        applyTooltipColorNFont(c, fg, bg, tooltipFont);
+        if (c instanceof Container) {
+            for (Component child : ((Container) c).getComponents()) {
+                applyTooltipColorNFontAllChild(child, fg, bg, tooltipFont);
+            }
+        }
+    }
+
     public static void applyTooltipColorNFont(Component c, Color fg, Color bg, Font tooltipFont) {
         if (c instanceof AppPanel) {
             ((AppPanel) c).setToolTipColorsNFont(fg, bg, tooltipFont);
@@ -250,6 +261,12 @@ public class SwingUtils {
         }
         if (c instanceof AppLabel) {
             ((AppLabel) c).setToolTipColorsNFont(fg, bg, tooltipFont);
+        }
+        if (c instanceof AppTable) {
+            ((AppTable) c).setToolTipColorsNFont(fg, bg, tooltipFont);
+        }
+        if (c instanceof AppTableHeaderToolTip) {
+            ((AppTableHeaderToolTip) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
         if (c instanceof AppToolBar) {
             ((AppToolBar) c).setToolTipColorsNFont(fg, bg, tooltipFont);
@@ -395,28 +412,38 @@ public class SwingUtils {
     }
 
     public static void applyAppFont(Component root, int fontSize, Object obj, MyLogger logger) {
+        applyAppFont(new Component[]{root}, fontSize, obj, logger);
+    }
+
+    public static void applyAppFont(Component[] root, int fontSize, Object obj, MyLogger logger) {
         changeFont(root, fontSize);
         Utils.callMethod(obj, "appFontChanged", new Object[]{fontSize}, logger);
+    }
+
+    public static void changeFont(Component c, int fs) {
+        changeFont(new Component[]{c}, fs);
     }
 
     /**
      * Same font is used only size is increased of decreased
      *
-     * @param c  root component
+     * @param ca array of root component
      * @param fs font size
      */
-    public static void changeFont(Component c, int fs) {
-        //todo: check why menu need separate handling
-        if (c != null) {
-            c.setFont(getNewFontSize(c.getFont(), fs));
-        }
-        if (c instanceof JMenu) {
-            applyMenuFont((JMenu) c, getNewFontSize(c.getFont(), fs));
-        } else if (c instanceof Container) {
-            for (Component child : ((Container) c).getComponents()) {
-                changeFont(child, fs);
+    public static void changeFont(Component[] ca, int fs) {
+        Arrays.stream(ca).forEach(c -> {
+            //todo: check why menu need separate handling
+            if (c != null) {
+                c.setFont(getNewFontSize(c.getFont(), fs));
             }
-        }
+            if (c instanceof JMenu) {
+                applyMenuFont((JMenu) c, getNewFontSize(c.getFont(), fs));
+            } else if (c instanceof Container) {
+                for (Component child : ((Container) c).getComponents()) {
+                    changeFont(child, fs);
+                }
+            }
+        });
     }
 
     public static void changeFont(Component c, Font f) {

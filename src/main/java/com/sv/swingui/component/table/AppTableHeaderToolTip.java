@@ -1,26 +1,25 @@
-package com.sv.swingui.component;
-
-import com.sv.core.Utils;
+package com.sv.swingui.component.table;
 
 import javax.swing.*;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import java.awt.*;
+import java.awt.event.MouseEvent;
 
-/**
- * Wrapper class for JMenuItem
- */
-public class AppMenuItem extends JMenuItem {
+public class AppTableHeaderToolTip extends JTableHeader {
 
-    public AppMenuItem(String text) {
-        super(text);
+    private final String[] tips;
+
+    public AppTableHeaderToolTip(TableColumnModel model, String[] tips) {
+        super(model);
+        this.tips = tips;
     }
 
-    public AppMenuItem(String text, Character mnemonic) {
-        super(text, mnemonic);
-    }
-
-    public AppMenuItem(String text, Character mnemonic, String tip) {
-        super(text, mnemonic);
-        setToolTipText(tip);
+    public String getToolTipText(MouseEvent e) {
+        Point p = e.getPoint();
+        int index = columnModel.getColumnIndexAtX(p.x);
+        int realIndex = columnModel.getColumn(index).getModelIndex();
+        return tips[realIndex];
     }
 
     /* For coloring tooltip */

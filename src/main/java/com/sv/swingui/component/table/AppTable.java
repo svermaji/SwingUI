@@ -2,6 +2,7 @@ package com.sv.swingui.component.table;
 
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sv.core.exception.AppException;
+import com.sv.swingui.component.AppTextField;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -53,7 +54,7 @@ public class AppTable extends JTable {
      * @param action Action taken on event
      * @param params params to be passed with event
      */
-    public void setUpSorterAndFilter(DefaultTableModel model, Object caller, JTextField tf, AbstractAction action, Object[] params) {
+    public void setUpSorterAndFilter(DefaultTableModel model, Object caller, AppTextField tf, AbstractAction action, Object[] params) {
         addSorter(model);
         addFilter(tf);
         addDblClickOnRow(caller, params);
@@ -97,7 +98,7 @@ public class AppTable extends JTable {
         am.put("Action.RunCmdCell", action);
     }
 
-    public void applyChangeListener(JTextField tf) {
+    public void applyChangeListener(AppTextField tf) {
         tf.getDocument().addDocumentListener(
                 new DocumentListener() {
                     public void changedUpdate(DocumentEvent e) {
@@ -114,7 +115,7 @@ public class AppTable extends JTable {
                 });
     }
 
-    public void addFilter(JTextField txtFilter) {
+    public void addFilter(AppTextField txtFilter) {
         RowFilter<DefaultTableModel, Object> rf;
         try {
             rf = RowFilter.regexFilter("(?i)" + txtFilter.getText(), 0);
@@ -141,4 +142,39 @@ public class AppTable extends JTable {
         }
         return component;
     }
+
+    /* For coloring tooltip */
+    private Color fg, bg;
+    private Font tooltipFont;
+
+    public void setToolTipColors(Color fg, Color bg) {
+        this.bg = bg;
+        this.fg = fg;
+    }
+
+    public void setToolTipColorsNFont(Color fg, Color bg, Font f) {
+        this.bg = bg;
+        this.fg = fg;
+        this.tooltipFont = f;
+    }
+
+    public void setTooltipFont(Font tooltipFont) {
+        this.tooltipFont = tooltipFont;
+    }
+
+    @Override
+    public JToolTip createToolTip() {
+        JToolTip tooltip = super.createToolTip();
+        if (bg != null) {
+            tooltip.setBackground(bg);
+        }
+        if (fg != null) {
+            tooltip.setForeground(fg);
+        }
+        if (tooltipFont != null) {
+            tooltip.setFont(tooltipFont);
+        }
+        return tooltip;
+    }
+
 }

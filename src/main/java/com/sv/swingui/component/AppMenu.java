@@ -13,7 +13,7 @@ public class AppMenu extends JMenu {
     /**
      * Creates menu with given info
      *
-     * @param text     string
+     * @param text string
      */
     public AppMenu(String text) {
         this(text, null);
@@ -40,8 +40,10 @@ public class AppMenu extends JMenu {
         if (Utils.hasValue(text)) {
             setText(text);
         }
-        setMnemonic(mnemonic);
-        setToolTipText(" Shortcut: Alt+" + mnemonic);
+        if (mnemonic != null) {
+            setMnemonic(mnemonic);
+            setToolTipText(" Shortcut: Alt+" + mnemonic);
+        }
         if (Utils.hasValue(tip)) {
             setToolTipText(tip + getToolTipText());
         }
