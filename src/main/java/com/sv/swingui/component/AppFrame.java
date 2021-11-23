@@ -393,11 +393,7 @@ public class AppFrame extends JFrame {
         try {
             String data = c.getData(DataFlavor.stringFlavor).toString().trim();
             if (Utils.hasValue(data) && !data.equals(lastClipboardText)) {
-                createYesNoDialog(
-                        "Copy data from clipboard ?",
-                        "Use data " + Utils.addBraces(data),
-                        "copyClipboard"
-                );
+                createYesNoDialog("Use copied data ?", data, "copyClipboard");
                 lastClipboardText = data;
             }
         } catch (Exception e) {
@@ -408,9 +404,11 @@ public class AppFrame extends JFrame {
 
     public void createYesNoDialog(String title, String msg, String methodName) {
         final int showDataLimit = 100;
+        AppLabel clipboardInfo = new AppLabel(msg.length() < showDataLimit ? msg :
+                msg.substring(0, showDataLimit) + ELLIPSIS);
+        clipboardInfo.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
         int result = JOptionPane.showConfirmDialog(this,
-                msg.length() < showDataLimit ? msg :
-                        msg.substring(0, showDataLimit) + ELLIPSIS,
+                clipboardInfo,
                 title,
                 JOptionPane.YES_NO_OPTION,
                 JOptionPane.QUESTION_MESSAGE);
