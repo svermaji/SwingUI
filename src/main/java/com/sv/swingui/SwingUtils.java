@@ -251,6 +251,9 @@ public class SwingUtils {
         if (c instanceof AppTextField) {
             ((AppTextField) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
+        if (c instanceof AppPasswordField) {
+            ((AppPasswordField) c).setToolTipColorsNFont(fg, bg, tooltipFont);
+        }
         if (c instanceof JMenuBar) {
             for (int i = 0; i < ((JMenuBar) c).getMenuCount(); i++) {
                 applyMenuTooltipColorNFont((AppMenu) ((JMenuBar) c).getMenu(i), fg, bg, tooltipFont);

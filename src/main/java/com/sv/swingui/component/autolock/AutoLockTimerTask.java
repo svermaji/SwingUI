@@ -15,6 +15,6 @@ public class AutoLockTimerTask extends TimerTask {
 
     @Override
     public void run() {
-        obj.showLockScreen(obj.getLockScreenColor());
+        obj.showLockScreen();
     }
 }
