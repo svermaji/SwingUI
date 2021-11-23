@@ -177,15 +177,15 @@ public class SwingUtils {
      * @param logger       MyLogger
      * @return menu object
      */
-    public static JMenu getFontsMenu(String name, char mnemonic, String tip, String selectedFont,
-                                     Object obj, MyLogger logger) {
-        JMenu menuFonts = new AppMenu(name +
+    public static AppMenu getFontsMenu(String name, char mnemonic, String tip, String selectedFont,
+                                       Object obj, MyLogger logger) {
+        AppMenu menuFonts = new AppMenu(name +
                 (Utils.hasValue(selectedFont) ? Utils.addBraces(selectedFont) : ""),
-                mnemonic, tip + SHORTCUT + mnemonic);
+                mnemonic, tip);
         int i = 'a';
         int x = 0;
         for (ColorsNFonts cnf : ColorsNFonts.values()) {
-            JMenuItem mi = new JMenuItem((char) i + SP_DASH_SP + cnf.getFont());
+            AppMenuItem mi = new AppMenuItem((char) i + SP_DASH_SP + cnf.getFont());
             if (i <= 'z') {
                 mi.setMnemonic(i++);
             }
@@ -365,19 +365,19 @@ public class SwingUtils {
         });
     }
 
-    public static JMenu getThemesMenu(Component obj, MyLogger logger) {
+    public static AppMenu getThemesMenu(Component obj, MyLogger logger) {
         return getThemesMenu(obj, 'm', logger);
     }
 
-    public static JMenu getThemesMenu(Component obj, char mnemonic, MyLogger logger) {
+    public static AppMenu getThemesMenu(Component obj, char mnemonic, MyLogger logger) {
         return getThemesMenu("Themes", mnemonic, "Select theme. ", obj, logger);
     }
 
-    public static JMenu getAppFontMenu(Component rootComp, Object obj, int toSelect, MyLogger logger) {
+    public static AppMenu getAppFontMenu(Component rootComp, Object obj, int toSelect, MyLogger logger) {
         return getAppFontMenu(rootComp, 'p', obj, toSelect, logger);
     }
 
-    public static JMenu getAppFontMenu(Component rootComp, char mnemonic, Object obj, int toSelect, MyLogger logger) {
+    public static AppMenu getAppFontMenu(Component rootComp, char mnemonic, Object obj, int toSelect, MyLogger logger) {
         return getAppFontMenu("App Font", mnemonic, "Set font to complete application", rootComp, obj, toSelect, logger);
     }
 
@@ -392,10 +392,10 @@ public class SwingUtils {
      * @param obj      caller class on which method 'appFontChange' will be called as event
      * @param logger   MyLogger
      */
-    public static JMenu getAppFontMenu(String name, char mnemonic, String tip,
-                                       Component rootComp, Object obj, int toSelect, MyLogger logger) {
+    public static AppMenu getAppFontMenu(String name, char mnemonic, String tip,
+                                         Component rootComp, Object obj, int toSelect, MyLogger logger) {
         // If RESET to defaults functionality is used then default param can be added
-        JMenu menu = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
+        AppMenu menu = new AppMenu(name, mnemonic, tip);
         int MIN_SIZE = 8;
         int MAX_SIZE = 28;
         char menuMnemonic = 'a';
@@ -469,15 +469,15 @@ public class SwingUtils {
      *                 2nd as LookAndFeelInfo
      * @param logger   MyLogger
      */
-    public static JMenu getThemesMenu(String name, char mnemonic, String tip,
-                                      Component obj, MyLogger logger) {
+    public static AppMenu getThemesMenu(String name, char mnemonic, String tip,
+                                        Component obj, MyLogger logger) {
 
-        JMenu menu = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
+        AppMenu menu = new AppMenu(name, mnemonic, tip);
 
         int i = 'a';
         int x = 0;
         for (UIManager.LookAndFeelInfo l : getAvailableLAFs()) {
-            JMenuItem mi = new JMenuItem((char) i + SP_DASH_SP + l.getName());
+            AppMenuItem mi = new AppMenuItem((char) i + SP_DASH_SP + l.getName());
             if (i <= 'z') {
                 mi.setMnemonic(i);
             }
@@ -516,23 +516,23 @@ public class SwingUtils {
         SwingUtilities.updateComponentTreeUI(obj);
     }
 
-    public static JMenu getColorsMenu(boolean showHighlight,
-                                      boolean showHighlightFG,
-                                      boolean showSelected,
-                                      boolean showFonts,
-                                      boolean ignoreBlackAndWhite,
-                                      Object obj, MyLogger logger) {
+    public static AppMenu getColorsMenu(boolean showHighlight,
+                                        boolean showHighlightFG,
+                                        boolean showSelected,
+                                        boolean showFonts,
+                                        boolean ignoreBlackAndWhite,
+                                        Object obj, MyLogger logger) {
         return getColorsMenu(showHighlight, showHighlightFG, showSelected,
                 showFonts, ignoreBlackAndWhite, 'o', obj, logger);
     }
 
-    public static JMenu getColorsMenu(boolean showHighlight,
-                                      boolean showHighlightFG,
-                                      boolean showSelected,
-                                      boolean showFonts,
-                                      boolean ignoreBlackAndWhite,
-                                      char mnemonic,
-                                      Object obj, MyLogger logger) {
+    public static AppMenu getColorsMenu(boolean showHighlight,
+                                        boolean showHighlightFG,
+                                        boolean showSelected,
+                                        boolean showFonts,
+                                        boolean ignoreBlackAndWhite,
+                                        char mnemonic,
+                                        Object obj, MyLogger logger) {
         return getColorsMenu(showFonts ? "Colors and Fonts" : "Colors", mnemonic, "Colors",
                 showHighlight, showHighlightFG, showSelected,
                 showFonts, ignoreBlackAndWhite, obj, logger);
@@ -552,14 +552,17 @@ public class SwingUtils {
      *                        2nd as index of menuitem
      * @param logger          MyLogger
      */
-    public static JMenu getColorsMenu(String name, char mnemonic, String tip,
-                                      boolean showHighlight,
-                                      boolean showHighlightFG,
-                                      boolean showSelected,
-                                      boolean showFonts,
-                                      boolean ignoreBlackAndWhite,
-                                      Object obj, MyLogger logger) {
-        JMenu menuColors = new AppMenu(name, mnemonic, tip + SHORTCUT + mnemonic);
+    public static AppMenu getColorsMenu(String name, char mnemonic, String tip,
+                                        boolean showHighlight,
+                                        boolean showHighlightFG,
+                                        boolean showSelected,
+                                        boolean showFonts,
+                                        boolean ignoreBlackAndWhite,
+                                        Object obj, MyLogger logger) {
+        AppMenu menuColors = new AppMenu(name, mnemonic, tip);
+        int appfs = Utils.convertToInt(
+                (String) Utils.callMethod(obj, "getAppFontSize", null, logger),
+                UIConstants.DEFAULT_FONT_SIZE);
         int i = 'a';
         int x = -1;
 
@@ -577,12 +580,12 @@ public class SwingUtils {
                 cols++;
             }
             int finalCols = cols;
-            JMenuItem mi = new JMenuItem((char) i + SP_DASH_SP + "Select this") {
+            AppMenuItem mi = new AppMenuItem((char) i + SP_DASH_SP + "Select this") {
                 @Override
                 public Dimension getPreferredSize() {
                     Dimension d = super.getPreferredSize();
-                    d.width = Math.max(d.width, finalCols * 100); // set minimums
-                    d.height = Math.max(d.height, 30);
+                    d.width = Math.max(d.width, (int) (finalCols * appfs * 8.5)); // set minimums
+                    d.height = Math.max(d.height, (int) (appfs * 2.5));
                     return d;
                 }
             };
@@ -592,13 +595,13 @@ public class SwingUtils {
             int finalX = x;
             mi.addActionListener(e -> Utils.callMethod(obj, "colorChange", new Object[]{finalX}, logger));
             mi.setLayout(new GridLayout(1, cols));
-            mi.add(new JLabel(""));
+            mi.add(new AppLabel(""));
             mi.setToolTipText(prepareToolTip(
                     new Color[]{c.getBk(), c.getFg(), c.getSelbk(), c.getSelfg()},
                     showHighlight, showHighlightFG, showSelected, showFonts, c.getFont()));
 
             if (showHighlight) {
-                JLabel h = new JLabel("Highlight Text");
+                AppLabel h = new AppLabel("Highlight Text");
                 h.setOpaque(true);
                 h.setBackground(c.getBk());
                 if (showHighlightFG) {
@@ -609,7 +612,7 @@ public class SwingUtils {
             }
 
             if (showSelected) {
-                JLabel s = new JLabel("Selected Text");
+                AppLabel s = new AppLabel("Selected Text");
                 s.setOpaque(true);
                 s.setBackground(c.getSelbk());
                 s.setForeground(c.getSelfg());
@@ -618,10 +621,10 @@ public class SwingUtils {
             }
 
             if (showFonts) {
-                JLabel fo = new JLabel(c.getFont());
+                AppLabel fo = new AppLabel(c.getFont());
                 Font f = mi.getFont();
                 Font nf = getNewFont(f, c.getFont());
-                fo.setFont(nf);
+                fo.setFont(getNewFontSize(nf, appfs));
                 fo.setHorizontalAlignment(JLabel.CENTER);
                 mi.add(fo);
             }

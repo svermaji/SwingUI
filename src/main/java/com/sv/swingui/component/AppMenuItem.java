@@ -45,6 +45,9 @@ public class AppMenuItem extends JMenuItem {
     @Override
     public JToolTip createToolTip() {
         JToolTip tooltip = super.createToolTip();
+        Dimension d = getPreferredSize();
+        d.setSize(d.getWidth(), d.getHeight() + (d.getHeight() / 2));
+        tooltip.setPreferredSize(d);
         if (bg != null) {
             tooltip.setBackground(bg);
         }
