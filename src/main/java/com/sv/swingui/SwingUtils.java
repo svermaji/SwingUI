@@ -608,6 +608,7 @@ public class SwingUtils {
                     h.setForeground(c.getFg());
                 }
                 h.setHorizontalAlignment(JLabel.CENTER);
+                h.setFont(getNewFontSize(h.getFont(), appfs));
                 mi.add(h);
             }
 
@@ -617,6 +618,7 @@ public class SwingUtils {
                 s.setBackground(c.getSelbk());
                 s.setForeground(c.getSelfg());
                 s.setHorizontalAlignment(JLabel.CENTER);
+                s.setFont(getNewFontSize(s.getFont(), appfs));
                 mi.add(s);
             }
 
