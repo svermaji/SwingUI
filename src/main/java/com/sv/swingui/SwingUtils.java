@@ -316,6 +316,10 @@ public class SwingUtils {
         return createLineBorder(c, 1);
     }
 
+    public static Border createLineBorder() {
+        return createLineBorder(Color.black, 1);
+    }
+
     public static Border createLineBorder(Color c, int thickness) {
         return BorderFactory.createLineBorder(c, thickness);
     }
