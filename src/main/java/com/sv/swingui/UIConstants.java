@@ -44,6 +44,11 @@ public final class UIConstants {
     public static final Color COLOR_BLUE_SHADE = new Color(51, 143, 255);
 
     public static final int DEFAULT_FONT_SIZE = 12;
+    public static final int MIN_FONTSIZE = 8;
+    public static final int MAX_FONTSIZE = 28;
+    public static final int DEFAULT_APPFONT_SIZE = 12;
+    public static final int MIN_APPFONTSIZE = 8;
+    public static final int MAX_APPFONTSIZE = 28;
     public static final int KEY_NONE = 0;
     public static final KeyStroke KS_CTRL_F = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
     public static final KeyStroke KS_F3 = KeyStroke.getKeyStroke(KeyEvent.VK_F3, KEY_NONE);
