@@ -12,7 +12,7 @@ public class AppExitButton extends AppButton {
      */
     public AppExitButton() {
         // exit icon need to be
-        super("", 'x', "Exit application.", "./icons/exit-icon.png");
+        super("Exit", 'x', "Exit application.", "./icons/exit-icon.png");
     }
 
     /**
@@ -20,7 +20,7 @@ public class AppExitButton extends AppButton {
      * @param path icon path
      */
     public AppExitButton(String path) {
-        super("", 'x', "Exit application.", path);
+        super("Exit", 'x', "Exit application.", path);
     }
 
     /**
