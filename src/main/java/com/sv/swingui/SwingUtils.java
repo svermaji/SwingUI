@@ -385,15 +385,15 @@ public class SwingUtils {
      * Returns Font size to be applied to complete application
      * This will be useful when application is on higher resolution
      *
-     * @param name     menu name
-     * @param mnemonic menu shortcut key
-     * @param tip      menu tooltip
-     * @param rootComp class on which method 'appFontChange' will be called as event
-     * @param obj      caller class on which method 'appFontChange' will be called as event
-     * @param logger   MyLogger
+     * @param name      menu name
+     * @param mnemonic  menu shortcut key
+     * @param tip       menu tooltip
+     * @param rootComp  class on which method 'appFontChange' will be called as event
+     * @param callerObj caller class on which method 'appFontChange' will be called as event
+     * @param logger    MyLogger
      */
     public static AppMenu getAppFontMenu(String name, char mnemonic, String tip,
-                                         Component rootComp, Object obj, int toSelect, MyLogger logger) {
+                                         Component rootComp, Object callerObj, int toSelect, MyLogger logger) {
         // If RESET to defaults functionality is used then default param can be added
         AppMenu menu = new AppMenu(name, mnemonic, tip);
         int MIN_SIZE = 8;
@@ -407,7 +407,7 @@ public class SwingUtils {
                     menuMnemonic + SP_DASH_SP + i, i == toSelect,
                     menuMnemonic++, "Apply font size " + Utils.addBraces(i));
             int finalI = i;
-            mi.addActionListener(e -> applyAppFont(rootComp, finalI, obj, logger));
+            mi.addActionListener(e -> applyAppFont(rootComp, finalI, callerObj, logger));
             menu.add(mi);
             appFontBG.add(mi);
         }
