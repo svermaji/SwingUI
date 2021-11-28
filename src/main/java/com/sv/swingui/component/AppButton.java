@@ -15,6 +15,10 @@ public class AppButton extends JButton {
         super();
     }
 
+    public AppButton(String text) {
+        super(text);
+    }
+
     /**
      * Creates button with given info
      *
