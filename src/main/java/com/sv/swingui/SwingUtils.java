@@ -221,7 +221,7 @@ public class SwingUtils {
         setComponentColor(c, bg, fg, null, null);
     }
 
-    public static Border createTitledBorder(String heading, Color c) {
+    public static TitledBorder createTitledBorder(String heading, Color c) {
         return new TitledBorder(createLineBorder(c, 1), heading);
     }
 
