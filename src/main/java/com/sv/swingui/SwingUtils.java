@@ -589,7 +589,7 @@ public class SwingUtils {
                 public Dimension getPreferredSize() {
                     Dimension d = super.getPreferredSize();
                     d.width = Math.max(d.width, (int) (finalCols * appfs * 8.5)); // set minimums
-                    d.height = Math.max(d.height, (int) (appfs * 2.5));
+                    d.height = Math.max(d.height, appfs * (finalCols - 1));
                     return d;
                 }
             };
