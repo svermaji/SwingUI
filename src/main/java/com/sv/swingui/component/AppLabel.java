@@ -15,11 +15,15 @@ public class AppLabel extends JLabel {
     }
 
     public AppLabel(String text) {
-        this(text, null, null);
+        this(text, null, null, null);
     }
 
     public AppLabel(String text, JComponent component, Character mnemonic) {
         this(text, component, mnemonic, null);
+    }
+
+    public AppLabel(String text, Character mnemonic, String tip) {
+        this(text, null, mnemonic, tip);
     }
 
     public AppLabel(String text, JComponent component, Character mnemonic, String tip) {
