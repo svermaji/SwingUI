@@ -562,7 +562,7 @@ public class SwingUtils {
         AppMenu menuColors = new AppMenu(name, mnemonic, tip);
         int appfs = Utils.convertToInt(
                 (String) Utils.callMethod(obj, "getAppFontSize", null, logger),
-                UIConstants.DEFAULT_FONTSIZE);
+                UIConstants.DEFAULT_FONT_SIZE);
         int i = 'a';
         int x = -1;
 

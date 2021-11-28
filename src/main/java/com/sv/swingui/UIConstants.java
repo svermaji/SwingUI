@@ -43,7 +43,7 @@ public final class UIConstants {
     public static final Color COLOR_BROWN = new Color(165, 42, 42);
     public static final Color COLOR_BLUE_SHADE = new Color(51, 143, 255);
 
-    public static final int DEFAULT_FONTSIZE = 12;
+    public static final int DEFAULT_FONT_SIZE = 12;
     public static final int MIN_FONTSIZE = 8;
     public static final int MAX_FONTSIZE = 28;
     public static final int DEFAULT_APPFONTSIZE = 12;
