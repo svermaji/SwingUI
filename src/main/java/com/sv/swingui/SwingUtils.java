@@ -94,6 +94,7 @@ public class SwingUtils {
         });
     }
 
+    // To show headers add table to JScrollPane
     public static DefaultTableModel getTableModel(String[] cols) {
         return new DefaultTableModel() {
 
