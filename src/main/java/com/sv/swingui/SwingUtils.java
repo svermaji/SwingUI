@@ -517,7 +517,11 @@ public class SwingUtils {
         });
     }
 
-    public synchronized static void updateForTheme(Component obj) {
+    public static void updateForTheme(Component obj) {
+        updateUIFor(obj);
+    }
+
+    public synchronized static void updateUIFor(Component obj) {
         SwingUtilities.updateComponentTreeUI(obj);
     }
 
