@@ -21,6 +21,7 @@ public final class UIConstants {
 
     public static final Border EMPTY_BORDER = new EmptyBorder(new Insets(5, 5, 5, 5));
     public static final Border ZERO_BORDER = new EmptyBorder(0, 0, 0, 0);
+    public static final Insets ZERO_MARGIN = new Insets(0, 0, 0, 0);
     public static final Border BLUE_BORDER = new LineBorder(Color.blue, 1);
     public static final String FONT_PREFIX = "<font style=\"background-color:";
     public static final String FONT_FG_PREFIX = ";color:";
