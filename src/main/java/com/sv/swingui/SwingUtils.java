@@ -260,6 +260,9 @@ public class SwingUtils {
                 applyMenuTooltipColorNFont((AppMenu) ((JMenuBar) c).getMenu(i), fg, bg, tooltipFont);
             }
         }
+        if (c instanceof JMenu) {
+            applyMenuTooltipColorNFont((AppMenu) c, fg, bg, tooltipFont);
+        }
         if (c instanceof AppButton) {
             ((AppButton) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
