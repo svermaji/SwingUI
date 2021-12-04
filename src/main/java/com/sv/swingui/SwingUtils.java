@@ -6,11 +6,13 @@ import com.sv.core.logger.MyLogger;
 import com.sv.swingui.component.*;
 import com.sv.swingui.component.table.AppTable;
 import com.sv.swingui.component.table.AppTableHeaderToolTip;
+import com.sv.swingui.component.table.CellRenderer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -239,6 +241,15 @@ public class SwingUtils {
         }
     }
 
+    /**
+     * Applies tooltip to different type of components
+     * <b>Note:</b> To apply tooltip font on AppTable cells
+     * use method applyTooltipColorNFontAllChild
+     * @param c
+     * @param fg
+     * @param bg
+     * @param tooltipFont
+     */
     public static void applyTooltipColorNFont(Component c, Color fg, Color bg, Font tooltipFont) {
         if (c instanceof AppPanel) {
             ((AppPanel) c).setToolTipColorsNFont(fg, bg, tooltipFont);
