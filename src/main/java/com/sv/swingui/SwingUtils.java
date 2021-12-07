@@ -6,13 +6,10 @@ import com.sv.core.logger.MyLogger;
 import com.sv.swingui.component.*;
 import com.sv.swingui.component.table.AppTable;
 import com.sv.swingui.component.table.AppTableHeaderToolTip;
-import com.sv.swingui.component.table.CellRenderer;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -39,6 +36,19 @@ public class SwingUtils {
      */
     public static Font getPlainCalibriFont(int size) {
         return getCalibriFont(Font.PLAIN, size);
+    }
+
+    public static Dimension getCenterOfScreen() {
+        DisplayMode dm = getScreenSize();
+        int xMid = dm.getWidth()/2;
+        int yMid = dm.getHeight()/2;
+        return new Dimension(xMid, yMid);
+    }
+
+    public static DisplayMode getScreenSize() {
+        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice[] gs = ge.getScreenDevices();
+        return gs[0].getDisplayMode();
     }
 
     /**

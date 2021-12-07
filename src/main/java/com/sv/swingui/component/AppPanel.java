@@ -1,13 +1,7 @@
 package com.sv.swingui.component;
 
-import com.sv.core.Utils;
-
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 /**
  * Wrapper class for JPanel
@@ -35,6 +29,13 @@ public class AppPanel extends JPanel {
         this.bg = bg;
         this.fg = fg;
         this.tooltipFont = f;
+    }
+
+    public Dimension getCenterOfScreen() {
+        Dimension dm = getSize();
+        int xMid = (int) (dm.getWidth()/2);
+        int yMid = (int) (dm.getHeight()/2);
+        return new Dimension(xMid, yMid);
     }
 
     public void setTooltipFont(Font tooltipFont) {

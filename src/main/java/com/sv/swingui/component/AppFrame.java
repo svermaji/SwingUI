@@ -425,6 +425,13 @@ public class AppFrame extends JFrame {
         setVisible(true);
     }
 
+    public Dimension getCenterOfScreen() {
+        Dimension dm = getSize();
+        int xMid = (int) (dm.getWidth()/2);
+        int yMid = (int) (dm.getHeight()/2);
+        return new Dimension(xMid, yMid);
+    }
+
     public void setDialogFont() {
         Font baseFont = new Font("Dialog", Font.PLAIN, 12);
         setFont(baseFont);
