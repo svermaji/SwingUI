@@ -15,7 +15,7 @@ public class LineGraphPanelData {
     }
 
     public LineGraphPanelData(int value, String nameToDisplay) {
-        this(value, nameToDisplay, false);
+        this(value, nameToDisplay, true);
     }
 
     public LineGraphPanelData(int value, String nameToDisplay, boolean displayValue) {
