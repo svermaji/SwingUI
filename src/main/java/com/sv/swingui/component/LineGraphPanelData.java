@@ -3,8 +3,6 @@ package com.sv.swingui.component;
 import com.sv.core.Constants;
 import com.sv.core.Utils;
 
-import java.util.EnumMap;
-
 public class LineGraphPanelData {
     private final int value;
     private final String nameToDisplay;
