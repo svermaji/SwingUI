@@ -6,29 +6,29 @@ import com.sv.core.Utils;
 public class LineGraphPanelData {
     private final int value;
     private final String nameToDisplay;
-    private final boolean displayValue;
+    private final boolean nameInTipOnly;
     private final int LIMIT = 15;
 
     public LineGraphPanelData(int value) {
-        this(value, null, false);
+        this(value, null);
     }
 
     public LineGraphPanelData(int value, String nameToDisplay) {
         this(value, nameToDisplay, Utils.hasValue(nameToDisplay));
     }
 
-    public LineGraphPanelData(int value, String nameToDisplay, boolean displayValue) {
+    public LineGraphPanelData(int value, String nameToDisplay, boolean nameInTipOnly) {
         this.value = value;
         this.nameToDisplay = nameToDisplay;
-        this.displayValue = displayValue;
+        this.nameInTipOnly = nameInTipOnly;
     }
 
     public int getValue() {
         return value;
     }
 
-    public boolean isDisplayValue() {
-        return displayValue;
+    public boolean isNameInTipOnly() {
+        return nameInTipOnly;
     }
 
     public String getNameToDisplay() {
@@ -36,13 +36,12 @@ public class LineGraphPanelData {
         if (dt.length() > LIMIT) {
             dt = dt.substring(0, LIMIT) + Constants.ELLIPSIS;
         }
-        return isDisplayValue() && Utils.hasValue(nameToDisplay) ?
+        return !isNameInTipOnly() && Utils.hasValue(nameToDisplay) ?
                 dt : value + Constants.EMPTY;
     }
 
     public String getFullNameToDisplay() {
         String dt = nameToDisplay + Constants.SPACE + Utils.addBraces(value);
-        return isDisplayValue() && Utils.hasValue(nameToDisplay) ?
-                dt : value + Constants.EMPTY;
+        return Utils.hasValue(nameToDisplay) ? dt : value + Constants.EMPTY;
     }
 }
