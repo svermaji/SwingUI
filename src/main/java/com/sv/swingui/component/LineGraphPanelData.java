@@ -37,7 +37,6 @@ public class LineGraphPanelData {
         if (dt.length() > LIMIT) {
             dt = dt.substring(0, LIMIT) + Constants.ELLIPSIS;
         }
-        System.out.println("dt = " + dt);
         return isDisplayValue() && Utils.hasValue(nameToDisplay) ?
                 dt : value + Constants.EMPTY;
     }
