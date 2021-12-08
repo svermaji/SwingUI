@@ -2,11 +2,13 @@ package com.sv.swingui.component;
 
 import com.sv.core.Constants;
 import com.sv.core.Utils;
+import com.sv.swingui.UIConstants;
 
 public class LineGraphPanelData {
     private final int value;
     private final String nameToDisplay;
     private final boolean displayValue;
+    private final int LIMIT = 15;
 
     public LineGraphPanelData(int value) {
         this(value, null, false);
@@ -31,7 +33,12 @@ public class LineGraphPanelData {
     }
 
     public String getNameToDisplay() {
+        String dt = nameToDisplay + Constants.SPACE + Utils.addBraces(value);
+        if (dt.length() > LIMIT) {
+            dt = dt.substring(0, LIMIT) + Constants.ELLIPSIS;
+        }
+        System.out.println("dt = " + dt);
         return isDisplayValue() && Utils.hasValue(nameToDisplay) ?
-                nameToDisplay + Utils.addBraces(value) : value + Constants.EMPTY;
+                dt : value + Constants.EMPTY;
     }
 }
