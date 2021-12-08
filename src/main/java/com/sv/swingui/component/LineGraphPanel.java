@@ -19,6 +19,7 @@ public class LineGraphPanel extends AppPanel {
     private int margin = 50;
     private Point mousePoint;
     private Font graphFont;
+    private Stroke lineStroke, pointStroke;
 
     public LineGraphPanel(List<LineGraphPanelData> data) {
         this.data = data;
@@ -42,10 +43,12 @@ public class LineGraphPanel extends AppPanel {
 
     public void setPointWidth(int pointWidth) {
         this.pointWidth = pointWidth;
+        pointStroke = new BasicStroke(pointWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     }
 
     public void setLineWidth(int lineWidth) {
         this.lineWidth = lineWidth;
+        lineStroke = new BasicStroke(lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     }
 
     public void setPointColor(Color pointColor) {
@@ -72,7 +75,7 @@ public class LineGraphPanel extends AppPanel {
         int width = getWidth();
         int height = getHeight();
 
-        g1.setStroke(new BasicStroke(lineWidth));
+        g1.setStroke(lineStroke);
         g1.draw(new Line2D.Double(margin, margin, margin, height - margin));
         g1.draw(new Line2D.Double(margin, height - margin, width - margin, height - margin));
 
@@ -87,7 +90,7 @@ public class LineGraphPanel extends AppPanel {
             setFont(graphFont);
             g1.setFont(graphFont);
             g1.setPaint(fontColor);
-            g1.setStroke(new BasicStroke(pointWidth));
+            g1.setStroke(pointStroke);
             g1.drawString(graphPoint.getNameToDisplay(), l2x - pointWidth * 2, l2y - pointWidth);
             g1.setPaint(pointColor);
             Ellipse2D.Double point = new Ellipse2D.Double(x1 - pointWidth, y1 - pointWidth, pointWidth * 2, pointWidth * 2);
@@ -100,8 +103,23 @@ public class LineGraphPanel extends AppPanel {
                 double x0 = margin + (i - 1) * x;
                 double y0 = height - margin - scale * data.get(i - 1).getValue();
                 g1.setPaint(lineColor);
-                g1.setStroke(new BasicStroke(lineWidth));
+                g1.setStroke(lineStroke);
                 int l1x = (int) x0, l1y = (int) y0;
+                // check if next point is up or down
+                if (l1y > l2y) {
+                    l1x += pointWidth;
+                    l1y -= pointWidth;
+                    l2x -= pointWidth;
+                    l2y += pointWidth;
+                } else if (l1y < l2y) {
+                    l1x += pointWidth;
+                    l1y += pointWidth;
+                    l2x -= pointWidth;
+                    l2y -= pointWidth;
+                } else {
+                    l1x += pointWidth;
+                    l2x -= pointWidth;
+                }
                 g1.drawLine(l1x, l1y, l2x, l2y);
             }
         }
