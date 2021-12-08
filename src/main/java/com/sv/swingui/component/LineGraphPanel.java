@@ -59,13 +59,14 @@ public class LineGraphPanel extends AppPanel {
         double x = (double) (width - 2 * margin) / (data.size() - 1);
         double scale = (double) (height - 2 * margin) / getMaxOfValues();
         for (int i = 0; i < data.size(); i++) {
-            int val = data.get(i).getValue();
+            LineGraphPanelData graphPoint = data.get(i);
+            int val = graphPoint.getValue();
             double x1 = margin + i * x;
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
             g1.setPaint(fontColor);
             g1.setStroke(new BasicStroke(pointWidth));
-            g1.drawString(val + "", l2x - pointWidth * 2, l2y - pointWidth);
+            g1.drawString(graphPoint.getNameToDisplay(), l2x - pointWidth * 2, l2y - pointWidth);
             g1.setPaint(pointColor);
             g1.fill(new Ellipse2D.Double(x1 - pointWidth, y1 - pointWidth, pointWidth * 2, pointWidth * 2));
             // to join lines it must be from 2nd point
@@ -90,12 +91,12 @@ public class LineGraphPanel extends AppPanel {
         AppFrame frame = new AppFrame("Test");
         frame.setDefaultCloseOperation(AppFrame.EXIT_ON_CLOSE);
         List<LineGraphPanelData> data = new ArrayList<>();
-        data.add(new LineGraphPanelData(10000));
-        data.add(new LineGraphPanelData(2000));
-        data.add(new LineGraphPanelData(20000));
-        data.add(new LineGraphPanelData(30000));
-        data.add(new LineGraphPanelData(0));
-        data.add(new LineGraphPanelData(15000));
+        data.add(new LineGraphPanelData(10000, "Test"));
+        data.add(new LineGraphPanelData(2000, "Test"));
+        data.add(new LineGraphPanelData(20000, "Test"));
+        data.add(new LineGraphPanelData(30000, "Test"));
+        data.add(new LineGraphPanelData(0, "Test"));
+        data.add(new LineGraphPanelData(15000, "Test"));
         frame.add(new LineGraphPanel(data));
         frame.setSize(400, 400);
         frame.setLocation(200, 200);

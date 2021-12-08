@@ -13,7 +13,7 @@ public class LineGraphPanelData {
     }
 
     public LineGraphPanelData(int value, String nameToDisplay) {
-        this(value, nameToDisplay, true);
+        this(value, nameToDisplay, Utils.hasValue(nameToDisplay));
     }
 
     public LineGraphPanelData(int value, String nameToDisplay, boolean displayValue) {
