@@ -1,6 +1,8 @@
 package com.sv.swingui.component;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.util.ArrayList;
@@ -15,9 +17,22 @@ public class LineGraphPanel extends AppPanel {
     private int lineWidth = 2;
     private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private int margin = 50;
+    private Point mousePoint;
 
     public LineGraphPanel(List<LineGraphPanelData> data) {
         this.data = data;
+
+        addMouseMotionListener(new MouseMotionListener() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mousePoint = e.getPoint();
+                repaint();
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+            }
+        });
     }
 
     public void setMargin(int margin) {
@@ -68,7 +83,12 @@ public class LineGraphPanel extends AppPanel {
             g1.setStroke(new BasicStroke(pointWidth));
             g1.drawString(graphPoint.getNameToDisplay(), l2x - pointWidth * 2, l2y - pointWidth);
             g1.setPaint(pointColor);
-            g1.fill(new Ellipse2D.Double(x1 - pointWidth, y1 - pointWidth, pointWidth * 2, pointWidth * 2));
+            Ellipse2D.Double point = new Ellipse2D.Double(x1 - pointWidth, y1 - pointWidth, pointWidth * 2, pointWidth * 2);
+            g1.fill(point);
+            if (mousePoint != null && point.contains(mousePoint)) {
+                setToolTipText(graphPoint.getFullNameToDisplay());
+            }
+            //coordinates.add(new LineGraphCoordinates(point, graphPoint.getNameToDisplay()));
             // to join lines it must be from 2nd point
             if (i > 0) {
                 double x0 = margin + (i - 1) * x;
