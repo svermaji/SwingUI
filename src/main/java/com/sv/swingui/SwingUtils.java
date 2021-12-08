@@ -715,6 +715,10 @@ public class SwingUtils {
         return new Font(name, font.getStyle(), font.getSize());
     }
 
+    public static Font getPlainNewFont(String name, int size) {
+        return new Font(name, Font.PLAIN, size);
+    }
+
     public static Font getNewFontSize(Font font, int size) {
         return new Font(font.getName(), font.getStyle(), size);
     }

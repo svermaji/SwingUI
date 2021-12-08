@@ -18,6 +18,7 @@ public class LineGraphPanel extends AppPanel {
     private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private int margin = 50;
     private Point mousePoint;
+    private Font graphFont;
 
     public LineGraphPanel(List<LineGraphPanelData> data) {
         this.data = data;
@@ -59,6 +60,10 @@ public class LineGraphPanel extends AppPanel {
         this.fontColor = fontColor;
     }
 
+    public void setGraphFont(Font font) {
+        this.graphFont = font;
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g1 = (Graphics2D) g;
@@ -79,6 +84,8 @@ public class LineGraphPanel extends AppPanel {
             double x1 = margin + i * x;
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
+            setFont(graphFont);
+            g1.setFont(graphFont);
             g1.setPaint(fontColor);
             g1.setStroke(new BasicStroke(pointWidth));
             g1.drawString(graphPoint.getNameToDisplay(), l2x - pointWidth * 2, l2y - pointWidth);
@@ -88,7 +95,6 @@ public class LineGraphPanel extends AppPanel {
             if (mousePoint != null && point.contains(mousePoint)) {
                 setToolTipText(graphPoint.getFullNameToDisplay());
             }
-            //coordinates.add(new LineGraphCoordinates(point, graphPoint.getNameToDisplay()));
             // to join lines it must be from 2nd point
             if (i > 0) {
                 double x0 = margin + (i - 1) * x;
