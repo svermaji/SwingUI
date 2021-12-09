@@ -26,6 +26,9 @@ public class LineGraphPanel extends AppPanel {
 
     public LineGraphPanel(List<LineGraphPanelData> data) {
         this.data = data;
+        // to init strokes
+        setLineWidth(lineWidth);
+        setPointWidth(pointWidth);
 
         addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -90,9 +93,10 @@ public class LineGraphPanel extends AppPanel {
         g1.draw(new Line2D.Double(margin, margin, margin, height - margin));
         g1.draw(new Line2D.Double(margin, height - margin, width - margin, height - margin));
 
-        double x = (double) (width - 2 * margin) / (data.size() - 1);
+        int dataSize = data.size();
+        double x = (double) (width - 2 * margin) / ((dataSize == 1 ? 2 : data.size()) - 1);
         double scale = (double) (height - 2 * margin) / getMaxOfValues();
-        for (int i = 0; i < data.size(); i++) {
+        for (int i = 0; i < dataSize; i++) {
             LineGraphPanelData graphPoint = data.get(i);
             int val = graphPoint.getValue();
             double x1 = margin + i * x;
