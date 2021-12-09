@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +41,8 @@ public class SwingUtils {
 
     public static Dimension getCenterOfScreen() {
         DisplayMode dm = getScreenSize();
-        int xMid = dm.getWidth()/2;
-        int yMid = dm.getHeight()/2;
+        int xMid = dm.getWidth() / 2;
+        int yMid = dm.getHeight() / 2;
         return new Dimension(xMid, yMid);
     }
 
@@ -255,6 +256,7 @@ public class SwingUtils {
      * Applies tooltip to different type of components
      * <b>Note:</b> To apply tooltip font on AppTable cells
      * use method applyTooltipColorNFontAllChild
+     *
      * @param c
      * @param fg
      * @param bg
@@ -420,6 +422,7 @@ public class SwingUtils {
      * @param rootComp  class on which method 'appFontChange' will be called as event
      * @param callerObj caller class on which method 'appFontChange' will be called as event
      * @param logger    MyLogger
+     * @return menu
      */
     public static AppMenu getAppFontMenu(String name, char mnemonic, String tip,
                                          Component rootComp, Object callerObj, int toSelect, MyLogger logger) {
@@ -441,6 +444,52 @@ public class SwingUtils {
             appFontBG.add(mi);
         }
         return menu;
+    }
+
+    public static AppMenu getLineGraphMenu(Object callerObj, LineGraphPanel lineGraph, MyLogger logger) {
+        return getLineGraphMenu("Line Graph", 'G', "Line graph options", callerObj, lineGraph, logger);
+    }
+
+    /**
+     * @param name      menu name
+     * @param mnemonic  menu shortcut key
+     * @param tip       menu tooltip
+     * @param callerObj caller class on which method 'lineGraphChanged'/'lineGraphFailed' will be called as event
+     * @param lineGraph object of {@link LineGraphPanel}
+     * @param logger    MyLogger
+     * @return menu
+     */
+    public static AppMenu getLineGraphMenu(String name, char mnemonic, String tip,
+                                           Object callerObj, LineGraphPanel lineGraph, MyLogger logger) {
+        AppMenu menu = new AppMenu(name, mnemonic, tip);
+        String[][] booleanOptions = {
+                {"Lines Join Points", "l", "Whether graph lines should join points",
+                        lineGraph.isLinesJoinPoint() + "", "setLinesJoinPoint"},
+                {"Draw Baselines", "b", "Whether to draw base graph lines",
+                        lineGraph.isDrawBaseLines() + "", "setDrawBaseLines"},
+                {"First Point on Baseline", "f", "Whether to start graph points from baseline",
+                        lineGraph.isFirstPointOnBaseLine() + "", "setFirstPointOnBaseLine"}
+        };
+
+        for (String[] option : booleanOptions) {
+            AppCheckBoxMenuItem mi = new AppCheckBoxMenuItem(
+                    option[0], Utils.getBoolean(option[3], false), option[1].charAt(0), option[2]);
+            mi.addActionListener(e -> applyLineGraphChange(lineGraph, option[4], mi.isSelected(), callerObj, logger));
+            menu.add(mi);
+        }
+        return menu;
+    }
+
+    private static void applyLineGraphChange(
+            LineGraphPanel lineGraph, String methodName, boolean value, Object callerObj, MyLogger logger) {
+
+        // these are setter methods so return will be null
+        try {
+            Utils.callMethodWithException(lineGraph, methodName, new Object[]{value}, logger);
+            Utils.callMethod(callerObj, "lineGraphChanged", new Object[]{lineGraph, methodName, value}, logger);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            Utils.callMethod(callerObj, "lineGraphFailed", new Object[]{lineGraph, methodName, value}, logger);
+        }
     }
 
     public static void applyAppFont(Component root, int fontSize, Object obj, MyLogger logger) {

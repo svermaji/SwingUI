@@ -11,21 +11,28 @@ import java.util.OptionalInt;
 
 public class LineGraphPanel extends AppPanel {
 
-    private final List<LineGraphPanelData> data;
+    private List<LineGraphPanelData> data;
     // size of point
     private int pointWidth = 8;
     private int lineWidth = 2;
     // used to draw lines in better way
     private int yAxisGap = 100;
     private int margin = 50;
-    private boolean linesJoinPoint = false;
+    private boolean linesJoinPoint = false, drawBaseLines = true, firstPointOnBaseLine = false;
     private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private Point mousePoint;
     private Font graphFont;
     private Stroke lineStroke, pointStroke;
 
+    public LineGraphPanel() {
+        this(null);
+    }
+
     public LineGraphPanel(List<LineGraphPanelData> data) {
         this.data = data;
+        if (data == null) {
+            this.data = new ArrayList<>();
+        }
         // to init strokes
         setLineWidth(lineWidth);
         setPointWidth(pointWidth);
@@ -41,6 +48,10 @@ public class LineGraphPanel extends AppPanel {
             public void mouseDragged(MouseEvent e) {
             }
         });
+    }
+
+    public void setData(List<LineGraphPanelData> data) {
+        this.data = data;
     }
 
     public void setMargin(int margin) {
@@ -77,8 +88,31 @@ public class LineGraphPanel extends AppPanel {
         this.yAxisGap = yAxisGap;
     }
 
-    public void setLinesJoinPoint(boolean linesJoinPoint) {
+    // will be called by reflection
+    public void setLinesJoinPoint(Boolean linesJoinPoint) {
         this.linesJoinPoint = linesJoinPoint;
+    }
+
+    // will be called by reflection
+    public void setDrawBaseLines(Boolean drawBaseLines) {
+        this.drawBaseLines = drawBaseLines;
+    }
+
+    // will be called by reflection
+    public void setFirstPointOnBaseLine(Boolean firstPointOnBaseLine) {
+        this.firstPointOnBaseLine = firstPointOnBaseLine;
+    }
+
+    public boolean isLinesJoinPoint() {
+        return linesJoinPoint;
+    }
+
+    public boolean isDrawBaseLines() {
+        return drawBaseLines;
+    }
+
+    public boolean isFirstPointOnBaseLine() {
+        return firstPointOnBaseLine;
     }
 
     protected void paintComponent(Graphics g) {
@@ -89,17 +123,28 @@ public class LineGraphPanel extends AppPanel {
         int width = getWidth();
         int height = getHeight();
 
-        g1.setStroke(lineStroke);
-        g1.draw(new Line2D.Double(margin, margin, margin, height - margin));
-        g1.draw(new Line2D.Double(margin, height - margin, width - margin, height - margin));
+        if (drawBaseLines) {
+            g1.setStroke(lineStroke);
+            g1.draw(new Line2D.Double(margin, margin, margin, height - margin));
+            g1.draw(new Line2D.Double(margin, height - margin, width - margin, height - margin));
+        }
 
         int dataSize = data.size();
-        double x = (double) (width - 2 * margin) / ((dataSize == 1 ? 2 : data.size()) - 1);
+        double x = (double) (width - 2 * margin) / data.size();
+        if (firstPointOnBaseLine) {
+            x = (double) (width - 2 * margin) / (data.size() - 1);
+        }
         double scale = (double) (height - 2 * margin) / getMaxOfValues();
         for (int i = 0; i < dataSize; i++) {
             LineGraphPanelData graphPoint = data.get(i);
             int val = graphPoint.getValue();
-            double x1 = margin + i * x;
+            double x1 = margin + (i + 1) * x;
+            if (firstPointOnBaseLine) {
+                x1 = margin + i * x;
+            }
+            if (dataSize == 1 && firstPointOnBaseLine) {
+                x1 = x1 + margin / 2;
+            }
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
             setFont(graphFont);
@@ -115,7 +160,10 @@ public class LineGraphPanel extends AppPanel {
             }
             // to join lines it must be from 2nd point
             if (i > 0) {
-                double x0 = margin + (i - 1) * x;
+                double x0 = margin + i * x;
+                if (firstPointOnBaseLine) {
+                    x0 = margin + (i - 1) * x;
+                }
                 double y0 = height - margin - scale * data.get(i - 1).getValue();
                 g1.setPaint(lineColor);
                 g1.setStroke(lineStroke);
@@ -166,5 +214,18 @@ public class LineGraphPanel extends AppPanel {
         frame.setSize(400, 400);
         frame.setLocation(200, 200);
         frame.setVisible(true);
+    }
+
+    @Override
+    public String toString() {
+        return "LineGraphPanel{" +
+                "pointWidth=" + pointWidth +
+                ", lineWidth=" + lineWidth +
+                ", yAxisGap=" + yAxisGap +
+                ", margin=" + margin +
+                ", linesJoinPoint=" + linesJoinPoint +
+                ", drawBaseLines=" + drawBaseLines +
+                ", firstPointOnBaseLine=" + firstPointOnBaseLine +
+                '}';
     }
 }
