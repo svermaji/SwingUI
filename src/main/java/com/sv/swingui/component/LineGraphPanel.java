@@ -18,7 +18,7 @@ public class LineGraphPanel extends AppPanel {
     // used to draw lines in better way
     private int yAxisGap = 100;
     private int margin = 50;
-    private boolean linesJoinPoint = false, drawBaseLines = true, firstPointOnBaseLine = false;
+    private boolean lineJoinsPointsCenter = false, drawBaseLines = true, firstPointOnBaseLine = false;
     private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private Point mousePoint;
     private Font graphFont;
@@ -34,8 +34,7 @@ public class LineGraphPanel extends AppPanel {
             this.data = new ArrayList<>();
         }
         // to init strokes
-        setLineWidth(lineWidth);
-        setPointWidth(pointWidth);
+        setLineJoinsPointsCenter(lineJoinsPointsCenter);
 
         addMouseMotionListener(new MouseMotionListener() {
             @Override
@@ -60,12 +59,12 @@ public class LineGraphPanel extends AppPanel {
 
     public void setPointWidth(int pointWidth) {
         this.pointWidth = pointWidth;
-        pointStroke = new BasicStroke(pointWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+        setLineJoinsPointsCenter(lineJoinsPointsCenter);
     }
 
     public void setLineWidth(int lineWidth) {
         this.lineWidth = lineWidth;
-        lineStroke = new BasicStroke(lineWidth, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
+        setLineJoinsPointsCenter(lineJoinsPointsCenter);
     }
 
     public void setPointColor(Color pointColor) {
@@ -89,8 +88,13 @@ public class LineGraphPanel extends AppPanel {
     }
 
     // will be called by reflection
-    public void setLinesJoinPoint(Boolean linesJoinPoint) {
-        this.linesJoinPoint = linesJoinPoint;
+    public void setLineJoinsPointsCenter(Boolean lineJoinsPointsCenter) {
+        this.lineJoinsPointsCenter = lineJoinsPointsCenter;
+        lineStroke = new BasicStroke(lineWidth, lineJoinsPointsCenter ? BasicStroke.CAP_ROUND : BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_ROUND);
+        pointStroke = new BasicStroke(pointWidth, lineJoinsPointsCenter ? BasicStroke.CAP_ROUND : BasicStroke.CAP_BUTT,
+                BasicStroke.JOIN_ROUND);
+
     }
 
     // will be called by reflection
@@ -103,8 +107,8 @@ public class LineGraphPanel extends AppPanel {
         this.firstPointOnBaseLine = firstPointOnBaseLine;
     }
 
-    public boolean isLinesJoinPoint() {
-        return linesJoinPoint;
+    public boolean isLineJoinsPointsCenter() {
+        return lineJoinsPointsCenter;
     }
 
     public boolean isDrawBaseLines() {
@@ -143,7 +147,7 @@ public class LineGraphPanel extends AppPanel {
                 x1 = margin + i * x;
             }
             if (dataSize == 1 && firstPointOnBaseLine) {
-                x1 = x1 + margin / 2;
+                x1 = x1 + (margin / 2);
             }
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
@@ -169,23 +173,46 @@ public class LineGraphPanel extends AppPanel {
                 g1.setStroke(lineStroke);
                 int l1x = (int) x0, l1y = (int) y0;
 
-                if (!linesJoinPoint) {
+                if (!lineJoinsPointsCenter) {
                     // check if next point is up or down
                     int l1Diff = l1y - l2y;
-                    int l2Diff = l2y - l1y;
+                    int l2Diff = l1Diff * -1;
+                    int l1xOrig = l1x;
+                    int l2xOrig = l2x;
+                    int l1yOrig = l1y;
+                    int l2yOrig = l2y;
+                    int fraction = pointWidth;
                     if (l1Diff > 0 && l1Diff > yAxisGap) {
-                        l1x = l1x + pointWidth;
-                        l1y = l1y - pointWidth;
-                        l2x = l2x - pointWidth;
-                        l2y = l2y + pointWidth;
+                        //l1x = l1x + fraction;
+                        l1y = l1y - fraction;
+                        //l2x = l2x - fraction;
+                        l2y = l2y + fraction;
                     } else if (l2Diff > 0 && l2Diff > yAxisGap) {
-                        l1x = l1x + pointWidth;
-                        l1y = l1y + pointWidth;
-                        l2x = l2x - pointWidth;
-                        l2y = l2y - pointWidth;
+                        //l1x = l1x + fraction;
+                        l1y = l1y + fraction;
+                        //l2x = l2x - fraction;
+                        l2y = l2y - fraction;
                     } else {
-                        l1x = l1x + pointWidth;
-                        l2x = l2x - pointWidth;
+                        l1x = l1x + fraction;
+                        l2x = l2x - fraction;
+                    }
+                    if (i == 1) {
+                        if (l1Diff > 0 && l1Diff > yAxisGap) {
+                            //l1x = l1xOrig;
+                            l1y = l1yOrig - pointWidth;
+                        } else if (l2Diff > 0 && l2Diff > yAxisGap) {
+                            //l1x = l1xOrig;
+                            l1y = l1yOrig + pointWidth;
+                        }
+                    }
+                    if (i == dataSize - 1) {
+                        if (l1Diff > 0 && l1Diff > yAxisGap) {
+                            //l2x = l2xOrig;
+                            l2y = l2yOrig + pointWidth;
+                        } else if (l2Diff > 0 && l2Diff > yAxisGap) {
+                            //l2x = l2xOrig;
+                            l2y = l2yOrig - pointWidth;
+                        }
                     }
                 }
                 // need to check for 1st and last element to connect with line
@@ -223,7 +250,7 @@ public class LineGraphPanel extends AppPanel {
                 ", lineWidth=" + lineWidth +
                 ", yAxisGap=" + yAxisGap +
                 ", margin=" + margin +
-                ", linesJoinPoint=" + linesJoinPoint +
+                ", linesJoinPoint=" + lineJoinsPointsCenter +
                 ", drawBaseLines=" + drawBaseLines +
                 ", firstPointOnBaseLine=" + firstPointOnBaseLine +
                 '}';

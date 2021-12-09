@@ -463,8 +463,8 @@ public class SwingUtils {
                                            Object callerObj, LineGraphPanel lineGraph, MyLogger logger) {
         AppMenu menu = new AppMenu(name, mnemonic, tip);
         String[][] booleanOptions = {
-                {"Lines Join Points", "l", "Whether graph lines should join points",
-                        lineGraph.isLinesJoinPoint() + "", "setLinesJoinPoint"},
+                {"Line Joins Points Center", "l", "Whether graph line should joins points center",
+                        lineGraph.isLineJoinsPointsCenter() + "", "setLineJoinsPointsCenter"},
                 {"Draw Baselines", "b", "Whether to draw base graph lines",
                         lineGraph.isDrawBaseLines() + "", "setDrawBaseLines"},
                 {"First Point on Baseline", "f", "Whether to start graph points from baseline",
