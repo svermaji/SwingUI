@@ -17,8 +17,9 @@ public class LineGraphPanel extends AppPanel {
     private int lineWidth = 2;
     // used to draw lines in better way
     private int yAxisGap = 100;
-    private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private int margin = 50;
+    private boolean linesJoinPoint = false;
+    private Color pointColor = Color.red, lineColor = Color.green, fontColor = Color.blue;
     private Point mousePoint;
     private Font graphFont;
     private Stroke lineStroke, pointStroke;
@@ -73,6 +74,10 @@ public class LineGraphPanel extends AppPanel {
         this.yAxisGap = yAxisGap;
     }
 
+    public void setLinesJoinPoint(boolean linesJoinPoint) {
+        this.linesJoinPoint = linesJoinPoint;
+    }
+
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g1 = (Graphics2D) g;
@@ -112,22 +117,24 @@ public class LineGraphPanel extends AppPanel {
                 g1.setStroke(lineStroke);
                 int l1x = (int) x0, l1y = (int) y0;
 
-                // check if next point is up or down
-                int l1Diff = l1y - l2y;
-                int l2Diff = l2y - l1y;
-                if (l1Diff > 0 && l1Diff > yAxisGap) {
-                    l1x = l1x + pointWidth;
-                    l1y = l1y - pointWidth;
-                    l2x = l2x - pointWidth;
-                    l2y = l2y + pointWidth;
-                } else if (l2Diff > 0 && l2Diff > yAxisGap) {
-                    l1x = l1x + pointWidth;
-                    l1y = l1y + pointWidth;
-                    l2x = l2x - pointWidth;
-                    l2y = l2y - pointWidth;
-                } else {
-                    l1x = l1x + pointWidth;
-                    l2x = l2x - pointWidth;
+                if (!linesJoinPoint) {
+                    // check if next point is up or down
+                    int l1Diff = l1y - l2y;
+                    int l2Diff = l2y - l1y;
+                    if (l1Diff > 0 && l1Diff > yAxisGap) {
+                        l1x = l1x + pointWidth;
+                        l1y = l1y - pointWidth;
+                        l2x = l2x - pointWidth;
+                        l2y = l2y + pointWidth;
+                    } else if (l2Diff > 0 && l2Diff > yAxisGap) {
+                        l1x = l1x + pointWidth;
+                        l1y = l1y + pointWidth;
+                        l2x = l2x - pointWidth;
+                        l2y = l2y - pointWidth;
+                    } else {
+                        l1x = l1x + pointWidth;
+                        l2x = l2x - pointWidth;
+                    }
                 }
                 // need to check for 1st and last element to connect with line
                 g1.drawLine(l1x, l1y, l2x, l2y);
