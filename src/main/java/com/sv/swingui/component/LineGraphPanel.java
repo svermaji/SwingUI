@@ -10,11 +10,13 @@ import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalInt;
+import java.util.StringJoiner;
 
 public class LineGraphPanel extends AppPanel {
 
     private final MyLogger logger;
     private List<LineGraphPanelData> data;
+    private List<String> toPrint;
     // size of point
     private int pointWidth = 8;
     private int lineWidth = 2;
@@ -37,10 +39,8 @@ public class LineGraphPanel extends AppPanel {
 
     public LineGraphPanel(List<LineGraphPanelData> data, MyLogger logger) {
         this.logger = logger;
-        this.data = data;
-        if (data == null) {
-            this.data = new ArrayList<>();
-        }
+        setData((data == null) ? new ArrayList<>() : data);
+
         // to init strokes
         setLineJoinsPointsCenter(lineJoinsPointsCenter);
 
@@ -59,6 +59,7 @@ public class LineGraphPanel extends AppPanel {
 
     public void setData(List<LineGraphPanelData> data) {
         this.data = data;
+        toPrint = new ArrayList<>();
     }
 
     public void setMargin(int margin) {
@@ -159,8 +160,9 @@ public class LineGraphPanel extends AppPanel {
             }
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
-            if (logger != null) {
-                logger.info("Line graph point/value [" + (i + 1) + "/" + val + "] coordinates are [" + l2x + "," + l2y + "]");
+
+            if (toPrint != null) {
+                toPrint.add("Point/value [" + (i + 1) + "/" + val + "] x,y are [" + l2x + "," + l2y + "]");
             }
             setFont(graphFont);
             g1.setFont(graphFont);
@@ -229,6 +231,14 @@ public class LineGraphPanel extends AppPanel {
                 // need to check for 1st and last element to connect with line
                 g1.drawLine(l1x, l1y, l2x, l2y);
             }
+        }
+        // print only once
+        if (logger != null) {
+            StringBuilder sb = new StringBuilder("Line graph points: ");
+            StringJoiner joiner = new StringJoiner(", ");
+            toPrint.forEach(joiner::add);
+            logger.info(sb.toString() + joiner);
+            toPrint = null;
         }
     }
 
