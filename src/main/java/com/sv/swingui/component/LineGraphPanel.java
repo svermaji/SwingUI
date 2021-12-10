@@ -1,5 +1,7 @@
 package com.sv.swingui.component;
 
+import com.sv.core.logger.MyLogger;
+
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
@@ -11,6 +13,7 @@ import java.util.OptionalInt;
 
 public class LineGraphPanel extends AppPanel {
 
+    private final MyLogger logger;
     private List<LineGraphPanelData> data;
     // size of point
     private int pointWidth = 8;
@@ -28,7 +31,12 @@ public class LineGraphPanel extends AppPanel {
         this(null);
     }
 
-    public LineGraphPanel(List<LineGraphPanelData> data) {
+    public LineGraphPanel(MyLogger logger) {
+        this(null, logger);
+    }
+
+    public LineGraphPanel(List<LineGraphPanelData> data, MyLogger logger) {
+        this.logger = logger;
         this.data = data;
         if (data == null) {
             this.data = new ArrayList<>();
@@ -151,6 +159,9 @@ public class LineGraphPanel extends AppPanel {
             }
             double y1 = height - margin - scale * val;
             int l2x = (int) x1, l2y = (int) y1;
+            if (logger != null) {
+                logger.info("Line graph point/value [" + (i + 1) + "/" + val + "] coordinates are [" + l2x + "," + l2y + "]");
+            }
             setFont(graphFont);
             g1.setFont(graphFont);
             g1.setPaint(fontColor);
@@ -237,7 +248,7 @@ public class LineGraphPanel extends AppPanel {
         data.add(new LineGraphPanelData(30000, "Test"));
         data.add(new LineGraphPanelData(0, "Test"));
         data.add(new LineGraphPanelData(15000, "Test"));
-        frame.add(new LineGraphPanel(data));
+        frame.add(new LineGraphPanel(data, null));
         frame.setSize(400, 400);
         frame.setLocation(200, 200);
         frame.setVisible(true);
