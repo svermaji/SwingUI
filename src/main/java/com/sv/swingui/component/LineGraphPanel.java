@@ -233,7 +233,7 @@ public class LineGraphPanel extends AppPanel {
             }
         }
         // print only once
-        if (logger != null) {
+        if (logger != null && toPrint != null) {
             StringBuilder sb = new StringBuilder("Line graph points: ");
             StringJoiner joiner = new StringJoiner(", ");
             toPrint.forEach(joiner::add);
