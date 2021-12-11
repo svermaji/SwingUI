@@ -16,6 +16,7 @@ public class LineGraphPanel extends AppPanel {
 
     private final MyLogger logger;
     private List<LineGraphPanelData> data;
+    private LineGraphPanelData data00 = new LineGraphPanelData(0);
     private List<String> toPrint;
     // size of point
     private int pointWidth = 8;
@@ -142,6 +143,9 @@ public class LineGraphPanel extends AppPanel {
             g1.draw(new Line2D.Double(margin, height - margin, width - margin, height - margin));
         }
 
+        if (data.size() == 1) {
+            data.add(0, data00);
+        }
         int dataSize = data.size();
         double x = (double) (width - 2 * margin) / data.size();
         if (firstPointOnBaseLine) {
