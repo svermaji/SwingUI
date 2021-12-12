@@ -288,10 +288,22 @@ public class AppFrame extends JFrame {
     private void checkPassword() {
         if (authenticate(lockScreenPwd.getPassword())) {
             hideLockScreen();
+            Utils.callMethod(this, "authenticationSuccess", null, logger);
         } else {
             wrongPwdMsg.setText("Wrong password ");
             wrongPwdMsg.setVisible(true);
+            Utils.callMethod(this, "authenticationFailed", null, logger);
         }
+    }
+
+    // to override
+    public void authenticationSuccess() {
+
+    }
+
+    // to override
+    public void authenticationFailed() {
+
     }
 
     private void applyColorOnLockScreen() {
@@ -427,8 +439,8 @@ public class AppFrame extends JFrame {
 
     public Dimension getCenterOfScreen() {
         Dimension dm = getSize();
-        int xMid = (int) (dm.getWidth()/2);
-        int yMid = (int) (dm.getHeight()/2);
+        int xMid = (int) (dm.getWidth() / 2);
+        int yMid = (int) (dm.getHeight() / 2);
         return new Dimension(xMid, yMid);
     }
 
