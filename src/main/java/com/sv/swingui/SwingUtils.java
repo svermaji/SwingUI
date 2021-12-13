@@ -381,15 +381,15 @@ public class SwingUtils {
 
         c.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                c.setBackground(bg != null ? bg : c.getBackground());
-                c.setForeground(fg != null ? fg : c.getForeground());
+                c.setBackground(bg != null && c.isEnabled() ? bg : c.getBackground());
+                c.setForeground(fg != null && c.isEnabled() ? fg : c.getForeground());
             }
 
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                if (hbg != null) {
+                if (hbg != null && c.isEnabled()) {
                     c.setBackground(hbg);
                 }
-                if (hfg != null) {
+                if (hfg != null && c.isEnabled()) {
                     c.setForeground(hfg);
                 }
             }
