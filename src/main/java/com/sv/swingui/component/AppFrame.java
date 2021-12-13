@@ -268,6 +268,10 @@ public class AppFrame extends JFrame {
     }
 
     public void showChangePwdScreen() {
+        showChangePwdScreen(true);
+    }
+
+    public void showChangePwdScreen(boolean showOldPwd) {
         checkPwdScreens();
         changePwdErrMsg.setVisible(false);
         JComponent[] cs = {lblOldPwd, lblNewPwd, lblConfirmPwd, changePwdPanel, pwdPanel};
@@ -280,6 +284,8 @@ public class AppFrame extends JFrame {
         oldPwd.setText("");
         newPwd.setText("");
         confirmPwd.setText("");
+        lblOldPwd.setVisible(showOldPwd);
+        oldPwd.setVisible(showOldPwd);
         changePwdScreen.pack();
         changePwdScreen.setLocationRelativeTo(this);
         changePwdScreen.setVisible(true);
@@ -334,7 +340,7 @@ public class AppFrame extends JFrame {
             lockScreen.setSize(this.getSize());
             lockScreen.setLocation(this.getLocation());
         } else {
-            showChangePwdScreen();
+            showChangePwdScreen(false);
         }
     }
 
