@@ -371,6 +371,7 @@ public class AppFrame extends JFrame {
                 if (autoLock) {
                     stopAutoLockTimer();
                 }
+                gainedFocusEvent();
             }
 
             public void windowLostFocus(WindowEvent e) {
@@ -380,6 +381,7 @@ public class AppFrame extends JFrame {
                 if (autoLock) {
                     startAutoLockTimer();
                 }
+                lostFocusEvent();
             }
         });
     }
@@ -389,6 +391,22 @@ public class AppFrame extends JFrame {
     }
 
     public void startClipboardAction() {
+        // override as per need
+    }
+
+    private void gainedFocusEvent() {
+        Utils.callMethod(this, "appWindowGainedFocus", null, logger);
+    }
+
+    private void lostFocusEvent() {
+        Utils.callMethod(this, "appWindowLostFocus", null, logger);
+    }
+
+    public void appWindowGainedFocus() {
+        // override as per need
+    }
+
+    public void appWindowLostFocus() {
         // override as per need
     }
 
