@@ -6,7 +6,7 @@ import com.sv.core.Utils;
 public class LineGraphPanelData {
     private final int value;
     private final String nameToDisplay;
-    private final boolean nameInTipOnly;
+    private final boolean nameInTipOnly, appendValueInTip;
     private final int LIMIT = 15;
 
     public LineGraphPanelData(int value) {
@@ -14,13 +14,14 @@ public class LineGraphPanelData {
     }
 
     public LineGraphPanelData(int value, String nameToDisplay) {
-        this(value, nameToDisplay, Utils.hasValue(nameToDisplay));
+        this(value, nameToDisplay, Utils.hasValue(nameToDisplay), true);
     }
 
-    public LineGraphPanelData(int value, String nameToDisplay, boolean nameInTipOnly) {
+    public LineGraphPanelData(int value, String nameToDisplay, boolean nameInTipOnly, boolean appendValueInTip) {
         this.value = value;
         this.nameToDisplay = nameToDisplay;
         this.nameInTipOnly = nameInTipOnly;
+        this.appendValueInTip = appendValueInTip;
     }
 
     public int getValue() {
@@ -41,7 +42,10 @@ public class LineGraphPanelData {
     }
 
     public String getFullNameToDisplay() {
-        String dt = nameToDisplay + Constants.SPACE + Utils.addBraces(value);
+        String dt = nameToDisplay;
+        if (appendValueInTip) {
+            dt = dt + Constants.SPACE + Utils.addBraces(value);
+        }
         return Utils.hasValue(nameToDisplay) ? dt : value + Constants.EMPTY;
     }
 }
