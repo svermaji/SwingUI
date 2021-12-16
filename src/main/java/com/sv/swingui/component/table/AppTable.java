@@ -45,6 +45,10 @@ public class AppTable extends JTable {
         setDefaultEditor(Object.class, null);
     }
 
+    public void emptyRowTooltips() {
+        tooltips = new ArrayList<>();
+    }
+
     public void addRowTooltip(String[] tips) {
         tooltips.add(tips);
     }
