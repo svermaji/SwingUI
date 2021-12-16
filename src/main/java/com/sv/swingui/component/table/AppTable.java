@@ -16,6 +16,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.regex.PatternSyntaxException;
 
 /**
@@ -27,6 +28,7 @@ import java.util.regex.PatternSyntaxException;
 public class AppTable extends JTable {
 
     protected TableRowSorter<DefaultTableModel> sorter;
+    protected java.util.List<String[]> tooltips = new ArrayList<>();
 
     public AppTable(DefaultTableModel model) {
         super(model);
@@ -41,6 +43,21 @@ public class AppTable extends JTable {
     public void makeNonEditable() {
         // For making contents non editable
         setDefaultEditor(Object.class, null);
+    }
+
+    public void addRowTooltip(String[] tips) {
+        tooltips.add(tips);
+    }
+
+    public String getTooltipFor(int r, int c, String val) {
+        String result = val;
+        if (tooltips.size() > r) {
+            String[] cols = tooltips.get(r);
+            if (cols.length > c) {
+                result = cols[c];
+            }
+        }
+        return result;
     }
 
     /**

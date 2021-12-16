@@ -34,9 +34,9 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
 
         if (showSameTipOnRow) {
             // tooltip on row will be applied with first col value
-            setToolTipText(table.getValueAt(row, 0).toString());
+            setToolTipText(((AppTable)table).getTooltipFor(row, 0, table.getValueAt(row, 0).toString()));
         } else {
-            setToolTipText(table.getValueAt(row, column).toString());
+            setToolTipText(((AppTable)table).getTooltipFor(row, column, table.getValueAt(row, column).toString()));
         }
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
     }
