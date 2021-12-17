@@ -33,26 +33,30 @@ import static com.sv.core.Constants.MIN_10;
  */
 public class AppFrame extends JFrame {
 
-    protected String lastClipboardText = "";
-    protected final String PWD_FILE = "/secret.lock";
+    protected final String PWD_FILE = "secret.lock";
     protected final String PWD_SEP = "!!";
-    protected boolean windowActive;
+    protected final String TITLE;
+    protected final String ADMIN_UN = "Admin";
+    protected final Color DEFAULT_LOCKSCR_COLOR = UIConstants.COLOR_GREEN_DARK;
+
     protected Component[] componentToEnable;
     protected Component[] componentContrastToEnable;
-    private final String TITLE;
     protected AppFrame lockScreen;
     protected MyLogger logger;
     protected JDialog changePwdScreen;
     protected AppPasswordField lockScreenPwd, oldPwd, newPwd, confirmPwd;
-    protected AppLabel wrongPwdMsg, lblOldPwd, lblNewPwd, lblConfirmPwd;
+    protected AppLabel wrongPwdMsg, lblUsername, lblUsernameVal, lblOldPwd, lblNewPwd, lblConfirmPwd;
     protected AppLabel changePwdErrMsg;
     protected AppPanel changePwdPanel, pwdPanel, lockScreenPanel;
     protected java.util.Timer autoLockTimer;
-    protected final Color DEFAULT_LOCKSCR_COLOR = UIConstants.COLOR_GREEN_DARK;
     // color and hover colors
     protected Color fg = DEFAULT_LOCKSCR_COLOR, bg = DEFAULT_LOCKSCR_COLOR, hfg, hbg;
-    protected int appFontSize;
     protected Font tooltipFont;
+
+    protected int appFontSize;
+    protected char echoChar = '$';
+    protected boolean windowActive;
+    protected String lastClipboardText = "", usernameForPwd;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD, AUTO_LOCK
@@ -69,8 +73,7 @@ public class AppFrame extends JFrame {
 
     private void initPwdControls() {
         int pwdLen = 20;
-        char echoChar = '$';
-        lockScreen = new AppFrame(this.getTitle() + ": Enter Password");
+        lockScreen = new AppFrame("");
         lockScreen.setIconImage(this.getIconImage());
         lockScreenPwd = new AppPasswordField(pwdLen, echoChar, "Enter password and hit enter");
         lockScreenPwd.addKeyListener(new KeyAdapter() {
@@ -123,18 +126,22 @@ public class AppFrame extends JFrame {
         });
         changePwdErrMsg = new AppLabel("Invalid old password. Password must be 4+ char long.");
         changePwdErrMsg.setForeground(Color.red);
+        lblUsername = new AppLabel("Username");
+        lblUsernameVal = new AppLabel();
         lblOldPwd = new AppLabel("Old password", oldPwd, 'o', "Leave blank for first time");
         lblNewPwd = new AppLabel("New password", newPwd, 'n');
         lblConfirmPwd = new AppLabel("Confirm password", confirmPwd, 'c', "Hit enter after changing pwd");
         changePwdPanel = new AppPanel(new BorderLayout());
-        pwdPanel = new AppPanel(new GridLayout(3, 2));
+        JComponent[] pwdPanelChild = {
+                lblUsername, lblUsernameVal, lblOldPwd, oldPwd,
+                lblNewPwd, newPwd, lblConfirmPwd, confirmPwd,
+        };
+        int c = 2;
+        int r = pwdPanelChild.length / c;
+        pwdPanel = new AppPanel(new GridLayout(r, c));
         changePwdPanel.add(changePwdErrMsg, BorderLayout.NORTH);
-        pwdPanel.add(lblOldPwd);
-        pwdPanel.add(oldPwd);
-        pwdPanel.add(lblNewPwd);
-        pwdPanel.add(newPwd);
-        pwdPanel.add(lblConfirmPwd);
-        pwdPanel.add(confirmPwd);
+        Arrays.stream(pwdPanelChild).forEach(cs -> pwdPanel.add(cs));
+
         changePwdPanel.add(pwdPanel, BorderLayout.CENTER);
         changePwdScreen.add(changePwdPanel);
         changePwdScreen.pack();
@@ -146,6 +153,10 @@ public class AppFrame extends JFrame {
 
     protected void setLogger(MyLogger logger) {
         this.logger = logger;
+    }
+
+    public void setEchoChar(char echoChar) {
+        this.echoChar = echoChar;
     }
 
     public void setAppColors(Color fg, Color bg, Color hfg, Color hbg) {
@@ -217,7 +228,7 @@ public class AppFrame extends JFrame {
     }
 
     private String[] readPassword() {
-        java.util.List<String> lines = Utils.readFile(Utils.getCurrentDir() + PWD_FILE, logger);
+        java.util.List<String> lines = Utils.readFile(getSecretFileName(), logger);
         String firstLine = "";
         String[] arr = null;
         if (lines.size() > 0) {
@@ -249,7 +260,7 @@ public class AppFrame extends JFrame {
             }
         }
         if (Utils.hasValue(toStore)) {
-            return Utils.writeFile(Utils.getCurrentDir() + PWD_FILE, toStore, logger);
+            return Utils.writeFile(getSecretFileName(), toStore, logger);
         }
         return false;
     }
@@ -271,16 +282,21 @@ public class AppFrame extends JFrame {
         showChangePwdScreen(true);
     }
 
+    public void showChangePwdScreen(String un, boolean showOldPwd) {
+        usernameForPwd = un;
+        showChangePwdScreen(showOldPwd);
+    }
+
     public void showChangePwdScreen(boolean showOldPwd) {
         checkPwdScreens();
         changePwdErrMsg.setVisible(false);
-        JComponent[] cs = {lblOldPwd, lblNewPwd, lblConfirmPwd, changePwdPanel, pwdPanel};
-        Arrays.stream(cs).forEach(ca -> ca.setBackground(bg));
-        cs = new JComponent[]{oldPwd, newPwd, confirmPwd};
+        Arrays.stream(changePwdPanel.getComponents()).forEach(ca -> ca.setBackground(bg));
+        JComponent[] cs = new JComponent[]{oldPwd, newPwd, confirmPwd};
         Arrays.stream(cs).forEach(ca -> ca.setForeground(fg));
 
         applyPwdScreensFont();
 
+        lblUsernameVal.setText(getUsernameForPwd());
         oldPwd.setText("");
         newPwd.setText("");
         confirmPwd.setText("");
@@ -289,6 +305,14 @@ public class AppFrame extends JFrame {
         changePwdScreen.pack();
         changePwdScreen.setLocationRelativeTo(this);
         changePwdScreen.setVisible(true);
+    }
+
+    private String getUsernameForPwd() {
+        if (!Utils.hasValue(usernameForPwd)) {
+            usernameForPwd = ADMIN_UN;
+        }
+
+        return usernameForPwd;
     }
 
     private void checkPassword() {
@@ -315,20 +339,36 @@ public class AppFrame extends JFrame {
     private void applyColorOnLockScreen() {
         lockScreen.getContentPane().setBackground(bg);
         lockScreenPanel.setBackground(bg);
-        lockScreenPwd.setForeground(bg);
+        lockScreenPwd.setForeground(fg);
         wrongPwdMsg.setBackground(bg);
     }
 
     private boolean IsSecretFileExists() {
-        boolean result = Files.exists(Utils.createPath(Utils.getCurrentDir() + PWD_FILE));
+        boolean result = Files.exists(Utils.createPath(getSecretFileName()));
         if (logger != null) {
             logger.info("Password exists " + Utils.addBraces(result));
         }
         return result;
     }
 
+    protected String getSecretFileName() {
+        String fn = PWD_FILE;
+        if (!Utils.hasValue(usernameForPwd)) {
+            usernameForPwd = ADMIN_UN;
+        }
+        if (!isAdminUser()) {
+            fn = usernameForPwd + Constants.DASH + PWD_FILE;
+        }
+        return Utils.getCurrentDir() + Constants.F_SLASH + fn;
+    }
+
+    protected boolean isAdminUser() {
+        return usernameForPwd.equals(ADMIN_UN);
+    }
+
     public void showLockScreen() {
         checkPwdScreens();
+        lockScreen.setTitle(this.getTitle() + ": Enter Password for " + Utils.addBraces(getUsernameForPwd()));
         if (IsSecretFileExists()) {
             applyColorOnLockScreen();
             applyPwdScreensFont();
