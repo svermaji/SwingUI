@@ -20,6 +20,7 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static com.sv.core.Constants.ELLIPSIS;
 import static com.sv.core.Constants.MIN_10;
@@ -57,6 +58,7 @@ public class AppFrame extends JFrame {
     protected char echoChar = '$';
     protected boolean windowActive;
     protected String lastClipboardText = "", usernameForPwd;
+    protected String[] authenticationParams, changePwdParams;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD, AUTO_LOCK
@@ -166,6 +168,16 @@ public class AppFrame extends JFrame {
         this.hbg = hbg;
     }
 
+    // will be passed along with other params on authentication event
+    public void setAuthenticationParams(String[] authenticationParams) {
+        this.authenticationParams = authenticationParams;
+    }
+
+    // will be passed along with other params on change pwd event
+    public void setChangePwdParams(String[] changePwdParams) {
+        this.changePwdParams = changePwdParams;
+    }
+
     public void setAppFontSize(int appFontSize) {
         this.appFontSize = appFontSize;
     }
@@ -190,10 +202,13 @@ public class AppFrame extends JFrame {
             changePwdScreen.setVisible(false);
             pwdChanged = true;
         }
-        pwdChangedStatus(pwdChanged, usernameForPwd);
+        String[] etcParams = new String[]{usernameForPwd};
+        String[] params = (String[]) Stream.concat(Arrays.stream(changePwdParams),
+                Arrays.stream(etcParams)).toArray();
+        pwdChangedStatus(pwdChanged, params);
     }
 
-    public void pwdChangedStatus(boolean pwdChanged, String un) {
+    public void pwdChangedStatus(boolean pwdChanged, String[] params) {
         // to override
     }
 
@@ -321,23 +336,26 @@ public class AppFrame extends JFrame {
     }
 
     private void checkPassword() {
+        String[] etcParams = new String[]{usernameForPwd};
+        String[] params = (String[]) Stream.concat(Arrays.stream(authenticationParams),
+                Arrays.stream(etcParams)).toArray();
         if (authenticate(lockScreenPwd.getPassword())) {
             hideLockScreen();
-            Utils.callMethod(this, "authenticationSuccess", new String[]{usernameForPwd}, logger);
+            Utils.callMethod(this, "authenticationSuccess", params, logger);
         } else {
             wrongPwdMsg.setText("Wrong password ");
             wrongPwdMsg.setVisible(true);
-            Utils.callMethod(this, "authenticationFailed", new String[]{usernameForPwd}, logger);
+            Utils.callMethod(this, "authenticationFailed", params, logger);
         }
     }
 
     // to override
-    public void authenticationSuccess(String username) {
+    public void authenticationSuccess(String[] params) {
 
     }
 
     // to override
-    public void authenticationFailed(String username) {
+    public void authenticationFailed(String[] params) {
 
     }
 
