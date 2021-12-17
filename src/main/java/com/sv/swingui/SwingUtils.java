@@ -85,23 +85,25 @@ public class SwingUtils {
         c.requestFocus();
     }
 
-    public static void addEscKeyAction(JFrame frame) {
+    public static void addEscKeyAction(JFrame frame, String method, Object callerObj, MyLogger logger) {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
 
         frame.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Utils.callMethod(callerObj, method, null, logger);
                 frame.setVisible(false);
             }
         });
     }
 
-    public static void addEscKeyAction(JDialog dialog) {
+    public static void addEscKeyAction(JDialog dialog, String method, Object callerObj, MyLogger logger) {
         dialog.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
 
         dialog.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
+                Utils.callMethod(callerObj, method, null, logger);
                 dialog.setVisible(false);
             }
         });

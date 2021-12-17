@@ -148,7 +148,7 @@ public class AppFrame extends JFrame {
         changePwdScreen.setLocationRelativeTo(this);
         changePwdScreen.setVisible(false);
         changePwdErrMsg.setVisible(false);
-        SwingUtils.addEscKeyAction(changePwdScreen);
+        SwingUtils.addEscKeyAction(changePwdScreen, "escOnchangePwdScreen", this, logger);
     }
 
     protected void setLogger(MyLogger logger) {
@@ -190,10 +190,14 @@ public class AppFrame extends JFrame {
             changePwdScreen.setVisible(false);
             pwdChanged = true;
         }
-        pwdChangedStatus(pwdChanged);
+        pwdChangedStatus(pwdChanged, usernameForPwd);
     }
 
-    public void pwdChangedStatus(boolean pwdChanged) {
+    public void pwdChangedStatus(boolean pwdChanged, String un) {
+        // to override
+    }
+
+    public void escOnchangePwdScreen() {
         // to override
     }
 
@@ -302,6 +306,7 @@ public class AppFrame extends JFrame {
         confirmPwd.setText("");
         lblOldPwd.setVisible(showOldPwd);
         oldPwd.setVisible(showOldPwd);
+        SwingUtils.getInFocus(showOldPwd ? oldPwd : newPwd);
         changePwdScreen.pack();
         changePwdScreen.setLocationRelativeTo(this);
         changePwdScreen.setVisible(true);
@@ -362,7 +367,7 @@ public class AppFrame extends JFrame {
     protected String getSecretFileNameFor(String un) {
         String fn = PWD_FILE;
         if (!isAdminUser(un)) {
-            fn = usernameForPwd + Constants.DASH + PWD_FILE;
+            fn = un + Constants.DASH + PWD_FILE;
         }
         return Utils.getCurrentDir() + Constants.F_SLASH + fn;
     }
@@ -372,6 +377,13 @@ public class AppFrame extends JFrame {
     }
 
     protected boolean deleteUserSecretFile(String un) {
+        if (isAdminUser(un)) {
+            logger.warn("Admin secret file cannot be deleted.");
+            return false;
+        }
+        if (logger != null) {
+            logger.warn("Deleting secret file " + getSecretFileNameFor(un));
+        }
         return Utils.deleteFile(getSecretFileNameFor(un));
     }
 
