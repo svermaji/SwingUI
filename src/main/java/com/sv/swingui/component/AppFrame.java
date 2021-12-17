@@ -318,21 +318,21 @@ public class AppFrame extends JFrame {
     private void checkPassword() {
         if (authenticate(lockScreenPwd.getPassword())) {
             hideLockScreen();
-            Utils.callMethod(this, "authenticationSuccess", null, logger);
+            Utils.callMethod(this, "authenticationSuccess", new String[]{usernameForPwd}, logger);
         } else {
             wrongPwdMsg.setText("Wrong password ");
             wrongPwdMsg.setVisible(true);
-            Utils.callMethod(this, "authenticationFailed", null, logger);
+            Utils.callMethod(this, "authenticationFailed", new String[]{usernameForPwd}, logger);
         }
     }
 
     // to override
-    public void authenticationSuccess() {
+    public void authenticationSuccess(String username) {
 
     }
 
     // to override
-    public void authenticationFailed() {
+    public void authenticationFailed(String username) {
 
     }
 
@@ -356,14 +356,27 @@ public class AppFrame extends JFrame {
         if (!Utils.hasValue(usernameForPwd)) {
             usernameForPwd = ADMIN_UN;
         }
-        if (!isAdminUser()) {
+        return getSecretFileNameFor(usernameForPwd);
+    }
+
+    protected String getSecretFileNameFor(String un) {
+        String fn = PWD_FILE;
+        if (!isAdminUser(un)) {
             fn = usernameForPwd + Constants.DASH + PWD_FILE;
         }
         return Utils.getCurrentDir() + Constants.F_SLASH + fn;
     }
 
     protected boolean isAdminUser() {
-        return usernameForPwd.equals(ADMIN_UN);
+        return isAdminUser(usernameForPwd);
+    }
+
+    protected boolean deleteUserSecretFile(String un) {
+        return Utils.deleteFile(getSecretFileNameFor(un));
+    }
+
+    protected boolean isAdminUser(String un) {
+        return un.equals(ADMIN_UN);
     }
 
     public void showLockScreen() {
