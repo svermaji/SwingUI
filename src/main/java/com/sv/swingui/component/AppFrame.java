@@ -20,6 +20,8 @@ import java.nio.file.Files;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 import static com.sv.core.Constants.ELLIPSIS;
@@ -38,6 +40,7 @@ public class AppFrame extends JFrame {
     protected final String PWD_SEP = "!!";
     protected final String TITLE;
     protected final String ADMIN_UN = "Admin";
+    protected final String PRM_UN = "username";
     protected final Color DEFAULT_LOCKSCR_COLOR = UIConstants.COLOR_GREEN_DARK;
 
     protected Component[] componentToEnable;
@@ -58,7 +61,7 @@ public class AppFrame extends JFrame {
     protected char echoChar = '$';
     protected boolean windowActive;
     protected String lastClipboardText = "", usernameForPwd;
-    protected String[] authenticationParams, changePwdParams;
+    protected Map<String, String> authenticationParams, changePwdParams;
 
     protected enum WindowChecks {
         WINDOW_ACTIVE, CLIPBOARD, AUTO_LOCK
@@ -169,12 +172,12 @@ public class AppFrame extends JFrame {
     }
 
     // will be passed along with other params on authentication event
-    public void setAuthenticationParams(String[] authenticationParams) {
+    public void setAuthenticationParams(Map<String, String> authenticationParams) {
         this.authenticationParams = authenticationParams;
     }
 
     // will be passed along with other params on change pwd event
-    public void setChangePwdParams(String[] changePwdParams) {
+    public void setChangePwdParams(Map<String, String> changePwdParams) {
         this.changePwdParams = changePwdParams;
     }
 
@@ -202,13 +205,14 @@ public class AppFrame extends JFrame {
             changePwdScreen.setVisible(false);
             pwdChanged = true;
         }
-        String[] etcParams = new String[]{usernameForPwd};
-        String[] params = (String[]) Stream.concat(Arrays.stream(changePwdParams),
-                Arrays.stream(etcParams)).toArray();
-        pwdChangedStatus(pwdChanged, params);
+        if (changePwdParams==null){
+            changePwdParams=new ConcurrentHashMap<>();
+        }
+        changePwdParams.put(PRM_UN, usernameForPwd);
+        pwdChangedStatus(pwdChanged, changePwdParams);
     }
 
-    public void pwdChangedStatus(boolean pwdChanged, String[] params) {
+    public void pwdChangedStatus(boolean pwdChanged, Map<String, String> params) {
         // to override
     }
 
@@ -336,26 +340,27 @@ public class AppFrame extends JFrame {
     }
 
     private void checkPassword() {
-        String[] etcParams = new String[]{usernameForPwd};
-        String[] params = (String[]) Stream.concat(Arrays.stream(authenticationParams),
-                Arrays.stream(etcParams)).toArray();
+        if (authenticationParams==null){
+            authenticationParams=new ConcurrentHashMap<>();
+        }
+        authenticationParams.put(PRM_UN, usernameForPwd);
         if (authenticate(lockScreenPwd.getPassword())) {
             hideLockScreen();
-            Utils.callMethod(this, "authenticationSuccess", params, logger);
+            authenticationSuccess(authenticationParams);
         } else {
             wrongPwdMsg.setText("Wrong password ");
             wrongPwdMsg.setVisible(true);
-            Utils.callMethod(this, "authenticationFailed", params, logger);
+            authenticationFailed(authenticationParams);
         }
     }
 
     // to override
-    public void authenticationSuccess(String[] params) {
+    public void authenticationSuccess(Map<String, String> params) {
 
     }
 
     // to override
-    public void authenticationFailed(String[] params) {
+    public void authenticationFailed(Map<String, String> params) {
 
     }
 
