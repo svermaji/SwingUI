@@ -552,6 +552,17 @@ public class AppFrame extends JFrame {
         }
     }
 
+    public void createOkDialog(String title, String msg, boolean isError) {
+        final int showDataLimit = 100;
+        AppLabel msgToShow = new AppLabel(msg.length() < showDataLimit ? msg :
+                msg.substring(0, showDataLimit) + ELLIPSIS);
+        msgToShow.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        JOptionPane.showMessageDialog(this,
+                msgToShow,
+                title,
+                isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+    }
+
     public void setToCenter() {
         pack();
         setLocationRelativeTo(null);
