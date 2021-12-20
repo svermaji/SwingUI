@@ -539,7 +539,9 @@ public class AppFrame extends JFrame {
         final int showDataLimit = 100;
         AppLabel clipboardInfo = new AppLabel(msg.length() < showDataLimit ? msg :
                 msg.substring(0, showDataLimit) + ELLIPSIS);
-        clipboardInfo.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        if (tooltipFont != null && appFontSize != 0) {
+            clipboardInfo.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        }
         int result = JOptionPane.showConfirmDialog(this,
                 clipboardInfo,
                 title,
@@ -556,7 +558,9 @@ public class AppFrame extends JFrame {
         final int showDataLimit = 100;
         AppLabel msgToShow = new AppLabel(msg.length() < showDataLimit ? msg :
                 msg.substring(0, showDataLimit) + ELLIPSIS);
-        msgToShow.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        if (tooltipFont != null && appFontSize != 0) {
+            msgToShow.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        }
         JOptionPane.showMessageDialog(this,
                 msgToShow,
                 title,
