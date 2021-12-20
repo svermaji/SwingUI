@@ -205,14 +205,23 @@ public class AppFrame extends JFrame {
             changePwdScreen.setVisible(false);
             pwdChanged = true;
         }
-        if (changePwdParams==null){
-            changePwdParams=new ConcurrentHashMap<>();
+        if (changePwdParams == null) {
+            changePwdParams = new ConcurrentHashMap<>();
         }
         changePwdParams.put(PRM_UN, usernameForPwd);
-        pwdChangedStatus(pwdChanged, changePwdParams);
+        if (changePwdParams.isEmpty()) {
+            pwdChangedStatus(pwdChanged);
+        } else {
+            pwdChangedStatus(pwdChanged, changePwdParams);
+        }
     }
 
     public void pwdChangedStatus(boolean pwdChanged, Map<String, String> params) {
+        // to override
+    }
+
+    // to support old implementations
+    public void pwdChangedStatus(boolean pwdChanged) {
         // to override
     }
 
@@ -340,8 +349,8 @@ public class AppFrame extends JFrame {
     }
 
     private void checkPassword() {
-        if (authenticationParams==null){
-            authenticationParams=new ConcurrentHashMap<>();
+        if (authenticationParams == null) {
+            authenticationParams = new ConcurrentHashMap<>();
         }
         authenticationParams.put(PRM_UN, usernameForPwd);
         if (authenticate(lockScreenPwd.getPassword())) {
