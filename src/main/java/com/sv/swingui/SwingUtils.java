@@ -85,16 +85,28 @@ public class SwingUtils {
         c.requestFocus();
     }
 
+    // backword compatibility
+    public static void addEscKeyAction(JFrame frame) {
+        addEscKeyAction(frame, null, null, null);
+    }
+
     public static void addEscKeyAction(JFrame frame, String method, Object callerObj, MyLogger logger) {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
 
         frame.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Utils.callMethod(callerObj, method, null, logger);
+                if (Utils.hasValue(method) && logger != null && callerObj != null) {
+                    Utils.callMethod(callerObj, method, null, logger);
+                }
                 frame.setVisible(false);
             }
         });
+    }
+
+    // backword compatibility
+    public static void addEscKeyAction(JDialog dialog) {
+        addEscKeyAction(dialog);
     }
 
     public static void addEscKeyAction(JDialog dialog, String method, Object callerObj, MyLogger logger) {
@@ -103,7 +115,9 @@ public class SwingUtils {
 
         dialog.getRootPane().getActionMap().put("Cancel", new AbstractAction() {
             public void actionPerformed(ActionEvent e) {
-                Utils.callMethod(callerObj, method, null, logger);
+                if (Utils.hasValue(method) && logger != null && callerObj != null) {
+                    Utils.callMethod(callerObj, method, null, logger);
+                }
                 dialog.setVisible(false);
             }
         });
