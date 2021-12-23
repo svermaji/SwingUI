@@ -22,7 +22,6 @@ import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Stream;
 
 import static com.sv.core.Constants.ELLIPSIS;
 import static com.sv.core.Constants.MIN_10;
@@ -191,7 +190,7 @@ public class AppFrame extends JFrame {
 
     private void changePassword() {
         boolean pwdChanged = false;
-        boolean result = !IsSecretFileExists() || authenticate(oldPwd.getPassword());
+        boolean result = !isSecretFileExists() || authenticate(oldPwd.getPassword());
 
         if (result) {
             result = newPwd.getPassword().length >= 4 && Arrays.equals(newPwd.getPassword(), confirmPwd.getPassword());
@@ -380,7 +379,7 @@ public class AppFrame extends JFrame {
         wrongPwdMsg.setBackground(bg);
     }
 
-    private boolean IsSecretFileExists() {
+    protected boolean isSecretFileExists() {
         boolean result = Files.exists(Utils.createPath(getSecretFileName()));
         if (logger != null) {
             logger.info("Password exists " + Utils.addBraces(result));
@@ -426,7 +425,7 @@ public class AppFrame extends JFrame {
     public void showLockScreen() {
         checkPwdScreens();
         lockScreen.setTitle(this.getTitle() + ": Enter Password for " + Utils.addBraces(getUsernameForPwd()));
-        if (IsSecretFileExists()) {
+        if (isSecretFileExists()) {
             applyColorOnLockScreen();
             applyPwdScreensFont();
             lockScreenPwd.setText("");
