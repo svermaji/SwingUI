@@ -10,6 +10,7 @@ import com.sv.swingui.component.table.AppTableHeaderToolTip;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.plaf.ActionMapUIResource;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -78,6 +79,24 @@ public class SwingUtils {
     public static void addKeyBindings(JComponent[] addBindingsTo, List<KeyActionDetails> kadList) {
         kadList.forEach(ka -> Arrays.stream(addBindingsTo).forEach(j ->
                 j.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(ka.getKeyStroke(), ka.getAction())));
+    }
+
+    /**
+     * This replaces existing key bindings with new one
+     * @param addBindingsTo array of components
+     * @param kadList list of keystroke and actions
+     */
+    public static void replaceKeyBindings(JComponent[] addBindingsTo, List<KeyActionDetails> kadList) {
+        Arrays.stream(addBindingsTo).forEach(j -> {
+            ActionMap actionMap = new ActionMapUIResource();
+            InputMap keyMap = new ComponentInputMap(j);
+            kadList.forEach(ka -> {
+                actionMap.put(ka.getAction(), ka.getAction());
+                keyMap.put(ka.getKeyStroke(), ka.getAction());
+            });
+            SwingUtilities.replaceUIActionMap(j, actionMap);
+            SwingUtilities.replaceUIInputMap(j, JComponent.WHEN_IN_FOCUSED_WINDOW, keyMap);
+        });
     }
 
     public static void getInFocus(JComponent c) {
