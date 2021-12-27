@@ -85,7 +85,7 @@ public class SwingUtils {
         c.requestFocus();
     }
 
-    // backword compatibility
+    // backward compatibility
     public static void addEscKeyAction(JFrame frame) {
         addEscKeyAction(frame, null, null, null);
     }

@@ -1,10 +1,8 @@
 package com.sv.swingui.component;
 
-import com.sv.swingui.SwingUtils;
 import com.sv.swingui.UIConstants;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 /**
