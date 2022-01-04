@@ -21,10 +21,11 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Map;
+import java.util.Timer;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.IntStream;
 
-import static com.sv.core.Constants.ELLIPSIS;
-import static com.sv.core.Constants.MIN_10;
+import static com.sv.core.Constants.*;
 
 /**
  * Wrapper class for JFrame
@@ -35,6 +36,7 @@ import static com.sv.core.Constants.MIN_10;
  */
 public class AppFrame extends JFrame {
 
+    protected String[] yesNoOptions = new String[]{"Yes", "No"};
     protected final String PWD_FILE = "secret.lock";
     protected final String PWD_SEP = "!!";
     protected final String TITLE;
@@ -42,6 +44,7 @@ public class AppFrame extends JFrame {
     protected final String PRM_UN = "username";
     protected final Color DEFAULT_LOCKSCR_COLOR = UIConstants.COLOR_GREEN_DARK;
 
+    protected Timer yesNoTimer;
     protected Component[] componentToEnable;
     protected Component[] componentContrastToEnable;
     protected AppFrame lockScreen;
@@ -534,6 +537,13 @@ public class AppFrame extends JFrame {
         }
     }
 
+    /**
+     * Create Yes/No Dialog with message and title.
+     *
+     * @param title      Title of window
+     * @param msg        Message to display (max 100 chars)
+     * @param methodName method to be called based on Yes No action
+     */
     public void createYesNoDialog(String title, String msg, String methodName) {
         final int showDataLimit = 100;
         AppLabel clipboardInfo = new AppLabel(msg.length() < showDataLimit ? msg :
@@ -550,6 +560,73 @@ public class AppFrame extends JFrame {
             Utils.callMethod(this, methodName + "Yes", new String[]{msg}, logger);
         } else if (result == JOptionPane.NO_OPTION) {
             Utils.callMethod(this, methodName + "No", new String[]{msg}, logger);
+        }
+    }
+
+    /**
+     * Create Yes/No Dialog with message and title.
+     * After timer in seconds (max 10) will take default action
+     *
+     * @param title         Title of window
+     * @param msg           Message to display (max 100 chars)
+     * @param methodName    method to be called based on Yes No action
+     * @param seconds       take default action after time
+     * @param defaultOption Valid values ["Yes", "No"]
+     */
+    public void createYesNoDialogWithTimer(String title, String msg, String methodName, int seconds, String defaultOption) {
+        final int showDataLimit = 100;
+        seconds = Utils.getValueFromRange(3, 10, 5, seconds);
+        AppLabel clipboardInfo = new AppLabel(msg.length() < showDataLimit ? msg :
+                msg.substring(0, showDataLimit) + ELLIPSIS);
+        if (tooltipFont != null && appFontSize != 0) {
+            clipboardInfo.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        }
+
+        String initValue = !Utils.isInArray(yesNoOptions, defaultOption) ? "No" : defaultOption;
+
+        JOptionPane optionPane = new JOptionPane(
+                clipboardInfo,
+                JOptionPane.QUESTION_MESSAGE,
+                JOptionPane.YES_NO_OPTION, null, yesNoOptions, initValue);
+
+        JDialog dialog = optionPane.createDialog(title);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        optionPane.setOptions(yesNoOptions);
+        if (yesNoTimer != null) {
+            yesNoTimer.cancel();
+        }
+        yesNoTimer = new Timer();
+        yesNoTimer.schedule(new YesNoDialogTask(this, optionPane, dialog, seconds, initValue),
+                0);
+        dialog.setVisible(true);
+        String resultStr = (String) optionPane.getValue();
+        if (resultStr.contains(SPACE)) {
+            resultStr = resultStr.substring(0, resultStr.indexOf(SPACE));
+        }
+        int result = Utils.getIdxInArr(yesNoOptions, resultStr);
+        if (result == JOptionPane.YES_OPTION) {
+            Utils.callMethod(this, methodName + "Yes", new String[]{msg}, logger);
+        } else if (result == JOptionPane.NO_OPTION) {
+            Utils.callMethod(this, methodName + "No", new String[]{msg}, logger);
+        }
+
+    }
+
+    public void changeYesNoText(AppFrame appFrame, JOptionPane optionPane, JDialog dialog, int seconds, String initValue) {
+        String[] newOptions = Arrays.copyOf(yesNoOptions, yesNoOptions.length);
+        String newInit = initValue;
+        for (int i = 0; i < newOptions.length; i++) {
+            if (newOptions[i].equals(initValue)) {
+                newOptions[i] = newOptions[i] + SPACE + seconds;
+                newInit = newOptions[i];
+                break;
+            }
+        }
+        optionPane.setOptions(newOptions);
+        optionPane.setInitialSelectionValue(newInit);
+        if (seconds == 0) {
+            yesNoTimer.cancel();
+            dialog.setVisible(false);
         }
     }
 
