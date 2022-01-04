@@ -553,6 +553,10 @@ public class AppFrame extends JFrame {
         }
     }
 
+    public void createOkDialog(String title, String msg) {
+        createOkDialog(title, msg, false);
+    }
+
     public void createOkDialog(String title, String msg, boolean isError) {
         final int showDataLimit = 100;
         AppLabel msgToShow = new AppLabel(msg.length() < showDataLimit ? msg :
