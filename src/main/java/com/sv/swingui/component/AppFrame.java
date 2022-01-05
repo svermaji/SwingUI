@@ -76,6 +76,7 @@ public class AppFrame extends JFrame {
         setLayout(new FlowLayout());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle(title);
+        logger = MyLogger.createLogger(getClass());
     }
 
     private void initPwdControls() {
