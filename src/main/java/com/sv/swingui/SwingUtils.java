@@ -83,8 +83,9 @@ public class SwingUtils {
 
     /**
      * This replaces existing key bindings with new one
+     *
      * @param addBindingsTo array of components
-     * @param kadList list of keystroke and actions
+     * @param kadList       list of keystroke and actions
      */
     public static void replaceKeyBindings(JComponent[] addBindingsTo, List<KeyActionDetails> kadList) {
         Arrays.stream(addBindingsTo).forEach(j -> {
@@ -179,7 +180,7 @@ public class SwingUtils {
     }
 
     /**
-     * Return <font ..... > and font tag does not ends
+     * Return html font tag but font tag does not ends
      *
      * @param color background color
      * @return string
@@ -189,7 +190,7 @@ public class SwingUtils {
     }
 
     /**
-     * Return <font style="background-color: param-color">text</font> format
+     * Return html font with background color passed
      *
      * @param color background color
      * @param text  text
@@ -292,10 +293,10 @@ public class SwingUtils {
      * <b>Note:</b> To apply tooltip font on AppTable cells
      * use method applyTooltipColorNFontAllChild
      *
-     * @param c
-     * @param fg
-     * @param bg
-     * @param tooltipFont
+     * @param c           swing component
+     * @param fg          foreground
+     * @param bg          background
+     * @param tooltipFont font for tooltip
      */
     public static void applyTooltipColorNFont(Component c, Color fg, Color bg, Font tooltipFont) {
         if (c instanceof AppPanel) {
@@ -460,6 +461,7 @@ public class SwingUtils {
      * @param tip       menu tooltip
      * @param rootComp  class on which method 'appFontChange' will be called as event
      * @param callerObj caller class on which method 'appFontChange' will be called as event
+     * @param toSelect  value to be selected in menu
      * @param logger    MyLogger
      * @return menu
      */
@@ -585,6 +587,7 @@ public class SwingUtils {
      * @param obj      class on which method 'themeChange' will be called with first param as index and
      *                 2nd as LookAndFeelInfo
      * @param logger   MyLogger
+     * @return app menu
      */
     public static AppMenu getThemesMenu(String name, char mnemonic, String tip,
                                         Component obj, MyLogger logger) {
@@ -663,15 +666,18 @@ public class SwingUtils {
      * Returns colors menu with each color as hightlighted and selected as menu item.
      * All will be shortcut with keys alphabetically max till 'z'
      *
-     * @param name            menu name
-     * @param mnemonic        menu shortcut key
-     * @param tip             menu tooltip
-     * @param showHighlight   whether to show highlight
-     * @param showHighlightFG whether to show highlight foreground
-     * @param showSelected    whether to show selected sample
-     * @param obj             class on which method 'fontChange' will be called with first param as font and
-     *                        2nd as index of menuitem
-     * @param logger          MyLogger
+     * @param name                menu name
+     * @param mnemonic            menu shortcut key
+     * @param tip                 menu tooltip
+     * @param showHighlight       whether to show highlight
+     * @param showHighlightFG     whether to show highlight foreground
+     * @param showSelected        whether to show selected sample
+     * @param showFonts           show fonts menu or not
+     * @param ignoreBlackAndWhite include black and white color menu or not
+     * @param obj                 class on which method 'fontChange' will be called with first param as font and
+     *                            2nd as index of menu item
+     * @param logger              MyLogger
+     * @return app menu object
      */
     public static AppMenu getColorsMenu(String name, char mnemonic, String tip,
                                         boolean showHighlight,

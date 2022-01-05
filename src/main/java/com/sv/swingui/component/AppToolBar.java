@@ -10,8 +10,8 @@ import java.awt.*;
  * <p>
  * When JMenu added to JToolbar it mis-aligns
  * so manually layout need to be applied.
- *
- * @link https://stackoverflow.com/questions/69454055/java-swing-menu-control-not-align
+ * <p>
+ * https://stackoverflow.com/questions/69454055/java-swing-menu-control-not-align
  */
 public class AppToolBar extends JToolBar {
 

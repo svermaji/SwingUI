@@ -131,6 +131,7 @@ public class AppTabbedPane extends JTabbedPane {
      *
      * @param pane   AppTabbedPane
      * @param tabIdx tab index
+     * @param e      mouse event
      */
     public void tabRightClicked(AppTabbedPane pane, int tabIdx, MouseEvent e) {
         rightClickTabIdx = tabIdx;
