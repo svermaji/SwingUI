@@ -322,6 +322,13 @@ public class AppFrame extends JFrame {
         showChangePwdScreen(showOldPwd);
     }
 
+    protected void exitActions() {
+        setVisible(false);
+        dispose();
+        logger.dispose();
+        System.exit(0);
+    }
+
     public void showChangePwdScreen(boolean showOldPwd) {
         checkPwdScreens();
         changePwdErrMsg.setVisible(false);
