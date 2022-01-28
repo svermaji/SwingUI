@@ -639,18 +639,12 @@ public class AppFrame extends JFrame {
         }
     }
 
-    public void changeOkText(AppFrame appFrame, JOptionPane optionPane, JDialog dialog, int seconds, String initValue) {
+    public void changeOkText(AppFrame appFrame, JOptionPane optionPane, JDialog dialog, int seconds) {
         String[] newOptions = Arrays.copyOf(okOption, okOption.length);
-        String newInit = initValue;
         for (int i = 0; i < newOptions.length; i++) {
-            if (newOptions[i].equals(initValue)) {
-                newOptions[i] = newOptions[i] + SPACE + seconds;
-                newInit = newOptions[i];
-                break;
-            }
+            newOptions[i] = newOptions[i] + SPACE + seconds;
         }
         optionPane.setOptions(newOptions);
-        optionPane.setInitialSelectionValue(newInit);
         if (seconds == 0) {
             okTimer.cancel();
             dialog.setVisible(false);
@@ -674,7 +668,7 @@ public class AppFrame extends JFrame {
                 isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public void createOkDialogWithTimer(String title, String msg, boolean isError, int seconds, String defaultOption) {
+    public void createOkDialogWithTimer(String title, String msg, boolean isError, int seconds) {
         final int showDataLimit = 100;
         seconds = Utils.getValueFromRange(3, 10, 5, seconds);
         AppLabel msgToShow = new AppLabel(msg.length() < showDataLimit ? msg :
@@ -683,12 +677,10 @@ public class AppFrame extends JFrame {
             msgToShow.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
         }
 
-        String initValue = !Utils.isInArray(yesNoOptions, defaultOption) ? "No" : defaultOption;
-
         JOptionPane optionPane = new JOptionPane(
                 msgToShow,
                 isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE,
-                JOptionPane.OK_OPTION, null, okOption, initValue);
+                JOptionPane.OK_OPTION, null, okOption);
 
         JDialog dialog = optionPane.createDialog(title);
         dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
@@ -697,7 +689,7 @@ public class AppFrame extends JFrame {
             okTimer.cancel();
         }
         okTimer = new Timer();
-        okTimer.schedule(new YesNoDialogTask(this, optionPane, dialog, seconds, initValue),
+        okTimer.schedule(new OkDialogTask(this, optionPane, dialog, seconds),
                 0);
         dialog.setVisible(true);
     }
