@@ -37,6 +37,7 @@ import static com.sv.core.Constants.*;
 public class AppFrame extends JFrame {
 
     protected String[] yesNoOptions = new String[]{"Yes", "No"};
+    protected String[] okOption = new String[]{"Ok"};
     protected final String PWD_FILE = "secret.lock";
     protected final String PWD_SEP = "!!";
     protected final String TITLE;
@@ -44,7 +45,7 @@ public class AppFrame extends JFrame {
     protected final String PRM_UN = "username";
     protected final Color DEFAULT_LOCKSCR_COLOR = UIConstants.COLOR_GREEN_DARK;
 
-    protected Timer yesNoTimer;
+    protected Timer yesNoTimer, okTimer;
     protected Component[] componentToEnable;
     protected Component[] componentContrastToEnable;
     protected AppFrame lockScreen;
@@ -638,6 +639,24 @@ public class AppFrame extends JFrame {
         }
     }
 
+    public void changeOkText(AppFrame appFrame, JOptionPane optionPane, JDialog dialog, int seconds, String initValue) {
+        String[] newOptions = Arrays.copyOf(okOption, okOption.length);
+        String newInit = initValue;
+        for (int i = 0; i < newOptions.length; i++) {
+            if (newOptions[i].equals(initValue)) {
+                newOptions[i] = newOptions[i] + SPACE + seconds;
+                newInit = newOptions[i];
+                break;
+            }
+        }
+        optionPane.setOptions(newOptions);
+        optionPane.setInitialSelectionValue(newInit);
+        if (seconds == 0) {
+            okTimer.cancel();
+            dialog.setVisible(false);
+        }
+    }
+
     public void createOkDialog(String title, String msg) {
         createOkDialog(title, msg, false);
     }
@@ -653,6 +672,34 @@ public class AppFrame extends JFrame {
                 msgToShow,
                 title,
                 isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public void createOkDialogWithTimer(String title, String msg, boolean isError, int seconds, String defaultOption) {
+        final int showDataLimit = 100;
+        seconds = Utils.getValueFromRange(3, 10, 5, seconds);
+        AppLabel msgToShow = new AppLabel(msg.length() < showDataLimit ? msg :
+                msg.substring(0, showDataLimit) + ELLIPSIS);
+        if (tooltipFont != null && appFontSize != 0) {
+            msgToShow.setFont(SwingUtils.getNewFontSize(tooltipFont, appFontSize));
+        }
+
+        String initValue = !Utils.isInArray(yesNoOptions, defaultOption) ? "No" : defaultOption;
+
+        JOptionPane optionPane = new JOptionPane(
+                msgToShow,
+                isError ? JOptionPane.ERROR_MESSAGE : JOptionPane.INFORMATION_MESSAGE,
+                JOptionPane.OK_OPTION, null, okOption, initValue);
+
+        JDialog dialog = optionPane.createDialog(title);
+        dialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
+        optionPane.setOptions(okOption);
+        if (okTimer != null) {
+            okTimer.cancel();
+        }
+        okTimer = new Timer();
+        okTimer.schedule(new YesNoDialogTask(this, optionPane, dialog, seconds, initValue),
+                0);
+        dialog.setVisible(true);
     }
 
     public void setToCenter() {
