@@ -71,13 +71,17 @@ public class AppFrame extends JFrame {
     }
 
     public AppFrame(String title) {
+        this (title, EMPTY);
+    }
+
+    public AppFrame(String title, String appendToLogFile) {
         TITLE = title;
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("./icons/app-icon.png").getImage());
         setLayout(new FlowLayout());
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle(title);
-        logger = MyLogger.createLogger(getClass());
+        logger = MyLogger.createLogger(getClass(), appendToLogFile);
     }
 
     private void initPwdControls() {
