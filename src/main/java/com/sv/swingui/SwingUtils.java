@@ -308,6 +308,9 @@ public class SwingUtils {
         if (c instanceof AppCheckBox) {
             ((AppCheckBox) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
+        if (c instanceof AppComboBox) {
+            ((AppComboBox) c).setToolTipColorsNFont(fg, bg, tooltipFont);
+        }
         if (c instanceof AppTextField) {
             ((AppTextField) c).setToolTipColorsNFont(fg, bg, tooltipFont);
         }
@@ -619,7 +622,8 @@ public class SwingUtils {
             if (!pt.equals(lnf.getName())) {
                 try {
                     UIManager.setLookAndFeel(lnf.getClassName());
-                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
+                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException |
+                         UnsupportedLookAndFeelException e) {
                     applied = false;
                     logger.warn("Unable to apply look and feel " + Utils.addBraces(lnf.getClassName()));
                 }
