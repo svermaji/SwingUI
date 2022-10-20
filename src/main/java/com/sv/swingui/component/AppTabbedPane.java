@@ -1,5 +1,7 @@
 package com.sv.swingui.component;
 
+import com.sv.core.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -20,6 +22,7 @@ public class AppTabbedPane extends JTabbedPane {
 
     public AppTabbedPane(boolean needPopupMenu) {
         super();
+        setName("AppTabbedPane");
         this.needPopupMenu = needPopupMenu;
         if (needPopupMenu) {
             initPopupMenu(this);
@@ -189,4 +192,8 @@ public class AppTabbedPane extends JTabbedPane {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "TabbedPane: " + getName();
+    }
 }

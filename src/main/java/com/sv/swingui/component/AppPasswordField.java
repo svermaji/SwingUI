@@ -17,15 +17,18 @@ public class AppPasswordField extends JPasswordField {
 
     public AppPasswordField(int cols) {
         super(cols);
+        setName("AppPasswordField");
     }
 
     public AppPasswordField(int cols, String tip) {
         super(cols);
+        setName("AppPasswordField");
         setToolTipText(tip);
     }
 
     public AppPasswordField(int cols, Character echo, String tip) {
         super(cols);
+        setName("AppPasswordField");
         setEchoChar(echo);
         setToolTipText(tip);
     }
@@ -64,4 +67,8 @@ public class AppPasswordField extends JPasswordField {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "PasswordField: " + getName();
+    }
 }

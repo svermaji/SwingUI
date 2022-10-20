@@ -9,6 +9,7 @@ public class AppComboBox extends JComboBox {
 
     public AppComboBox(Object[] items, int selectedIdx, String tip) {
         super(items);
+        setName("AppComboBox");
         if (selectedIdx >= -1 && selectedIdx < items.length) {
             setSelectedIndex(selectedIdx);
         }
@@ -18,12 +19,9 @@ public class AppComboBox extends JComboBox {
     }
 
     public AppComboBox(Object[] items, Object selectedVal, String tip) {
-        super(items);
+        this (items, -2, tip);
         if (selectedVal != null) {
             setSelectedItem(selectedVal);
-        }
-        if (Utils.hasValue(tip)) {
-            setToolTipText(tip);
         }
     }
 
@@ -61,4 +59,8 @@ public class AppComboBox extends JComboBox {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "ComboBox: " + getName();
+    }
 }

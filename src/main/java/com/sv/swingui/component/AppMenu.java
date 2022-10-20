@@ -37,6 +37,7 @@ public class AppMenu extends JMenu {
      * @param tip      tooltip
      */
     public AppMenu(String text, Character mnemonic, String tip) {
+        setName(Utils.hasValue(text) ? text : "AppMenu");
         if (Utils.hasValue(text)) {
             setText(text);
         }
@@ -83,4 +84,8 @@ public class AppMenu extends JMenu {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "Menu: " + getName();
+    }
 }

@@ -13,10 +13,12 @@ public class AppButton extends JButton {
 
     public AppButton() {
         super();
+        setName("AppButton");
     }
 
     public AppButton(String text) {
         super(text);
+        setName(Utils.hasValue(text) ? text : "AppButton");
     }
 
     /**
@@ -73,8 +75,10 @@ public class AppButton extends JButton {
      * @param drawAsImage boolean if true then remaining button area will not be drawn
      */
     public AppButton(String text, char mnemonic, String tip, String iconPath, boolean drawAsImage) {
+        this ();
         if (Utils.hasValue(text)) {
             setText(text);
+            setName(text);
         }
         setMnemonic(mnemonic);
         setToolTipText(" Shortcut: Alt+" + mnemonic);
@@ -141,4 +145,8 @@ public class AppButton extends JButton {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "Button: " + getName();
+    }
 }

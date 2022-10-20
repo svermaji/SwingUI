@@ -13,6 +13,7 @@ public class AppRadioButtonMenuItem extends JRadioButtonMenuItem {
 
     public AppRadioButtonMenuItem(String text, Icon icon, boolean state, Character mnemonic, String tip) {
         super(text, icon, state);
+        setName(Utils.hasValue(text) ? text : "AppRadioButtonMenuItem");
         if (mnemonic != null) {
             setMnemonic(mnemonic);
         }
@@ -58,4 +59,8 @@ public class AppRadioButtonMenuItem extends JRadioButtonMenuItem {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "RadioButtonMenuItem: " + getName();
+    }
 }

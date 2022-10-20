@@ -1,5 +1,6 @@
 package com.sv.swingui.component;
 
+import com.sv.core.Utils;
 import com.sv.swingui.UIConstants;
 
 import javax.swing.*;
@@ -23,6 +24,7 @@ public class AppToolBar extends JToolBar {
 
     public AppToolBar(boolean fixedWidth) {
         super();
+        setName("AppToolBar");
         if (fixedWidth) {
             setLayout(new FlowLayout(FlowLayout.LEFT, gap, gap));
         }
@@ -71,4 +73,8 @@ public class AppToolBar extends JToolBar {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "ToolBar: " + getName();
+    }
 }

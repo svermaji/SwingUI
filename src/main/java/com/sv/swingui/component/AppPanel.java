@@ -1,5 +1,7 @@
 package com.sv.swingui.component;
 
+import com.sv.core.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,10 +12,12 @@ public class AppPanel extends JPanel {
 
     public AppPanel() {
         super();
+        setName("AppPanel");
     }
 
     public AppPanel(LayoutManager layout) {
         super(layout);
+        setName("AppPanel");
     }
 
     /* For coloring tooltip */
@@ -57,4 +61,8 @@ public class AppPanel extends JPanel {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "Panel: " + getName();
+    }
 }

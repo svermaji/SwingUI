@@ -45,6 +45,7 @@ public class AppTextField extends JTextField {
      */
     public AppTextField(String text, int colWidth, String[] arr) {
         super(text);
+        setName(Utils.hasValue(text) ? text : "AppTextField");
         if (colWidth > 0) {
             setColumns(colWidth);
         }
@@ -52,7 +53,7 @@ public class AppTextField extends JTextField {
             autoCompleteArr = arr;
             setupAutoComplete();
         }
-        selectOnFocus ();
+        selectOnFocus();
     }
 
     /**
@@ -129,4 +130,8 @@ public class AppTextField extends JTextField {
         return tooltip;
     }
 
+    @Override
+    public String toString() {
+        return "TextField: " + getName();
+    }
 }

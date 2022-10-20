@@ -76,6 +76,7 @@ public class AppFrame extends JFrame {
 
     public AppFrame(String title, String appendToLogFile) {
         TITLE = title;
+        setName(title);
         setLocationRelativeTo(null);
         setIconImage(new ImageIcon("./icons/app-icon.png").getImage());
         setLayout(new FlowLayout());
@@ -752,5 +753,10 @@ public class AppFrame extends JFrame {
 
     public void updateTitle(String info) {
         setTitle((Utils.hasValue(info) ? TITLE + Constants.SP_DASH_SP + info : TITLE));
+    }
+
+    @Override
+    public String toString () {
+        return "Frame: " + getName();
     }
 }

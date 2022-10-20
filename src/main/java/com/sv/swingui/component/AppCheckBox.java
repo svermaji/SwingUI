@@ -1,5 +1,7 @@
 package com.sv.swingui.component;
 
+import com.sv.core.Utils;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +12,7 @@ public class AppCheckBox extends JCheckBox {
 
     public AppCheckBox(String text, boolean selected) {
         super(text, selected);
+        setName(Utils.hasValue(text) ? text : "AppCheckBox");
     }
 
     /* For coloring tooltip */
@@ -46,4 +49,8 @@ public class AppCheckBox extends JCheckBox {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "CheckBox: " + getName();
+    }
 }

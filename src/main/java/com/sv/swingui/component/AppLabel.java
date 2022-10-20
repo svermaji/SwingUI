@@ -12,6 +12,7 @@ public class AppLabel extends JLabel {
 
     public AppLabel() {
         super();
+        setName("AppLabel");
     }
 
     public AppLabel(String text) {
@@ -28,6 +29,7 @@ public class AppLabel extends JLabel {
 
     public AppLabel(String text, JComponent component, Character mnemonic, String tip) {
         setText(text);
+        setName(Utils.hasValue(text) ? text : "AppLabel");
         if (component != null) {
             setLabelFor(component);
         }
@@ -73,4 +75,8 @@ public class AppLabel extends JLabel {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "Label: " + getName();
+    }
 }

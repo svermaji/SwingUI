@@ -12,14 +12,17 @@ public class AppMenuItem extends JMenuItem {
 
     public AppMenuItem(String text) {
         super(text);
+        setName(Utils.hasValue(text) ? text : "AppMenuItem");
     }
 
     public AppMenuItem(String text, Character mnemonic) {
         super(text, mnemonic);
+        setName(Utils.hasValue(text) ? text : "AppMenuItem");
     }
 
     public AppMenuItem(String text, Character mnemonic, String tip) {
         super(text, mnemonic);
+        setName(Utils.hasValue(text) ? text : "AppMenuItem");
         setToolTipText(tip);
     }
 
@@ -60,4 +63,8 @@ public class AppMenuItem extends JMenuItem {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "MenuItem: " + getName();
+    }
 }

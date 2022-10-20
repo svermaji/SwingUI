@@ -13,6 +13,7 @@ public class AppCheckBoxMenuItem extends JCheckBoxMenuItem {
 
     public AppCheckBoxMenuItem(String text, Icon icon, boolean state, Character mnemonic, String tip) {
         super(text, icon, state);
+        setName(Utils.hasValue(text) ? text : "AppCheckBoxMenuItem");
         if (mnemonic != null) {
             setMnemonic(mnemonic);
         }
@@ -55,4 +56,8 @@ public class AppCheckBoxMenuItem extends JCheckBoxMenuItem {
         return tooltip;
     }
 
+    @Override
+    public String toString () {
+        return "CheckBoxMenuItem: " + getName();
+    }
 }
