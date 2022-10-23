@@ -10,6 +10,7 @@ import javax.swing.event.DocumentListener;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
 import javax.swing.table.TableRowSorter;
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -62,6 +63,15 @@ public class AppTable extends JTable {
             }
         }
         return result;
+    }
+
+    public void hideFirstColumn() {
+        // to hide first column
+        TableColumn colIdx = getColumnModel().getColumn(0);
+        if (colIdx != null) {
+            colIdx.setMinWidth(-1);
+            colIdx.setMaxWidth(-1);
+        }
     }
 
     /**
