@@ -92,6 +92,12 @@ public class AppTable extends JTable {
         setRowSorter(sorter);
     }
 
+    /**
+     * Caller should implement "handleDblClickOnRow" method
+     * if custom method call is needed
+     * @param caller Parent object
+     * @param params parameters to pass
+     */
     public void addDblClickOnRow(Object caller, Object[] params) {
         addDblClickOnRow(caller, params, "handleDblClickOnRow");
     }
@@ -112,6 +118,11 @@ public class AppTable extends JTable {
         });
     }
 
+    /**
+     * AbstractAction object will be invoked when user
+     * hits ENTER on a row.
+     * @param action AbstractAction object to be called
+     */
     public void addEnterOnRow(AbstractAction action) {
         InputMap im = getInputMap();
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "Action.RunCmdCell");
