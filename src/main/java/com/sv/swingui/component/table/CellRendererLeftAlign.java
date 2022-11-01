@@ -9,6 +9,7 @@ public class CellRendererLeftAlign extends CellRenderer {
 
     public CellRendererLeftAlign() {
         setHorizontalAlignment(SwingConstants.LEFT);
+        setDefaultCellColors();
     }
 
     public CellRendererLeftAlign(java.util.List<AppCellColorInfo> cci) {

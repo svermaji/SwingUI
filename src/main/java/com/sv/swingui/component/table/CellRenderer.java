@@ -9,6 +9,8 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.sv.swingui.UIConstants.COLOR_BLUE_SHADE;
+
 /**
  * Wrapper class for CellRenderer
  * <p>
@@ -25,9 +27,9 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
     protected boolean showSameTipOnRow = true;
     protected boolean highlightText = true;
     protected boolean matchStartWith = true;
-    protected String[] redColorText = {"wrong", "false", "no",
+    protected String[] badColorText = {"wrong", "false", "no",
             Constants.FAILED, Constants.CANCELLED};
-    protected String[] greenColorText = {"correct", "true", "yes"};
+    protected String[] goodColorText = {"correct", "true", "yes"};
     protected java.util.List<AppCellColorInfo> cellColors = new ArrayList<>();
     protected Color defaultTextColor = Color.black;
 
@@ -35,6 +37,7 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
+        // todo: need to check if color for 1st column only. Mostly 1st column is hidden for index
         String val = table.getValueAt(row, column < 2 ? 0 : 2).toString();
         c.setForeground(getCellColor(val));
 
@@ -54,7 +57,11 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
 
         Color c = defaultTextColor;
         for (AppCellColorInfo cci : getCellColors()) {
-            if (Utils.isInArrayMatchStart(cci.getTextList(), val)) {
+
+            boolean result = matchStartWith ?
+                    Utils.isInArrayMatchStart(cci.getTextList(), val) :
+                    Utils.isInArray(cci.getTextList(), val);
+            if (result) {
                 c = cci.getTextColor();
                 break;
             }
@@ -76,8 +83,8 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
     }
 
     protected void setDefaultCellColors() {
-        setCellColor(new AppCellColorInfo(Color.red, redColorText));
-        setCellColor(new AppCellColorInfo(Color.green, greenColorText));
+        setCellColor(new AppCellColorInfo(Color.red, badColorText));
+        setCellColor(new AppCellColorInfo(COLOR_BLUE_SHADE, goodColorText));
     }
 
     public void setCellColors(List<AppCellColorInfo> ccInfo) {
