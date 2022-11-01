@@ -7,6 +7,7 @@ import com.sv.swingui.component.AppTextField;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.MouseInputAdapter;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -31,10 +32,19 @@ public class AppTable extends JTable {
 
     protected TableRowSorter<DefaultTableModel> sorter;
     protected java.util.List<String[]> tooltips = new ArrayList<>();
+    protected boolean alternateRowColor = true;
+    protected boolean highlightRowOnMouseOver = true;
+    protected Color color1stRow = Color.white,
+            color2ndRow = new Color(228, 255, 228),
+            colorRollOver = new Color(170, 196, 255);
+
+    private int rollOverRowIndex = -1;
+    private RollOverListener roll = new RollOverListener();
 
     public AppTable(DefaultTableModel model) {
         super(model);
         makeNonEditable();
+        updateRollOverListeners();
     }
 
     public void setScrollProps() {
@@ -106,6 +116,7 @@ public class AppTable extends JTable {
     /**
      * Caller should implement "handleDblClickOnRow" method
      * if custom method call is needed
+     *
      * @param caller Parent object
      * @param params parameters to pass
      */
@@ -129,9 +140,46 @@ public class AppTable extends JTable {
         });
     }
 
+    public boolean isAlternateRowColor() {
+        return alternateRowColor;
+    }
+
+    public void setAlternateRowColor(boolean alternateRowColor) {
+        this.alternateRowColor = alternateRowColor;
+    }
+
+    public boolean isHighlightRowOnMouseOver() {
+        return highlightRowOnMouseOver;
+    }
+
+    public void setHighlightRowOnMouseOver(boolean highlightRowOnMouseOver) {
+        this.highlightRowOnMouseOver = highlightRowOnMouseOver;
+        updateRollOverListeners();
+    }
+
+    private void updateRollOverListeners() {
+        if (highlightRowOnMouseOver) {
+            addMouseListener(roll);
+            addMouseMotionListener(roll);
+        } else {
+            removeMouseListener(roll);
+            removeMouseMotionListener(roll);
+        }
+    }
+
+    public void setAlternateRowColors(Color c1, Color c2) {
+        this.color1stRow = c1;
+        this.color2ndRow = c2;
+    }
+
+    public void setRollOverColor(Color c) {
+        this.colorRollOver = c;
+    }
+
     /**
      * AbstractAction object will be invoked when user
      * hits ENTER on a row.
+     *
      * @param action AbstractAction object to be called
      */
     public void addEnterOnRow(AbstractAction action) {
@@ -183,6 +231,15 @@ public class AppTable extends JTable {
         if (needBorderRepaint()) {
             component.setBorder(UIManager.getLookAndFeel().getDefaults().getBorder("TableHeader.cellBorder"));
         }
+
+        if (alternateRowColor) {
+            component.setBackground(row % 2 == 0 ? color1stRow : color2ndRow);
+        }
+
+        if (highlightRowOnMouseOver && row == rollOverRowIndex) {
+            component.setBackground(colorRollOver);
+        }
+
         return component;
     }
 
@@ -220,4 +277,19 @@ public class AppTable extends JTable {
         return tooltip;
     }
 
+    private class RollOverListener extends MouseInputAdapter {
+        public void mouseExited(MouseEvent e) {
+            rollOverRowIndex = -1;
+            repaint();
+        }
+
+        public void mouseMoved(MouseEvent e) {
+            int row = rowAtPoint(e.getPoint());
+            if (row != rollOverRowIndex) {
+                rollOverRowIndex = row;
+                repaint();
+            }
+        }
+
+    }
 }
