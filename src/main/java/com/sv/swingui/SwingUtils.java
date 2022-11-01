@@ -101,8 +101,10 @@ public class SwingUtils {
     }
 
     public static void getInFocus(JComponent c) {
-        c.requestFocusInWindow();
-        c.requestFocus();
+        if (c.isVisible()) {
+            c.requestFocusInWindow();
+            c.requestFocus();
+        }
     }
 
     // backward compatibility

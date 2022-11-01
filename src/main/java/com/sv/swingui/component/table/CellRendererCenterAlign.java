@@ -10,4 +10,9 @@ public class CellRendererCenterAlign extends CellRenderer {
     public CellRendererCenterAlign() {
         setHorizontalAlignment(SwingConstants.CENTER);
     }
+
+    public CellRendererCenterAlign(java.util.List<AppCellColorInfo> cci) {
+        this();
+        setCellColors(cci);
+    }
 }

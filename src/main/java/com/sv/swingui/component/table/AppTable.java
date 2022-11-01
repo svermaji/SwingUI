@@ -18,6 +18,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.PatternSyntaxException;
 
 /**
@@ -42,7 +43,7 @@ public class AppTable extends JTable {
     }
 
     public void makeNonEditable() {
-        // For making contents non editable
+        // For making contents non-editable
         setDefaultEditor(Object.class, null);
     }
 
