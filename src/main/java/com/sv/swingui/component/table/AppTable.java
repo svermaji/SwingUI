@@ -35,7 +35,7 @@ public class AppTable extends JTable {
     protected boolean alternateRowColor = true;
     protected boolean highlightRowOnMouseOver = true;
     protected Color color1stRow = Color.white,
-            color2ndRow = new Color(228, 255, 228),
+            color2ndRow = new Color(233, 255, 233),
             colorRollOver = new Color(170, 196, 255);
 
     private int rollOverRowIndex = -1;
