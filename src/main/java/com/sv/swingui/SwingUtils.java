@@ -602,7 +602,6 @@ public class SwingUtils {
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             // ignore
-            e.printStackTrace();
         }
     }
 
