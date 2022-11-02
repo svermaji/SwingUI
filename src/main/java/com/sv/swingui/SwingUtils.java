@@ -7,6 +7,7 @@ import com.sv.swingui.component.*;
 import com.sv.swingui.component.table.AppTable;
 import com.sv.swingui.component.table.AppTableHeaderToolTip;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
@@ -15,10 +16,12 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
 import static com.sv.core.Constants.SP_DASH_SP;
@@ -225,7 +228,7 @@ public class SwingUtils {
      * @param tip          menu tooltip
      * @param selectedFont if not null then name will be shown
      * @param obj          class on which method 'fontChange' will be called with first param as font and
-     *                     2nd as index of menuitem
+     *                     2nd as index of menu item
      * @param logger       MyLogger
      * @return menu object
      */
@@ -472,7 +475,7 @@ public class SwingUtils {
      */
     public static AppMenu getAppFontMenu(String name, char mnemonic, String tip,
                                          Component rootComp, Object callerObj, int toSelect, MyLogger logger) {
-        // If RESET to defaults functionality is used then default param can be added
+        // If RESET to default functionality is used then default param can be added
         AppMenu menu = new AppMenu(name, mnemonic, tip);
         int MIN_SIZE = 8;
         int MAX_SIZE = 28;
@@ -552,7 +555,7 @@ public class SwingUtils {
     }
 
     /**
-     * Same font is used only size is increased of decreased
+     * Same font is used, either only size is increased or decreased
      *
      * @param ca array of root component
      * @param fs font size
@@ -579,6 +582,27 @@ public class SwingUtils {
             for (Component child : ((Container) c).getComponents()) {
                 changeFont(child, f);
             }
+        }
+    }
+
+    public static void changeFont(Component c, String f) {
+        changeFont(c, getNewFont(c.getFont(), f));
+    }
+
+    /**
+     * Only wav file supported
+     * @param f filepath
+     */
+    public static void playAudioFile(String f) {
+        try {
+            AudioInputStream ais = AudioSystem.getAudioInputStream(new File(f));
+            Clip clip = AudioSystem.getClip();
+            clip.open(ais);
+            clip.setFramePosition(0);
+            clip.start();
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            // ignore
+            e.printStackTrace();
         }
     }
 
