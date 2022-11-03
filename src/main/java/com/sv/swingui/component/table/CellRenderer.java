@@ -39,7 +39,10 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         // todo: need to check if color for 1st column only. Mostly 1st column is hidden for index
-        String val = table.getValueAt(row, column < 2 ? 0 : 2).toString();
+        // todo: check below line so color can be applied to only one column
+        // commenting for now so to apply on all columns
+        //String val = table.getValueAt(row, column < 2 ? 0 : 2).toString();
+        String val = table.getValueAt(row, column).toString();
         c.setForeground(getCellColor(val));
 
         if (showSameTipOnRow) {
