@@ -61,6 +61,18 @@ public class AppTable extends JTable {
         tooltips = new ArrayList<>();
     }
 
+    /**
+     * Assuming data model for table is of type {@link DefaultTableModel}
+     */
+    public void emptyRows() {
+        ((DefaultTableModel) getModel()).setRowCount(0);
+        emptyRowTooltips();
+    }
+
+    public void gotoFirstRow() {
+        changeSelection(1, 1,false, false);
+    }
+
     public void addRowTooltip(String[] tips) {
         tooltips.add(tips);
     }
