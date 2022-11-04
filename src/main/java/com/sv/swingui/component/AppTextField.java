@@ -66,7 +66,7 @@ public class AppTextField extends JTextField {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
-                if (Utils.hasValue(getText())) {
+                if (Utils.hasValue(getText()) && isVisible()) {
                     selectAll();
                 }
             }
