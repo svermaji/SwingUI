@@ -5,7 +5,6 @@ import com.sv.core.Utils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +25,8 @@ import static com.sv.swingui.UIConstants.COLOR_BLUE_SHADE;
 public abstract class CellRenderer extends DefaultTableCellRenderer {
 
     protected boolean showSameTipOnRow = true;
+    protected int sameTipColNum = 0;
+    protected boolean showTip = true;
     protected boolean highlightText = true;
     protected boolean matchStartWith = true;
     protected String[] badColorText = {"wrong", "false", "no",
@@ -35,7 +36,8 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
     protected Color defaultTextColor = Color.black;
 
     @Override
-    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+                                                   boolean hasFocus, int row, int column) {
         Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 
         // todo: need to check if color for 1st column only. Mostly 1st column is hidden for index
@@ -43,18 +45,20 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
         // commenting for now so to apply on all columns
         //String val = table.getValueAt(row, column < 2 ? 0 : 2).toString();
         String val = table.getValueAt(row, column).toString();
-        c.setForeground(getCellColor(val));
+        c.setForeground(getCellTextColor(val));
 
-        if (showSameTipOnRow) {
-            // tooltip on row will be applied with first col value
-            setToolTipText(((AppTable) table).getTooltipFor(row, 0, table.getValueAt(row, 0).toString()));
-        } else {
-            setToolTipText(((AppTable) table).getTooltipFor(row, column, table.getValueAt(row, column).toString()));
+        if (showTip) {
+            if (showSameTipOnRow) {
+                // tooltip on row will be applied with first col value
+                setToolTipText(((AppTable) table).getTooltipFor(row, 0, table.getValueAt(row, sameTipColNum).toString()));
+            } else {
+                setToolTipText(((AppTable) table).getTooltipFor(row, column, table.getValueAt(row, column).toString()));
+            }
         }
-        return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        return c;
     }
 
-    private Color getCellColor(String val) {
+    private Color getCellTextColor(String val) {
         if (!highlightText) {
             return defaultTextColor;
         }
@@ -84,6 +88,14 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
 
     public void setShowSameTipOnRow(boolean showSameTipOnRow) {
         this.showSameTipOnRow = showSameTipOnRow;
+    }
+
+    public void setSameTipColNum(int sameTipColNum) {
+        this.sameTipColNum = sameTipColNum;
+    }
+
+    public void setShowTip(boolean showTip) {
+        this.showTip = showTip;
     }
 
     protected void setDefaultCellColors() {

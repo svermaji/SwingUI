@@ -2,6 +2,7 @@ package com.sv.swingui.component.table;
 
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
 import com.sv.core.exception.AppException;
+import com.sv.swingui.SwingUtils;
 import com.sv.swingui.component.AppTextField;
 
 import javax.swing.*;
@@ -39,12 +40,13 @@ public class AppTable extends JTable {
             colorRollOver = new Color(170, 196, 255);
 
     private int rollOverRowIndex = -1;
-    private RollOverListener roll = new RollOverListener();
+    private RollOverListener roll = null;
 
     public AppTable(DefaultTableModel model) {
         super(model);
         makeNonEditable();
         updateRollOverListeners();
+        setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     public void setScrollProps() {
@@ -70,19 +72,28 @@ public class AppTable extends JTable {
     }
 
     public void gotoFirstRow() {
-        changeSelection(1, 1,false, false);
+        changeSelection(1, 1, false, false);
     }
 
     public void addRowTooltip(String[] tips) {
         tooltips.add(tips);
     }
 
-    public String getTooltipFor(int r, int c, String val) {
-        String result = val;
-        if (tooltips.size() > r) {
-            String[] cols = tooltips.get(r);
-            if (cols.length > c) {
-                result = cols[c];
+    /**
+     * Get tooltip from List manually populated.
+     * In case of tooltip not available defaultVal will be returned
+     *
+     * @param row        row number to search
+     * @param col        column number to search
+     * @param defaultVal default tooltip
+     * @return Tip to show
+     */
+    public String getTooltipFor(int row, int col, String defaultVal) {
+        String result = defaultVal;
+        if (tooltips.size() > row) {
+            String[] cols = tooltips.get(row);
+            if (cols.length > col) {
+                result = cols[col];
             }
         }
         return result;
@@ -171,11 +182,19 @@ public class AppTable extends JTable {
 
     private void updateRollOverListeners() {
         if (highlightRowOnMouseOver) {
+            if (roll == null) {
+                roll = new RollOverListener();
+            }
+            // remove any last registered
+            removeMouseListener(roll);
+            removeMouseMotionListener(roll);
             addMouseListener(roll);
             addMouseMotionListener(roll);
         } else {
-            removeMouseListener(roll);
-            removeMouseMotionListener(roll);
+            if (roll != null) {
+                removeMouseListener(roll);
+                removeMouseMotionListener(roll);
+            }
         }
     }
 
@@ -252,6 +271,9 @@ public class AppTable extends JTable {
             component.setBackground(colorRollOver);
         }
 
+        if (!highlightRowOnMouseOver && isRowSelected(row)) {
+            component.setBackground(SwingUtils.isWhiteOrBlack(bg) ? Color.lightGray : bg);
+        }
         return component;
     }
 

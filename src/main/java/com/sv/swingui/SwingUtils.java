@@ -115,6 +115,9 @@ public class SwingUtils {
         addEscKeyAction(frame, null, null, null);
     }
 
+    public static boolean isWhiteOrBlack(Color c) {
+        return c.equals(Color.black) || c.equals(Color.white);
+    }
     public static void addEscKeyAction(JFrame frame, String method, Object callerObj, MyLogger logger) {
         frame.getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(
                 KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "Cancel");
