@@ -1,14 +1,13 @@
 package com.sv.swingui.component.table;
 
 import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import com.sv.core.Utils;
 import com.sv.core.exception.AppException;
 import com.sv.swingui.SwingUtils;
 import com.sv.swingui.component.AppTextField;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.event.MouseInputAdapter;
+import javax.swing.event.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
@@ -271,7 +270,7 @@ public class AppTable extends JTable {
             component.setBackground(colorRollOver);
         }
 
-        if (!highlightRowOnMouseOver && isRowSelected(row)) {
+        if (isRowSelected(row)) {
             component.setBackground(SwingUtils.isWhiteOrBlack(bg) ? Color.lightGray : bg);
         }
         return component;

@@ -19,6 +19,10 @@ public class AppLabel extends JLabel {
         this(text, null, null, null);
     }
 
+    public AppLabel(String text, String imagePath, String tip) {
+        this(text, null, null, tip, imagePath);
+    }
+
     public AppLabel(String text, JComponent component, Character mnemonic) {
         this(text, component, mnemonic, null);
     }
@@ -28,6 +32,10 @@ public class AppLabel extends JLabel {
     }
 
     public AppLabel(String text, JComponent component, Character mnemonic, String tip) {
+        this(text, component, mnemonic, tip, null);
+    }
+
+    public AppLabel(String text, JComponent component, Character mnemonic, String tip, String iconPath) {
         setText(text);
         setName(Utils.hasValue(text) ? text : "AppLabel");
         if (component != null) {
@@ -35,6 +43,11 @@ public class AppLabel extends JLabel {
         }
         if (mnemonic != null) {
             setDisplayedMnemonic(mnemonic);
+        }
+        // Image size should be controlled by caller
+        if (Utils.hasValue(iconPath)) {
+            setIcon(new ImageIcon(iconPath));
+            setHorizontalAlignment(SwingConstants.HORIZONTAL);
         }
         if (Utils.hasValue(tip)) {
             setToolTipText(tip);
@@ -76,7 +89,7 @@ public class AppLabel extends JLabel {
     }
 
     @Override
-    public String toString () {
+    public String toString() {
         return "Label: " + getName();
     }
 }

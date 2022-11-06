@@ -58,7 +58,7 @@ public abstract class CellRenderer extends DefaultTableCellRenderer {
         return c;
     }
 
-    private Color getCellTextColor(String val) {
+    protected Color getCellTextColor(String val) {
         if (!highlightText) {
             return defaultTextColor;
         }
