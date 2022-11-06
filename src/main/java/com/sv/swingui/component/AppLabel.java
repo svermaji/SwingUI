@@ -47,7 +47,7 @@ public class AppLabel extends JLabel {
         // Image size should be controlled by caller
         if (Utils.hasValue(iconPath)) {
             setIcon(new ImageIcon(iconPath));
-            setHorizontalAlignment(SwingConstants.HORIZONTAL);
+            setHorizontalAlignment(SwingConstants.LEADING);
         }
         if (Utils.hasValue(tip)) {
             setToolTipText(tip);
