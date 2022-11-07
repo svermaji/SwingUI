@@ -15,9 +15,15 @@ import static com.sv.swingui.UIConstants.COLOR_BLUE_SHADE;
 public class CellRendererStringImg implements TableCellRenderer {
 
     private final Map<String, String> iconPaths;
+    private boolean showTextWithIcon;
 
     public CellRendererStringImg(Map<String, String> iconPaths) {
+        this (iconPaths, true);
+    }
+
+    public CellRendererStringImg(Map<String, String> iconPaths, boolean showTextWithIcon) {
         this.iconPaths = iconPaths;
+        this.showTextWithIcon = showTextWithIcon;
     }
 
     @Override
@@ -25,7 +31,8 @@ public class CellRendererStringImg implements TableCellRenderer {
                                                    boolean isSelected, boolean hasFocus,
                                                    int row, int column) {
         String val = table.getValueAt(row, column).toString();
-        AppLabel lbl = new AppLabel(val, iconPaths.get(val), val);
+        AppLabel lbl = new AppLabel(showTextWithIcon ? val : Constants.EMPTY,
+                iconPaths.get(val), val);
         lbl.setForeground(getCellTextColor(val));
         return lbl;
     }
